@@ -1,0 +1,53 @@
+<div class="card">
+  <div class="card-header">
+    <i class="fa fa-align-justify"></i> Striped Table
+    <div class="content-button-create">
+      <button type="button" class="btn btn-pill btn-block btn-success" (click)="openModal(CreateProviders)"><i class="fa fa-plus"></i> Crear</button>
+    </div>
+  </div>
+  <div class="card-body">
+    <table class="table table-striped">
+      <thead>
+        <tr>
+          <th>Nombre</th>
+          <th>Servicios</th>
+          <th>Ciudad</th>
+          <th>Celular</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let touristProvider of touristProvidersData">
+          <td>{{touristProvider.name}}</td>
+          <td>{{touristProvider.services}}</td>
+          <td>{{touristProvider.township}}</td>
+          <td>{{touristProvider.cellphone}}</td>
+          <!-- <td>
+            <span class="badge badge-success">Active</span>
+          </td> -->
+        </tr>
+      </tbody>
+    </table>
+    <ul class="pagination">
+      <li class="page-item"><a class="page-link" href="#">Prev</a></li>
+      <li class="page-item active">
+        <a class="page-link" href="#">1</a>
+      </li>
+      <li class="page-item"><a class="page-link" href="#">2</a></li>
+      <li class="page-item"><a class="page-link" href="#">3</a></li>
+      <li class="page-item"><a class="page-link" href="#">4</a></li>
+      <li class="page-item"><a class="page-link" href="#">Next</a></li>
+    </ul>
+  </div>
+</div>
+
+<ng-template #CreateProviders>
+  <div class="modal-header">
+    <h4 class="modal-title pull-left">Crear Prestador Turistico</h4>
+    <button type="button" class="btn-close close pull-right" aria-label="Close" (click)="modalRef?.hide()">
+      <span aria-hidden="true" class="visually-hidden">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+    <app-create-tourist-providers (closeModal)="closeModal()"></app-create-tourist-providers>
+  </div>
+</ng-template>
