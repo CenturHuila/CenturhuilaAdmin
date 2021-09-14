@@ -44,7 +44,7 @@ export class CreateTourOperatorsComponent  implements OnInit{
       address: ['', [Validators.required]],
     });
   }
-  createTouristProvider(){
+  createTourOperators(){
     const data = this.updateModel();
     this.tourOperatorsService.create(data,`TO_${data.url_slug.toLowerCase().replace(/ /g, "_")}` ).then(response => {
       this.closeModal.emit('');

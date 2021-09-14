@@ -39,7 +39,7 @@ export class CreateTouristAttractionsComponent  implements OnInit{
       
     });
   }
-  createTourOperators(){
+  createTouristAttractions(){
     const data = this.updateModel();
     this.touristAttractionsService.create(data,`TA_${data.url_slug.toLowerCase().replace(/ /g, "_")}` ).then(response => {
       this.closeModal.emit('');
