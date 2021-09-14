@@ -2,7 +2,7 @@
 export class TourOperatorsModel {
     name: string;
     description: string;
-    services: [string];
+    tours: [string];
     minPrice: number;
     maxPrice: number;
     latitude: string;
@@ -16,7 +16,6 @@ export class TourOperatorsModel {
     cellphone: number;
     address: string;
     url_slug: string;
-    weather: string;
 
     setName(value: string){
         this.name = value;
@@ -30,11 +29,11 @@ export class TourOperatorsModel {
     getDescription():string{
         return this.description;
     }
-    setServices(value: [string]){
-        this.services = value;
+    setTours(value: [string]){
+        this.tours = value;
     }
-    getServices():[string]{
-        return this.services;
+    getTours():[string]{
+        return this.tours;
     }
     setMinPrice(value: number){
         this.minPrice = value;
@@ -113,12 +112,6 @@ export class TourOperatorsModel {
     }
     getUrl_slug():string{
         return this.url_slug;
-    }
-    setWeather(value: string){
-        this.weather = value;
-    }
-    getWeather():string{
-        return this.weather;
     }
 
 }

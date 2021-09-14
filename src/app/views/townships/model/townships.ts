@@ -2,21 +2,17 @@
 export class TownshipsModel {
     name: string;
     description: string;
-    services: [string];
-    minPrice: number;
-    maxPrice: number;
+    indications: string;
+    travelServices: [string];
+    zone: string;
+    weather: string;
     latitude: string;
     longitude: string;
-    indications: string;
-    township: string;
-    zone: string;
-    facebook: string;
-    instagram: string;
     website: string;
-    cellphone: number;
-    address: string;
     url_slug: string;
-    weather: string;
+    
+    population: string;
+    holidays: string;
 
     setName(value: string){
         this.name = value;
@@ -30,23 +26,11 @@ export class TownshipsModel {
     getDescription():string{
         return this.description;
     }
-    setServices(value: [string]){
-        this.services = value;
+    setTravelServices(value: [string]){
+        this.travelServices = value;
     }
-    getServices():[string]{
-        return this.services;
-    }
-    setMinPrice(value: number){
-        this.minPrice = value;
-    }
-    getMinPrice():number{
-        return this.minPrice;
-    }
-    setMaxPrice(value: number){
-        this.maxPrice = value;
-    }
-    getMaxPrice():number{
-        return this.maxPrice;
+    getTravelServices():[string]{
+        return this.travelServices;
     }
     setLatitude(value: string){
         this.latitude = value;
@@ -66,11 +50,11 @@ export class TownshipsModel {
     getIndications():string{
         return this.indications;
     }
-    setTownship(value: string){
-        this.township = value;
+    setPopulation(value: string){
+        this.population = value;
     }
-    getTownship():string{
-        return this.township;
+    getPopulation():string{
+        return this.population;
     }
     setZone(value: string){
         this.zone = value;
@@ -78,35 +62,17 @@ export class TownshipsModel {
     getZone():string{
         return this.zone;
     }
-    setFacebook(value: string){
-        this.facebook = value;
+    setHolidays(value: string){
+        this.holidays = value;
     }
-    getFacebook():string{
-        return this.facebook;
-    }
-    setInstagram(value: string){
-        this.instagram = value;
-    }
-    getInstagram():string{
-        return this.instagram;
+    getHolidays():string{
+        return this.holidays;
     }
     setWebsite(value: string){
         this.website = value;
     }
     getWebsite():string{
         return this.website;
-    }
-    setCellphone(value: number){
-        this.cellphone = value;
-    }
-    getCellphone():number{
-        return this.cellphone;
-    }
-    setAddress(value: string){
-        this.address = value;
-    }
-    getAddress():string{
-        return this.address;
     }
     setUrl_slug(value: string){
         this.url_slug = value;

@@ -11,16 +11,8 @@
         <textarea id="description" name="description" rows="3" placeholder="Descripción..." class="form-control" formControlName="description"></textarea>
       </div>
       <div class="form-group col-sm-6">
-        <label for="services">Servicios</label>
-        <input type="text" class="form-control" id="services" placeholder="Ingresa tus servicios" formControlName="services">
-      </div>
-      <div class="form-group col-sm-6">
-        <label for="minPrice">Precio minimo</label>
-        <input type="number" class="form-control" id="minPrice" placeholder="Ingresa precio minimo" formControlName="minPrice">
-      </div>
-      <div class="form-group col-sm-6">
-        <label for="maxPrice">Precio maximo</label>
-        <input type="number" class="form-control" id="maxPrice" placeholder="Precio maximo" formControlName="maxPrice">
+        <label for="travelServices">Servicios turísticos</label>
+        <input type="text" class="form-control" id="travelServices" placeholder="Ingresa tus servicios turísticos" formControlName="travelServices">
       </div>
       <div class="form-group col-sm-6">
         <label for="latitude">Latitud</label>
@@ -35,32 +27,24 @@
         <input type="text" class="form-control" id="indications" placeholder="Ingresa tu indicaciones" formControlName="indications">
       </div>
       <div class="form-group col-sm-6">
-        <label for="township">Ciudad</label>
-        <input type="text" class="form-control" id="township" placeholder="Ingresa tu ciudad" formControlName="township">
-      </div>
-      <div class="form-group col-sm-6">
         <label for="zone">Zona</label>
         <input type="text" class="form-control" id="zone" placeholder="Ingresa tu zona" formControlName="zone">
       </div>
       <div class="form-group col-sm-6">
-        <label for="facebook">Facebook</label>
-        <input type="text" class="form-control" id="facebook" placeholder="Ingresa tu facebook" formControlName="facebook">
+        <label for="website">Sitio web</label>
+        <input type="text" class="form-control" id="website" placeholder="Ingresa tu Sitio web" formControlName="website">
       </div>
       <div class="form-group col-sm-6">
-        <label for="instagram">Instagram</label>
-        <input type="text" class="form-control" id="instagram" placeholder="Ingresa tu Instagram" formControlName="instagram">
+        <label for="population">Población</label>
+        <input type="text" class="form-control" id="population" placeholder="Ingresa la población" formControlName="population">
       </div>
       <div class="form-group col-sm-6">
         <label for="website">Sitio web</label>
         <input type="text" class="form-control" id="website" placeholder="Ingresa tu sitio web" formControlName="website">
       </div>
       <div class="form-group col-sm-6">
-        <label for="cellphone">Celular</label>
-        <input type="number" class="form-control" id="cellphone" placeholder="Ingresa tu celular" formControlName="cellphone">
-      </div>
-      <div class="form-group col-sm-6">
-        <label for="address">Dirección</label>
-        <input type="text" class="form-control" id="address" placeholder="Ingresa tu dirección" formControlName="address">
+        <label for="holidays">Dias feriados</label>
+        <input type="number" class="form-control" id="holidays" placeholder="Ingresa tu Dias feriados" formControlName="holidays">
       </div>
       <div class="form-group col-sm-6">
         <label for="weather">Clima</label>
@@ -71,6 +55,6 @@
 </div>
 <div class="row">
   <div class="offset-8 col-4 content-button-create">
-    <button type="button" class="btn btn-pill btn-block btn-success" (click)="createTouristProvider()"><i class="fa fa-plus"></i> Crear</button>
+    <button type="button" class="btn btn-pill btn-block btn-success" (click)="createTownships()"><i class="fa fa-plus"></i> Crear</button>
   </div>
 </div>

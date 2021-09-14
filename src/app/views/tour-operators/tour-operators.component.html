@@ -1,6 +1,6 @@
 <div class="card">
   <div class="card-header">
-    <i class="fa fa-align-justify"></i> Striped Table
+    <i class="fa fa-align-justify"></i> Agencias de viajes
     <div class="content-button-create">
       <button type="button" class="btn btn-pill btn-block btn-success" (click)="openModal(CreateProviders)"><i class="fa fa-plus"></i> Crear</button>
     </div>
@@ -10,16 +10,16 @@
       <thead>
         <tr>
           <th>Nombre</th>
-          <th>Servicios</th>
           <th>Ciudad</th>
+          <th>Zona</th>
           <th>Celular</th>
         </tr>
       </thead>
       <tbody>
         <tr *ngFor="let touristProvider of touristProvidersData">
           <td>{{touristProvider.name}}</td>
-          <td>{{touristProvider.services}}</td>
           <td>{{touristProvider.township}}</td>
+          <td>{{touristProvider.zone}}</td>
           <td>{{touristProvider.cellphone}}</td>
           <!-- <td>
             <span class="badge badge-success">Active</span>
@@ -42,7 +42,7 @@
 
 <ng-template #CreateProviders>
   <div class="modal-header">
-    <h4 class="modal-title pull-left">Crear Prestador Turistico</h4>
+    <h4 class="modal-title pull-left">Crear agencia de viajes</h4>
     <button type="button" class="btn-close close pull-right" aria-label="Close" (click)="modalRef?.hide()">
       <span aria-hidden="true" class="visually-hidden">&times;</span>
     </button>

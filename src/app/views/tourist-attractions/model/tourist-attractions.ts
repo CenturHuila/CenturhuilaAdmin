@@ -2,21 +2,15 @@
 export class TouristAttractionsModel {
     name: string;
     description: string;
-    services: [string];
-    minPrice: number;
-    maxPrice: number;
-    latitude: string;
-    longitude: string;
     indications: string;
     township: string;
     zone: string;
-    facebook: string;
-    instagram: string;
-    website: string;
-    cellphone: number;
-    address: string;
-    url_slug: string;
     weather: string;
+    recomendations: string;
+    typePlace: string;
+    latitude: string;
+    longitude: string;
+    url_slug: string;
 
     setName(value: string){
         this.name = value;
@@ -29,24 +23,6 @@ export class TouristAttractionsModel {
     }
     getDescription():string{
         return this.description;
-    }
-    setServices(value: [string]){
-        this.services = value;
-    }
-    getServices():[string]{
-        return this.services;
-    }
-    setMinPrice(value: number){
-        this.minPrice = value;
-    }
-    getMinPrice():number{
-        return this.minPrice;
-    }
-    setMaxPrice(value: number){
-        this.maxPrice = value;
-    }
-    getMaxPrice():number{
-        return this.maxPrice;
     }
     setLatitude(value: string){
         this.latitude = value;
@@ -78,47 +54,29 @@ export class TouristAttractionsModel {
     getZone():string{
         return this.zone;
     }
-    setFacebook(value: string){
-        this.facebook = value;
+    setWeather(value: string){
+        this.weather = value;
     }
-    getFacebook():string{
-        return this.facebook;
+    getWeather():string{
+        return this.weather;
     }
-    setInstagram(value: string){
-        this.instagram = value;
+    setRecomendations(value: string){
+        this.recomendations = value;
     }
-    getInstagram():string{
-        return this.instagram;
+    getRecomendations():string{
+        return this.recomendations;
     }
-    setWebsite(value: string){
-        this.website = value;
+    setTypePlace(value: string){
+        this.typePlace = value;
     }
-    getWebsite():string{
-        return this.website;
-    }
-    setCellphone(value: number){
-        this.cellphone = value;
-    }
-    getCellphone():number{
-        return this.cellphone;
-    }
-    setAddress(value: string){
-        this.address = value;
-    }
-    getAddress():string{
-        return this.address;
+    getTypePlace():string{
+        return this.typePlace;
     }
     setUrl_slug(value: string){
         this.url_slug = value;
     }
     getUrl_slug():string{
         return this.url_slug;
-    }
-    setWeather(value: string){
-        this.weather = value;
-    }
-    getWeather():string{
-        return this.weather;
     }
 
 }
