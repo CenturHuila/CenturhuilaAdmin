@@ -1,25 +1,25 @@
 import { Component, OnInit, TemplateRef } from '@angular/core';
 import { BsModalRef, BsModalService } from 'ngx-bootstrap/modal';
-import { TouristProvidersService } from '../../services/tourist-providers/tourist-providers.service';
+import { TownshipsService } from '../../services/townships/townships.service';
 
 @Component({
-  selector: 'app-tourist-providers',
-  templateUrl: 'tourist-providers.component.html',
-  styleUrls: ['./tourist-providers.component.css']
+  selector: 'app-townships',
+  templateUrl: 'townships.component.html',
+  styleUrls: ['./townships.component.css']
 })
-export class TouristProvidersComponent implements OnInit{
+export class TownshipsComponent implements OnInit{
 
   modalRef?: BsModalRef;
   touristProvidersData = [];
   constructor(private modalService: BsModalService,
-    private touristProvidersService: TouristProvidersService) { }
+    private townshipsService: TownshipsService) { }
 
   ngOnInit(){
     this.loadData();
   }
   loadData(){
     this.touristProvidersData = [];
-    this.touristProvidersService.get().subscribe(response => {
+    this.townshipsService.get().subscribe(response => {
       response.forEach(element => {
         this.touristProvidersData.push(element.payload.doc.data());
       }); 

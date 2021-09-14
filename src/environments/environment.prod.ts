@@ -11,6 +11,9 @@ export const environment = {
   },
   collection:{
     touristProviders: 'Tourist_services_providers',
+    touristAttractions: 'Tourist_attractions',
+    tourOperators: 'Tour_operators',
+    townships: 'Townships',
   },
   document: {
     tsp: 'TSP_',

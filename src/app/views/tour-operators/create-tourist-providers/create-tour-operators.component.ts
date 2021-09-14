@@ -1,15 +1,16 @@
 import { Component, OnInit, EventEmitter, Output } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { TouristProvidersService } from '../../../services/tourist-providers/tourist-providers.service';
-import { TouristProvidersModel } from '../model/tourist-providers';
+import { TourOperatorsService } from '../../../services/tour-operators/tour-operators.service';
+import { TouristAttractionsService } from '../../../services/tourist-attractions/tourist-attractions.service';
+import { TourOperatorsModel } from '../model/tour-operators';
 
 @Component({
-  selector: 'app-create-tourist-providers',
-  templateUrl: 'create-tourist-providers.component.html',
-  styleUrls: ['./create-tourist-providers.component.css'],
+  selector: 'app-create-tour-operators',
+  templateUrl: 'create-tour-operators.component.html',
+  styleUrls: ['./create-tour-operators.component.css'],
   providers: [FormBuilder]
 })
-export class CreateTouristProvidersComponent  implements OnInit{
+export class CreateTourOperatorsComponent  implements OnInit{
 
   formData!: FormGroup;
   @Output() 
@@ -17,7 +18,7 @@ export class CreateTouristProvidersComponent  implements OnInit{
 
   constructor(
     private readonly formBuilder: FormBuilder,
-    private touristProvidersService: TouristProvidersService) { }
+    private tourOperatorsService: TourOperatorsService) { }
 
   ngOnInit(){
     console.log('entro');
@@ -46,12 +47,12 @@ export class CreateTouristProvidersComponent  implements OnInit{
   }
   createTouristProvider(){
     const data = this.updateModel();
-    this.touristProvidersService.create(data,`TSP_${data.url_slug.toLowerCase().replace(/ /g, "_")}` ).then(response => {
+    this.tourOperatorsService.create(data,`TSP_${data.url_slug.toLowerCase().replace(/ /g, "_")}` ).then(response => {
       this.closeModal.emit('');
     });
   }
   updateModel(){
-    const data:TouristProvidersModel =  new TouristProvidersModel();
+    const data:TourOperatorsModel =  new TourOperatorsModel();
     const name = this.formData.controls.name.value;
     data.setName(name);
     data.setDescription(this.formData.controls.description.value);

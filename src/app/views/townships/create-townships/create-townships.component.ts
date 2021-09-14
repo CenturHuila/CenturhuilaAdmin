@@ -1,15 +1,15 @@
 import { Component, OnInit, EventEmitter, Output } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { TouristProvidersService } from '../../../services/tourist-providers/tourist-providers.service';
-import { TouristProvidersModel } from '../model/tourist-providers';
+import { TownshipsService } from '../../../services/townships/townships.service';
+import { TownshipsModel } from '../model/townships';
 
 @Component({
-  selector: 'app-create-tourist-providers',
-  templateUrl: 'create-tourist-providers.component.html',
-  styleUrls: ['./create-tourist-providers.component.css'],
+  selector: 'app-create-townships',
+  templateUrl: 'create-townships.component.html',
+  styleUrls: ['./create-townships.component.css'],
   providers: [FormBuilder]
 })
-export class CreateTouristProvidersComponent  implements OnInit{
+export class CreateTownshipsComponent  implements OnInit{
 
   formData!: FormGroup;
   @Output() 
@@ -17,7 +17,7 @@ export class CreateTouristProvidersComponent  implements OnInit{
 
   constructor(
     private readonly formBuilder: FormBuilder,
-    private touristProvidersService: TouristProvidersService) { }
+    private townshipsService: TownshipsService) { }
 
   ngOnInit(){
     console.log('entro');
@@ -46,12 +46,12 @@ export class CreateTouristProvidersComponent  implements OnInit{
   }
   createTouristProvider(){
     const data = this.updateModel();
-    this.touristProvidersService.create(data,`TSP_${data.url_slug.toLowerCase().replace(/ /g, "_")}` ).then(response => {
+    this.townshipsService.create(data,`TSP_${data.url_slug.toLowerCase().replace(/ /g, "_")}` ).then(response => {
       this.closeModal.emit('');
     });
   }
   updateModel(){
-    const data:TouristProvidersModel =  new TouristProvidersModel();
+    const data:TownshipsModel =  new TownshipsModel();
     const name = this.formData.controls.name.value;
     data.setName(name);
     data.setDescription(this.formData.controls.description.value);
