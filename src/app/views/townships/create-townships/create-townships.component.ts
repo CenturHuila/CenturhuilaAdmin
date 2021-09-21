@@ -13,7 +13,7 @@ export class CreateTownshipsComponent  implements OnInit{
 
   formData!: FormGroup;
   imageIn: string;
-  
+
   @Output() 
   closeModal = new EventEmitter();
 
@@ -61,9 +61,12 @@ export class CreateTownshipsComponent  implements OnInit{
     data.setPopulation(this.formData.controls.population.value);
     data.setHolidays(this.formData.controls.holidays.value);
     data.setWeather(this.formData.controls.weather.value);
-    data.setUrl_slug(name.toLowerCase().replace(/ /g, "_"));
+    data.setUrl_slug(name.toLowerCase().replace(/ /g, "-"));
     
     return JSON.parse(JSON.stringify(data));
+  }
+  imgSelect(event) {
+    this.imageIn = event;
   }
 
 }
