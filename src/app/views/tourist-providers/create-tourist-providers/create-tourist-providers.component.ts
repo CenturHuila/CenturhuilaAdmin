@@ -12,6 +12,8 @@ import { TouristProvidersModel } from '../model/tourist-providers';
 export class CreateTouristProvidersComponent  implements OnInit{
 
   formData!: FormGroup;
+  imageIn: string;
+
   @Output() 
   closeModal = new EventEmitter();
 
@@ -69,9 +71,13 @@ export class CreateTouristProvidersComponent  implements OnInit{
     data.setCellphone(this.formData.controls.cellphone.value);
     data.setAddress(this.formData.controls.address.value);
     data.setWeather(this.formData.controls.weather.value);
-    data.setUrl_slug(name.toLowerCase().replace(/ /g, "_"));
+    data.setUrl_slug(name.toLowerCase().replace(/ /g, "-"));
+    data.setImage_profile(this.imageIn);
     
     return JSON.parse(JSON.stringify(data));
+  }
+  imgSelect(event) {
+    this.imageIn = event;
   }
 
 }

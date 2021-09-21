@@ -1,0 +1,21 @@
+.photo {
+  width: fit-content;
+}
+.btn-load-image{
+  width: 8em;
+  margin-top: 1em;
+}
+.content-img{
+  width: fit-content;
+  margin: 1em;
+  text-align: center;
+  position: relative;
+}
+.delete-photo{
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  background: white;
+  width: 20px;
+  height: 20px;
+}

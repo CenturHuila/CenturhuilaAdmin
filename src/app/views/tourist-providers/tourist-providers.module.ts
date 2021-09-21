@@ -31,6 +31,7 @@ import { TooltipModule } from 'ngx-bootstrap/tooltip';
 import { TouristProvidersRoutingModule } from './tourist-providers-routing.module';
 import { CreateTouristProvidersComponent } from './create-tourist-providers/create-tourist-providers.component';
 import { TouristProvidersComponent } from './tourist-providers.component';
+import { ImageCropperModalModule } from '../image-cropper/image-cropper.module';
 
 @NgModule({
   imports: [
@@ -46,6 +47,7 @@ import { TouristProvidersComponent } from './tourist-providers.component';
     PopoverModule.forRoot(),
     ProgressbarModule.forRoot(),
     TooltipModule.forRoot(),
+    ImageCropperModalModule
   ],
   declarations:[CreateTouristProvidersComponent, TouristProvidersComponent]
 })

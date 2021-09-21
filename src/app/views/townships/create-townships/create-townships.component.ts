@@ -12,6 +12,8 @@ import { TownshipsModel } from '../model/townships';
 export class CreateTownshipsComponent  implements OnInit{
 
   formData!: FormGroup;
+  imageIn: string;
+  
   @Output() 
   closeModal = new EventEmitter();
 

@@ -12,6 +12,8 @@ import { TouristAttractionsModel } from '../model/tourist-attractions';
 export class CreateTouristAttractionsComponent  implements OnInit{
 
   formData!: FormGroup;
+  imageIn: string;
+  
   @Output() 
   closeModal = new EventEmitter();
 
@@ -58,9 +60,14 @@ export class CreateTouristAttractionsComponent  implements OnInit{
     data.setWeather(this.formData.controls.weather.value);
     data.setRecomendations(this.formData.controls.recomendations.value);
     data.setTypePlace(this.formData.controls.typePlace.value);
-    data.setUrl_slug(name.toLowerCase().replace(/ /g, "_"));
+    data.setUrl_slug(name.toLowerCase().replace(/ /g, "-"));
+    data.setImage_profile(this.imageIn);
     
     return JSON.parse(JSON.stringify(data));
+  }
+
+  imgSelect(event) {
+    this.imageIn = event;
   }
 
 }

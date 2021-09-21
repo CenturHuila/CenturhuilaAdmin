@@ -29,6 +29,7 @@ import { TooltipModule } from 'ngx-bootstrap/tooltip';
 import { CreateTownshipsComponent } from './create-townships/create-townships.component';
 import { TownshipsComponent } from './townships.component';
 import { TownshipsRoutingModule } from './townships-routing.module';
+import { ImageCropperModalModule } from '../image-cropper/image-cropper.module';
 
 // Components Routing
 
@@ -46,6 +47,7 @@ import { TownshipsRoutingModule } from './townships-routing.module';
     PopoverModule.forRoot(),
     ProgressbarModule.forRoot(),
     TooltipModule.forRoot(),
+    ImageCropperModalModule
   ],
   declarations:[CreateTownshipsComponent, TownshipsComponent]
 })

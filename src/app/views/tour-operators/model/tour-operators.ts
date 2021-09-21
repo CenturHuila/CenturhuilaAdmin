@@ -16,6 +16,7 @@ export class TourOperatorsModel {
     cellphone: number;
     address: string;
     url_slug: string;
+    image_profile: string;
 
     setName(value: string){
         this.name = value;
@@ -112,6 +113,12 @@ export class TourOperatorsModel {
     }
     getUrl_slug():string{
         return this.url_slug;
+    }
+    setImage_profile(value: string){
+        this.image_profile = value;
+    }
+    getImage_profile():string{
+        return this.image_profile;
     }
 
 }

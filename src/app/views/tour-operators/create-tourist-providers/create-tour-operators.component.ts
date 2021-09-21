@@ -1,7 +1,7 @@
 import { Component, OnInit, EventEmitter, Output } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { BsModalRef, BsModalService } from 'ngx-bootstrap/modal';
 import { TourOperatorsService } from '../../../services/tour-operators/tour-operators.service';
-import { TouristAttractionsService } from '../../../services/tourist-attractions/tourist-attractions.service';
 import { TourOperatorsModel } from '../model/tour-operators';
 
 @Component({
@@ -13,6 +13,8 @@ import { TourOperatorsModel } from '../model/tour-operators';
 export class CreateTourOperatorsComponent  implements OnInit{
 
   formData!: FormGroup;
+  imageIn: string;
+
   @Output() 
   closeModal = new EventEmitter();
 
@@ -21,7 +23,6 @@ export class CreateTourOperatorsComponent  implements OnInit{
     private tourOperatorsService: TourOperatorsService) { }
 
   ngOnInit(){
-    console.log('entro');
     this.loadForm();
   }
 
@@ -68,9 +69,12 @@ export class CreateTourOperatorsComponent  implements OnInit{
     data.setWebsite(this.formData.controls.website.value);
     data.setCellphone(this.formData.controls.cellphone.value);
     data.setAddress(this.formData.controls.address.value);
-    data.setUrl_slug(name.toLowerCase().replace(/ /g, "_"));
-    
+    data.setUrl_slug(name.toLowerCase().replace(/ /g, "-"));
+    data.setImage_profile(this.imageIn);
+
     return JSON.parse(JSON.stringify(data));
   }
-
+  imgSelect(event) {
+    this.imageIn = event;
+  }
 }

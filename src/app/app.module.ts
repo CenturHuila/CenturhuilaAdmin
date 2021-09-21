@@ -1,6 +1,6 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
-import { LocationStrategy, HashLocationStrategy } from '@angular/common';
+import { LocationStrategy, HashLocationStrategy, CommonModule } from '@angular/common';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 import { PerfectScrollbarModule } from 'ngx-perfect-scrollbar';
@@ -48,10 +48,13 @@ import { TabsModule } from 'ngx-bootstrap/tabs';
 import { ChartsModule } from 'ng2-charts';
 import { environment } from '../environments/environment';
 import { TouristProvidersService } from './services/tourist-providers/tourist-providers.service';
-
+import { ImageCropperModalComponent } from './views/image-cropper/image-cropper.component';
+import { SafengPipe } from './pipes/safeng.pipe';
+import { ImageCropperModalModule } from './views/image-cropper/image-cropper.module';
 @NgModule({
   imports: [
     BrowserModule,
+    CommonModule,
     BrowserAnimationsModule,
     AppRoutingModule,
     AppAsideModule,

@@ -10,6 +10,7 @@ export class TownshipsModel {
     longitude: string;
     website: string;
     url_slug: string;
+    image_profile: string;
     
     population: string;
     holidays: string;
@@ -85,6 +86,12 @@ export class TownshipsModel {
     }
     getWeather():string{
         return this.weather;
+    }
+    setImage_profile(value: string){
+        this.image_profile = value;
+    }
+    getImage_profile():string{
+        return this.image_profile;
     }
 
 }

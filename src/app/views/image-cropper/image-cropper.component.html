@@ -1,0 +1,78 @@
+<div class="content-img">
+  <div class="btn-group photo">
+    <div
+      [ngStyle]="{ height: maintainAspectRatio ? '150px' : image ? 'auto' : '150px' }"
+      style="width: 150px;overflow: hidden; background: #d8d8d8"
+      class="align-items-center justify-content-center d-flex"
+    >
+      <h1 *ngIf="!imageIn" class="card-title text-center">
+        Imagen
+      </h1>
+      <img *ngIf="imageIn" [src]="imageIn | safeng: 'img'" style="width: 100%;" />
+    </div>
+  </div>
+  <div *ngIf="imageIn" class="delete-photo">
+    <a (click)="deletImage()">
+      <i class="fa fa-times" tooltip="Eliminar"></i>
+    </a>
+  </div>
+  <div>
+    <input
+      #file
+      type="file"
+      [id]="id || 'file'"
+      accept=".png, .jpg, .jpeg"
+      class="form-control file-input-create-user d-none mb-3 overflow-hidden"
+      (change)="validator(templateSuspend, $event)"
+      placeholder="cargar imagen"
+      [(ngModel)]="ngTxtPhoto"
+      [disabled]="disabled"
+    />
+    <div class="text-danger">
+      <div *ngIf=" errorSize === true" class="text">
+        la imagen no puede superar los 512kb
+      </div>
+    </div>
+  </div>
+  <button class="btn btn-pill btn-success btn-load-image" (click)="file.click()">Subir imagen</button>
+</div>
+
+
+
+<ng-template #templateSuspend>
+  <div class="modal-header">
+    <h4 class="modal-title pull-left">hacer recorte</h4>
+    <button type="button" class="close pull-right" id="closeModalSuspend" aria-label="Close" (click)="closeModal()">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+    <div class="row">
+      <div class="card-group col-12">
+        <div class="card">
+          <div class="card-body">
+            <label class="control-label"> Preview </label>
+
+            <div
+              style="width: 150px;height: 150px;overflow: hidden; background: #d8d8d8; margin: auto;">
+              <h1 *ngIf="!imageModal" class="card-title text-center">
+                Foto
+              </h1>
+              <img *ngIf="imageModal" [src]="imageModal | safeng: 'img'" style="width: 100%;" />
+            </div>
+
+            <label class="control-label"> hacer recorte </label>
+            <image-cropper [imageChangedEvent]="imageChangedEvent" [imageBase64]="imageBase64Crop"
+              [maintainAspectRatio]="maintainAspectRatio" [aspectRatio]="1 / 1" [resizeToWidth]="500" imageQuality="100"
+              format="png" (imageCropped)="imageCropped($event)" style="width: 50%; margin: auto">
+            </image-cropper>
+
+            <div class="btn-group btn-group-sm pull-right">
+              <button type="button" class="btn btn-pill btn-block btn-success" (click)="cropperReady()">cut</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</ng-template>

@@ -1,22 +1,26 @@
-
 <div class="card">
+  <app-image-cropper (imageBase64)="imgSelect($event)" [imageIn]="imageIn"></app-image-cropper>
   <form [formGroup]="formData">
     <div class="row card-body">
+
       <div class="form-group col-sm-6">
         <label for="name">Nombre</label>
         <input type="text" class="form-control" id="name" placeholder="Ingresa tu nombre" formControlName="name">
       </div>
       <div class="form-group col-sm-6">
         <label for="description">Descripción</label>
-        <textarea id="description" name="description" rows="3" placeholder="Descripción..." class="form-control" formControlName="description"></textarea>
+        <textarea id="description" name="description" rows="3" placeholder="Descripción..." class="form-control"
+          formControlName="description"></textarea>
       </div>
       <div class="form-group col-sm-6">
         <label for="tours">Excursiones</label>
-        <input type="text" class="form-control" id="tours" placeholder="Ingresa tus excursiones" formControlName="tours">
+        <input type="text" class="form-control" id="tours" placeholder="Ingresa tus excursiones"
+          formControlName="tours">
       </div>
       <div class="form-group col-sm-6">
         <label for="minPrice">Precio minimo</label>
-        <input type="number" class="form-control" id="minPrice" placeholder="Ingresa precio minimo" formControlName="minPrice">
+        <input type="number" class="form-control" id="minPrice" placeholder="Ingresa precio minimo"
+          formControlName="minPrice">
       </div>
       <div class="form-group col-sm-6">
         <label for="maxPrice">Precio maximo</label>
@@ -24,19 +28,23 @@
       </div>
       <div class="form-group col-sm-6">
         <label for="latitude">Latitud</label>
-        <input type="text" class="form-control" id="latitude" placeholder="Ingresa tu ubicación" formControlName="latitude">
+        <input type="text" class="form-control" id="latitude" placeholder="Ingresa tu ubicación"
+          formControlName="latitude">
       </div>
       <div class="form-group col-sm-6">
         <label for="longitude">longitud</label>
-        <input type="text" class="form-control" id="longitude" placeholder="Ingresa tu ubicación" formControlName="longitude">
+        <input type="text" class="form-control" id="longitude" placeholder="Ingresa tu ubicación"
+          formControlName="longitude">
       </div>
       <div class="form-group col-sm-6">
         <label for="indications">Indicaciones</label>
-        <input type="text" class="form-control" id="indications" placeholder="Ingresa tu indicaciones" formControlName="indications">
+        <input type="text" class="form-control" id="indications" placeholder="Ingresa tu indicaciones"
+          formControlName="indications">
       </div>
       <div class="form-group col-sm-6">
         <label for="township">Ciudad</label>
-        <input type="text" class="form-control" id="township" placeholder="Ingresa tu ciudad" formControlName="township">
+        <input type="text" class="form-control" id="township" placeholder="Ingresa tu ciudad"
+          formControlName="township">
       </div>
       <div class="form-group col-sm-6">
         <label for="zone">Zona</label>
@@ -44,29 +52,35 @@
       </div>
       <div class="form-group col-sm-6">
         <label for="facebook">Facebook</label>
-        <input type="text" class="form-control" id="facebook" placeholder="Ingresa tu facebook" formControlName="facebook">
+        <input type="text" class="form-control" id="facebook" placeholder="Ingresa tu facebook"
+          formControlName="facebook">
       </div>
       <div class="form-group col-sm-6">
         <label for="instagram">Instagram</label>
-        <input type="text" class="form-control" id="instagram" placeholder="Ingresa tu Instagram" formControlName="instagram">
+        <input type="text" class="form-control" id="instagram" placeholder="Ingresa tu Instagram"
+          formControlName="instagram">
       </div>
       <div class="form-group col-sm-6">
         <label for="website">Sitio web</label>
-        <input type="text" class="form-control" id="website" placeholder="Ingresa tu sitio web" formControlName="website">
+        <input type="text" class="form-control" id="website" placeholder="Ingresa tu sitio web"
+          formControlName="website">
       </div>
       <div class="form-group col-sm-6">
         <label for="cellphone">Celular</label>
-        <input type="number" class="form-control" id="cellphone" placeholder="Ingresa tu celular" formControlName="cellphone">
+        <input type="number" class="form-control" id="cellphone" placeholder="Ingresa tu celular"
+          formControlName="cellphone">
       </div>
       <div class="form-group col-sm-6">
         <label for="address">Dirección</label>
-        <input type="text" class="form-control" id="address" placeholder="Ingresa tu dirección" formControlName="address">
+        <input type="text" class="form-control" id="address" placeholder="Ingresa tu dirección"
+          formControlName="address">
       </div>
     </div>
   </form>
 </div>
 <div class="row">
   <div class="offset-8 col-4 content-button-create">
-    <button type="button" class="btn btn-pill btn-block btn-success" (click)="createTourOperators()"><i class="fa fa-plus"></i> Crear</button>
+    <button type="button" class="btn btn-pill btn-block btn-success" (click)="createTourOperators()"><i
+        class="fa fa-plus"></i> Crear</button>
   </div>
 </div>

@@ -6,3 +6,8 @@
 
 // If you want to add something do it here
 @import "custom";
+
+.custom-modal-background {
+    background-color: rgba(0, 0, 0, 0.5);
+    z-index: 100000;
+  }

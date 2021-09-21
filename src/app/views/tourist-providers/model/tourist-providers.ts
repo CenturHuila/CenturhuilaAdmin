@@ -17,6 +17,7 @@ export class TouristProvidersModel {
     address: string;
     url_slug: string;
     weather: string;
+    image_profile: string;
 
     setName(value: string){
         this.name = value;
@@ -119,6 +120,12 @@ export class TouristProvidersModel {
     }
     getWeather():string{
         return this.weather;
+    }
+    setImage_profile(value: string){
+        this.image_profile = value;
+    }
+    getImage_profile():string{
+        return this.image_profile;
     }
 
 }
