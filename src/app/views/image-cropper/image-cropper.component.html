@@ -20,13 +20,12 @@
     <input
       #file
       type="file"
-      [id]="id || 'file'"
+      [id]="'file'"
       accept=".png, .jpg, .jpeg"
       class="form-control file-input-create-user d-none mb-3 overflow-hidden"
       (change)="validator(templateSuspend, $event)"
       placeholder="cargar imagen"
       [(ngModel)]="ngTxtPhoto"
-      [disabled]="disabled"
     />
     <div class="text-danger">
       <div *ngIf=" errorSize === true" class="text">

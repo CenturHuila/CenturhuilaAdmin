@@ -1,5 +1,6 @@
 import { Component, OnInit, EventEmitter, Output } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { LoadFilesService } from '../../../services/load-files/load-files.service';
 import { TownshipsService } from '../../../services/townships/townships.service';
 import { TownshipsModel } from '../model/townships';
 
@@ -13,13 +14,15 @@ export class CreateTownshipsComponent  implements OnInit{
 
   formData!: FormGroup;
   imageIn: string;
+  fileImage: string;
 
   @Output() 
   closeModal = new EventEmitter();
 
   constructor(
     private readonly formBuilder: FormBuilder,
-    private townshipsService: TownshipsService) { }
+    private townshipsService: TownshipsService,
+    private loadFilesService: LoadFilesService) { }
 
   ngOnInit(){
     console.log('entro');
@@ -42,15 +45,37 @@ export class CreateTownshipsComponent  implements OnInit{
     });
   }
   createTownships(){
-    const data = this.updateModel();
-    this.townshipsService.create(data,`T_${data.url_slug.toLowerCase().replace(/ /g, "_")}` ).then(response => {
-      this.closeModal.emit('');
-    });
+    let data;
+    const name = this.formData.controls.name.value.toLowerCase().replace(/ /g, "-")
+    this.loadFilesService
+      .uploadFileStorage(
+        `townships/${name}/img/p-${name}.png`,
+        this.fileImage
+      )
+      .then((response) => {
+        this.loadFilesService
+          .referenciaCloudStorage(
+            `townships/${name}/img/p-${name}.png`
+          )
+          .getDownloadURL()
+          .subscribe((url) => {
+            data = this.updateModel(url, name);
+            this.townshipsService.create(data,`T_${data.url_slug.toLowerCase().replace(/ /g, "_")}` )
+              .then((response) => {
+                this.closeModal.emit("");
+              });
+          });
+      }).catch((err) => {
+
+      });;
+    // const data = this.updateModel();
+    // this.townshipsService.create(data,`T_${data.url_slug.toLowerCase().replace(/ /g, "_")}` ).then(response => {
+    //   this.closeModal.emit('');
+    // });
   }
-  updateModel(){
+  updateModel(url, name) {
     const data:TownshipsModel =  new TownshipsModel();
-    const name = this.formData.controls.name.value;
-    data.setName(name);
+    data.setName(this.formData.controls.name.value);
     data.setDescription(this.formData.controls.description.value);
     data.setTravelServices([this.formData.controls.travelServices.value]);
     data.setLatitude(this.formData.controls.latitude.value);
@@ -61,12 +86,16 @@ export class CreateTownshipsComponent  implements OnInit{
     data.setPopulation(this.formData.controls.population.value);
     data.setHolidays(this.formData.controls.holidays.value);
     data.setWeather(this.formData.controls.weather.value);
-    data.setUrl_slug(name.toLowerCase().replace(/ /g, "-"));
+    data.setUrl_slug(name);
+    data.setImage_profile(url);
     
     return JSON.parse(JSON.stringify(data));
   }
   imgSelect(event) {
     this.imageIn = event;
+  }
+  imageFile(event) {
+    this.fileImage = event;
   }
 
 }

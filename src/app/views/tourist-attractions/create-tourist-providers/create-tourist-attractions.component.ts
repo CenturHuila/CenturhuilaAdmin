@@ -1,5 +1,6 @@
 import { Component, OnInit, EventEmitter, Output } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { LoadFilesService } from '../../../services/load-files/load-files.service';
 import { TouristAttractionsService } from '../../../services/tourist-attractions/tourist-attractions.service';
 import { TouristAttractionsModel } from '../model/tourist-attractions';
 
@@ -13,13 +14,15 @@ export class CreateTouristAttractionsComponent  implements OnInit{
 
   formData!: FormGroup;
   imageIn: string;
+  fileImage: string;
   
   @Output() 
   closeModal = new EventEmitter();
 
   constructor(
     private readonly formBuilder: FormBuilder,
-    private touristAttractionsService: TouristAttractionsService) { }
+    private touristAttractionsService: TouristAttractionsService,
+    private loadFilesService: LoadFilesService) { }
 
   ngOnInit(){
     console.log('entro');
@@ -42,15 +45,38 @@ export class CreateTouristAttractionsComponent  implements OnInit{
     });
   }
   createTouristAttractions(){
-    const data = this.updateModel();
-    this.touristAttractionsService.create(data,`TA_${data.url_slug.toLowerCase().replace(/ /g, "_")}` ).then(response => {
-      this.closeModal.emit('');
-    });
+    let data;
+    const name = this.formData.controls.name.value.toLowerCase().replace(/ /g, "-")
+    this.loadFilesService
+      .uploadFileStorage(
+        `touristAttractions/${name}/img/p-${name}.png`,
+        this.fileImage
+      )
+      .then((response) => {
+        this.loadFilesService
+          .referenciaCloudStorage(
+            `touristAttractions/${name}/img/p-${name}.png`
+          )
+          .getDownloadURL()
+          .subscribe((url) => {
+            data = this.updateModel(url, name);
+            this.touristAttractionsService
+              .create(data,`TA_${data.url_slug.toLowerCase().replace(/ /g, "_")}` )
+              .then((response) => {
+                this.closeModal.emit("");
+              });
+          });
+      }).catch((err) => {
+
+      });;
+
+    // this.touristAttractionsService.create(data,`TA_${data.url_slug.toLowerCase().replace(/ /g, "_")}` ).then(response => {
+    //   this.closeModal.emit('');
+    // });
   }
-  updateModel(){
+  updateModel(url, name){
     const data:TouristAttractionsModel =  new TouristAttractionsModel();
-    const name = this.formData.controls.name.value;
-    data.setName(name);
+    data.setName(this.formData.controls.name.value);
     data.setDescription(this.formData.controls.description.value);
     data.setLatitude(this.formData.controls.latitude.value);
     data.setLongitude(this.formData.controls.longitude.value);
@@ -60,14 +86,17 @@ export class CreateTouristAttractionsComponent  implements OnInit{
     data.setWeather(this.formData.controls.weather.value);
     data.setRecomendations(this.formData.controls.recomendations.value);
     data.setTypePlace(this.formData.controls.typePlace.value);
-    data.setUrl_slug(name.toLowerCase().replace(/ /g, "-"));
-    data.setImage_profile(this.imageIn);
+    data.setUrl_slug(name);
+    data.setImage_profile(url);
     
     return JSON.parse(JSON.stringify(data));
   }
 
   imgSelect(event) {
     this.imageIn = event;
+  }
+  imageFile(event) {
+    this.fileImage = event;
   }
 
 }
