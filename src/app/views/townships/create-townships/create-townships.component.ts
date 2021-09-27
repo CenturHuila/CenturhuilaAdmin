@@ -77,7 +77,7 @@ export class CreateTownshipsComponent implements OnInit {
     const data: TownshipsModel = new TownshipsModel();
     data.setName(form.controls.name.value);
     data.setDescription(form.controls.description.value);
-    data.setTravelServices([form.controls.travelServices.value]);
+    data.setTravelServices(form.controls.travelServices.value);
     data.setLatitude(form.controls.latitude.value);
     data.setLongitude(form.controls.longitude.value);
     data.setIndications(form.controls.indications.value);
@@ -118,7 +118,7 @@ export class CreateTownshipsComponent implements OnInit {
                 description: row.values[4],
                 population: row.values[5],
                 weather: row.values[7],
-                travelServices: row.values[8],
+                travelServices: row.values[8].split(','),
                 holidays: row.values[9].split('*'),
                 website: row.values[10].text ? row.values[10].text : row.values[10],
                 latitude: row.values[11],
