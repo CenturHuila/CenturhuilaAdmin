@@ -18,8 +18,8 @@ export class TownshipsComponent implements OnInit{
     this.loadData();
   }
   loadData(){
-    this.touristProvidersData = [];
     this.townshipsService.get().subscribe(response => {
+      this.touristProvidersData = [];
       response.forEach(element => {
         this.touristProvidersData.push(element.payload.doc.data());
       }); 

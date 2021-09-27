@@ -1,8 +1,9 @@
 <div class="card">
   <div class="card-header">
     <i class="fa fa-align-justify"></i> Municipios
-    <div class="content-button-create">
+    <div class="content-button-create d-flex">
       <button type="button" class="btn btn-pill btn-block btn-success" (click)="openModal(CreateProviders)"><i class="fa fa-plus"></i> Crear</button>
+      <button type="button" class="btn btn-pill btn-block btn-success m-0" (click)="openModal(CreateProvidersMassive)"><i class="fa fa-plus"></i> Importación masiva</button>
     </div>
   </div>
   <div class="card-body">
@@ -48,6 +49,18 @@
     </button>
   </div>
   <div class="modal-body">
-    <app-create-townships (closeModal)="closeModal()"></app-create-townships>
+    <app-create-townships [modalType]="'create'" (closeModal)="closeModal()"></app-create-townships>
+  </div>
+</ng-template>
+
+<ng-template #CreateProvidersMassive>
+  <div class="modal-header">
+    <h4 class="modal-title pull-left">Importación masiva de municipios</h4>
+    <button type="button" class="btn-close close pull-right" aria-label="Close" (click)="modalRef?.hide()">
+      <span aria-hidden="true" class="visually-hidden">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+    <app-create-townships [modalType]="'createMassive'" (closeModal)="closeModal()"></app-create-townships>
   </div>
 </ng-template>
