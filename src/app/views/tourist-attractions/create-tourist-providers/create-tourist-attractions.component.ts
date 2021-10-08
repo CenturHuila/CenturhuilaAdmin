@@ -109,7 +109,7 @@ export class CreateTouristAttractionsComponent  implements OnInit{
     arryBuffer.then((data) => {
       workbook.xlsx.load(data)
         .then(() => {
-          const worksheet = workbook.getWorksheet(1);
+          const worksheet = workbook.getWorksheet('ATRACTIVO');
           worksheet.eachRow((row, rowNumber) => {
             if (rowNumber !== 1) {
               console.log(row.values)

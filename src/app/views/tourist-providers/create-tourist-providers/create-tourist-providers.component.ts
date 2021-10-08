@@ -126,7 +126,7 @@ export class CreateTouristProvidersComponent  implements OnInit{
     arryBuffer.then((data) => {
       workbook.xlsx.load(data)
         .then(() => {
-          const worksheet = workbook.getWorksheet(2);
+          const worksheet = workbook.getWorksheet('PST');
           worksheet.eachRow((row, rowNumber) => {
             if (rowNumber !== 1) {
               console.log(row.values)
