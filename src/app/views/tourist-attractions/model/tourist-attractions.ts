@@ -12,6 +12,8 @@ export class TouristAttractionsModel {
     longitude: string;
     url_slug: string;
     image_profile: string;
+    address: string;
+    aditionalInformation: string;
 
     setName(value: string){
         this.name = value;
@@ -84,6 +86,19 @@ export class TouristAttractionsModel {
     }
     getImage_profile():string{
         return this.image_profile;
+    }
+
+    setAddress(value: string){
+        this.address = value;
+    }
+    getAddress():string{
+        return this.address;
+    }
+    setAditionalInformation(value: string){
+        this.aditionalInformation = value;
+    }
+    getAditionalInformation():string{
+        return this.aditionalInformation;
     }
 
 }

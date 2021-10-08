@@ -1,0 +1,3 @@
+git config user.name CenturHuila
+
+git config user.email proyectocenturhuila@gmail.com

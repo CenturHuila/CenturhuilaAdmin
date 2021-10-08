@@ -46,9 +46,9 @@ export class CreateTownshipsComponent implements OnInit {
       weather: ['', [Validators.required]]
     });
   }
-  createTownships(form) {
+  createTownships() {
     let data;
-    const name = form.controls.name.value.toLowerCase().replace(/ /g, "-")
+    const name = this.formData.controls.name.value.toLowerCase().replace(/ /g, "-")
     this.loadFilesService
       .uploadFileStorage(
         `townships/${name}/img/p-${name}.png`,
@@ -61,7 +61,7 @@ export class CreateTownshipsComponent implements OnInit {
           )
           .getDownloadURL()
           .subscribe((url) => {
-            data = this.updateModel(url, name, form);
+            data = this.updateModel(url, name, this.formData);
             this.townshipsService.create(data, `T_${data.url_slug.toLowerCase().replace(/ /g, "_")}`)
               .then((response) => {
                 this.formData.reset();

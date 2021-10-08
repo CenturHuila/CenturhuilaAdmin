@@ -1,8 +1,9 @@
 <div class="card">
   <div class="card-header">
     <i class="fa fa-align-justify"></i> Atractivos turísticos
-    <div class="content-button-create">
+    <div class="content-button-create d-flex">
       <button type="button" class="btn btn-pill btn-block btn-success" (click)="openModal(CreateProviders)"><i class="fa fa-plus"></i> Crear</button>
+      <button type="button" class="btn btn-pill btn-block btn-success m-0" (click)="openModal(CreateProvidersMassive)"><i class="fa fa-plus"></i> Importar</button>
     </div>
   </div>
   <div class="card-body">
@@ -16,7 +17,7 @@
         </tr>
       </thead>
       <tbody>
-        <tr *ngFor="let touristProvider of touristProvidersData">
+        <tr *ngFor="let touristProvider of returnedArray">
           <td>{{touristProvider.name}}</td>
           <td>{{touristProvider.township}}</td>
           <td>{{touristProvider.zone}}</td>
@@ -27,16 +28,24 @@
         </tr>
       </tbody>
     </table>
-    <ul class="pagination">
-      <li class="page-item"><a class="page-link" href="#">Prev</a></li>
-      <li class="page-item active">
-        <a class="page-link" href="#">1</a>
-      </li>
-      <li class="page-item"><a class="page-link" href="#">2</a></li>
-      <li class="page-item"><a class="page-link" href="#">3</a></li>
-      <li class="page-item"><a class="page-link" href="#">4</a></li>
-      <li class="page-item"><a class="page-link" href="#">Next</a></li>
-    </ul>
+    <pagination [totalItems]="touristProvidersData.length" (pageChanged)="pageChanged($event)" [customPreviousTemplate]="prevTemplate"
+    [customNextTemplate]="nextTemplate"></pagination>
+    <ng-template #nextTemplate let-disabled="disabled" let-currentPage="currentPage">
+      <ng-container *ngIf="!disabled">
+        ➡️
+      </ng-container>
+      <ng-container *ngIf="disabled">
+        ⛔
+      </ng-container>
+    </ng-template>
+    <ng-template #prevTemplate let-disabled="disabled" let-currentPage="currentPage">
+      <ng-container *ngIf="!disabled">
+        ⬅️
+      </ng-container>
+      <ng-container *ngIf="disabled">
+        ⛔
+      </ng-container>
+    </ng-template>
   </div>
 </div>
 
@@ -48,6 +57,18 @@
     </button>
   </div>
   <div class="modal-body">
-    <app-create-tourist-attractions (closeModal)="closeModal()"></app-create-tourist-attractions>
+    <app-create-tourist-attractions [modalType]="'create'" (closeModal)="closeModal()"></app-create-tourist-attractions>
+  </div>
+</ng-template>
+
+<ng-template #CreateProvidersMassive>
+  <div class="modal-header">
+    <h4 class="modal-title pull-left">Importar</h4>
+    <button type="button" class="btn-close close pull-right" aria-label="Close" (click)="modalRef?.hide()">
+      <span aria-hidden="true" class="visually-hidden">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+    <app-create-tourist-attractions [modalType]="'createMassive'" (closeModal)="closeModal()"></app-create-tourist-attractions>
   </div>
 </ng-template>

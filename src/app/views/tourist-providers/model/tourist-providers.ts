@@ -3,6 +3,7 @@ export class TouristProvidersModel {
     name: string;
     description: string;
     services: [string];
+    rnt: string;
     minPrice: number;
     maxPrice: number;
     latitude: string;
@@ -18,6 +19,8 @@ export class TouristProvidersModel {
     url_slug: string;
     weather: string;
     image_profile: string;
+    email: string;
+    aditionalInformation: string;
 
     setName(value: string){
         this.name = value;
@@ -36,6 +39,13 @@ export class TouristProvidersModel {
     }
     getServices():[string]{
         return this.services;
+    }
+
+    setRnt(value: string){
+        this.rnt = value;
+    }
+    getRnt():string{
+        return this.rnt;
     }
     setMinPrice(value: number){
         this.minPrice = value;
@@ -121,11 +131,23 @@ export class TouristProvidersModel {
     getWeather():string{
         return this.weather;
     }
+    setEmail(value: string){
+        this.email = value;
+    }
+    getEmail():string{
+        return this.email;
+    }
     setImage_profile(value: string){
         this.image_profile = value;
     }
     getImage_profile():string{
         return this.image_profile;
+    }
+    setAditionalInformation(value: string){
+        this.aditionalInformation = value;
+    }
+    getAditionalInformation():string{
+        return this.aditionalInformation;
     }
 
 }
