@@ -38,12 +38,12 @@ export class CreateTownshipsComponent implements OnInit {
       travelServices: ['', [Validators.required]],
       latitude: ['', [Validators.required]],
       longitude: ['', [Validators.required]],
-      indications: ['', [Validators.required]],
       zone: ['', [Validators.required]],
       website: ['', [Validators.required]],
       population: ['', [Validators.required]],
       holidays: ['', [Validators.required]],
-      weather: ['', [Validators.required]]
+      weather: ['', [Validators.required]],
+      demonym: ['', [Validators.required]]
     });
   }
   createTownships() {
@@ -80,7 +80,7 @@ export class CreateTownshipsComponent implements OnInit {
     data.setTravelServices(form.controls.travelServices.value);
     data.setLatitude(form.controls.latitude.value);
     data.setLongitude(form.controls.longitude.value);
-    data.setIndications(form.controls.indications.value);
+    data.setDemonym(form.controls.demonym.value);
     data.setZone(form.controls.zone.value);
     data.setWebsite(form.controls.website.value);
     data.setPopulation(form.controls.population.value);
@@ -117,13 +117,13 @@ export class CreateTownshipsComponent implements OnInit {
                 zone: row.values[3],
                 description: row.values[4],
                 population: row.values[5],
+                demonym: row.values[6],
                 weather: row.values[7],
                 travelServices: row.values[8].split(','),
                 holidays: row.values[9].split('*'),
                 website: row.values[10].text ? row.values[10].text : row.values[10],
                 latitude: row.values[11],
-                longitude: row.values[12],
-                indications: row.values[6]
+                longitude: row.values[12]
               });
               const name = this.formData.controls.name.value.toLowerCase().replace(/ /g, "-")
               let data = this.updateModel('', name, this.formData);

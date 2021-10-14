@@ -18,7 +18,6 @@ export class TouristProvidersService {
   ) {}
   // Crea un nuevo dato
   public create(data: any, document: string): any {
-      console.log(data)
     return this.firestore.collection(environment.collection.touristProviders).doc(document).set(data);
   }
 //   // Obtiene un dato

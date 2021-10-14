@@ -2,7 +2,7 @@
 export class TownshipsModel {
     name: string;
     description: string;
-    indications: string;
+    demonym: string;
     travelServices: [string];
     zone: string;
     weather: string;
@@ -45,11 +45,11 @@ export class TownshipsModel {
     getLongitude():string{
         return this.longitude;
     }
-    setIndications(value: string){
-        this.indications = value;
+    setDemonym(value: string){
+        this.demonym = value;
     }
-    getIndications():string{
-        return this.indications;
+    getDemonym():string{
+        return this.demonym;
     }
     setPopulation(value: string){
         this.population = value;
