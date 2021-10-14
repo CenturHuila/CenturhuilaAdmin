@@ -18,6 +18,7 @@ export class CreateTouristProvidersComponent  implements OnInit{
   imageIn: string;
   fileImage: string;
   @Input() modalType: string;
+  @Input() documentToEdit: any;
   @Output() 
   closeModal = new EventEmitter();
   fileToUpload: File | null = null;
@@ -28,30 +29,31 @@ export class CreateTouristProvidersComponent  implements OnInit{
     private loadFilesService: LoadFilesService) { }
 
   ngOnInit(){
-    this.loadForm();
+    console.log(this.documentToEdit)
+    this.loadForm(this.documentToEdit ? this.documentToEdit : '');
   }
 
-  loadForm(){
+  loadForm(data?){
     this.formData = this.formBuilder.group({
-      name: ['', [Validators.required]],
-      description: ['', [Validators.required]],
-      services: ['', [Validators.required]],
-      rnt: ['', [Validators.required]],
-      // minPrice: ['', [Validators.required]],
-      // maxPrice: ['', [Validators.required]],
-      // latitude: ['', [Validators.required]],
-      // longitude: ['', [Validators.required]],
-      indications: ['', [Validators.required]],
-      township: ['', [Validators.required]],
-      zone: ['', [Validators.required]],
-      facebook: ['', [Validators.required]],
-      instagram: ['', [Validators.required]],
-      website: ['', [Validators.required]],
-      cellphone: ['', [Validators.required]],
-      address: ['', [Validators.required]],
-      // weather: ['', [Validators.required]],
-      email: ['', [Validators.required, Validators.email]],
-      aditionalInformation: ['', [Validators.required]],
+      name: [ data ? data.name :'', [Validators.required]],
+      description: [ data ? data.description :'', [Validators.required]],
+      services: [ data ? data.services :'', [Validators.required]],
+      rnt: [ data ? data.rnt :'', [Validators.required]],
+      minPrice: [ data ? data.minPrice :'', [Validators.required]],
+      maxPrice: [ data ? data.maxPrice :'', [Validators.required]],
+      latitude: [ data ? data.latitude :'', [Validators.required]],
+      longitude: [ data ? data.longitude :'', [Validators.required]],
+      indications: [ data ? data.indications :'', [Validators.required]],
+      township: [ data ? data.township :'', [Validators.required]],
+      zone: [ data ? data.zone :'', [Validators.required]],
+      facebook: [ data ? data.facebook :'', [Validators.required]],
+      instagram: [ data ? data.instagram :'', [Validators.required]],
+      website: [ data ? data.website :'', [Validators.required]],
+      cellphone: [ data ? data.cellphone :'', [Validators.required]],
+      address: [ data ? data.address :'', [Validators.required]],
+      weather: [ data ? data.weather :'', [Validators.required]],
+      email: [ data ? data.email :'', [Validators.required, Validators.email]],
+      aditionalInformation: [ data ? data.aditionalInformation :'', [Validators.required]],
     });
   }
   createTouristProvider(){
@@ -89,10 +91,10 @@ export class CreateTouristProvidersComponent  implements OnInit{
     data.setDescription(form.controls.description.value);
     data.setServices(form.controls.services.value);
     data.setRnt(form.controls.rnt.value);
-    // data.setMinPrice(form.controls.minPrice.value);
-    // data.setMaxPrice(form.controls.maxPrice.value);
-    // data.setLatitude(form.controls.latitude.value);
-    // data.setLongitude(form.controls.longitude.value);
+    data.setMinPrice(form.controls.minPrice.value);
+    data.setMaxPrice(form.controls.maxPrice.value);
+    data.setLatitude(form.controls.latitude.value);
+    data.setLongitude(form.controls.longitude.value);
     data.setIndications(form.controls.indications.value);
     data.setTownship(form.controls.township.value);
     data.setZone(form.controls.zone.value);
@@ -101,7 +103,7 @@ export class CreateTouristProvidersComponent  implements OnInit{
     data.setWebsite(form.controls.website.value);
     data.setCellphone(form.controls.cellphone.value);
     data.setAddress(form.controls.address.value);
-    // data.setWeather(form.controls.weather.value);
+    data.setWeather(form.controls.weather.value);
     data.setUrl_slug(name);
     data.setImage_profile(url);
     data.setEmail(form.controls.email.value);
@@ -159,5 +161,13 @@ export class CreateTouristProvidersComponent  implements OnInit{
         });
     });
   }
+
+  
+  // getDocument(documentToEdit){
+    
+  //   this.touristProvidersService.getbyId(`T_${documentToEdit}` ).subscribe(response => {
+  //     this.loadForm(response.payload.data());
+  //   })
+  //  }
 
 }

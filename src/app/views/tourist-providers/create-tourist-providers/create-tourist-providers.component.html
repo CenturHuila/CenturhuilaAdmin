@@ -1,5 +1,5 @@
 
-<div class="card" *ngIf="modalType === 'create'">
+<div class="card" *ngIf="modalType === 'createOrEdit'">
   <app-image-cropper (imageBase64)="imgSelect($event)" [imageIn]="imageIn"></app-image-cropper>
   <form [formGroup]="formData">
     <div class="row card-body">

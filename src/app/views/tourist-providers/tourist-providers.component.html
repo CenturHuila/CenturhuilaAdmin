@@ -2,8 +2,10 @@
   <div class="card-header">
     <i class="fa fa-align-justify"></i> Prestadores turísticos
     <div class="content-button-create d-flex">
-      <button type="button" class="btn btn-pill btn-block btn-success" (click)="openModal(CreateProviders)"><i class="fa fa-plus"></i> Crear</button>
-      <button type="button" class="btn btn-pill btn-block btn-success m-0" (click)="openModal(CreateProvidersMassive)"><i class="fa fa-plus"></i> Importar</button>
+      <button type="button" class="btn btn-pill btn-block btn-success" (click)="openModal(CreateProviders)"><i
+          class="fa fa-plus"></i> Crear</button>
+      <button type="button" class="btn btn-pill btn-block btn-success m-0"
+        (click)="openModal(CreateProvidersMassive)"><i class="fa fa-plus"></i> Importar</button>
     </div>
   </div>
   <div class="card-body">
@@ -14,6 +16,7 @@
           <th>Servicios</th>
           <th>Ciudad</th>
           <th>Celular</th>
+          <th>Acciones</th>
         </tr>
       </thead>
       <tbody>
@@ -22,14 +25,31 @@
           <td>{{touristProvider.services}}</td>
           <td>{{touristProvider.township}}</td>
           <td>{{touristProvider.cellphone}}</td>
-          <!-- <td>
-            <span class="badge badge-success">Active</span>
-          </td> -->
+          <td>
+            <div class="btn-group" dropdown container="body">
+              <button id="button-container" dropdownToggle type="button" class="btn btn-primary dropdown-toggle"
+                aria-controls="dropdown-container">
+                <span>
+                  Acciones
+                </span>
+                <span class="caret"></span>
+              </button>
+              <ul id="dropdown-container" *dropdownMenu class="dropdown-menu" role="menu"
+                aria-labelledby="button-container">
+                <li role="menuitem" style="cursor:pointer">
+                  <a class="dropdown-item" (click)="openModal(CreateProviders, touristProvider)">Editar</a>
+                </li>
+                <li role="menuitem" style="cursor:pointer">
+                  <a class="dropdown-item" href="#">Desactivar</a>
+                </li>
+              </ul>
+            </div>
+          </td>
         </tr>
       </tbody>
     </table>
-    <pagination [totalItems]="touristProvidersData.length" (pageChanged)="pageChanged($event)" [customPreviousTemplate]="prevTemplate"
-    [customNextTemplate]="nextTemplate"></pagination>
+    <pagination [totalItems]="touristProvidersData.length" (pageChanged)="pageChanged($event)"
+      [customPreviousTemplate]="prevTemplate" [customNextTemplate]="nextTemplate"></pagination>
     <ng-template #nextTemplate let-disabled="disabled" let-currentPage="currentPage">
       <ng-container *ngIf="!disabled">
         ➡️
@@ -57,7 +77,7 @@
     </button>
   </div>
   <div class="modal-body">
-    <app-create-tourist-providers [modalType]="'create'"  (closeModal)="closeModal()"></app-create-tourist-providers>
+    <app-create-tourist-providers [modalType]="'createOrEdit'" [documentToEdit]="documentToEdit" (closeModal)="closeModal()"></app-create-tourist-providers>
   </div>
 </ng-template>
 
@@ -69,6 +89,7 @@
     </button>
   </div>
   <div class="modal-body">
-    <app-create-tourist-providers [modalType]="'createMassive'" (closeModal)="closeModal()"></app-create-tourist-providers>
+    <app-create-tourist-providers [modalType]="'createMassive'" (closeModal)="closeModal()">
+    </app-create-tourist-providers>
   </div>
 </ng-template>

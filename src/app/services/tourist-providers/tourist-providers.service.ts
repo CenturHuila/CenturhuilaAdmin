@@ -21,13 +21,13 @@ export class TouristProvidersService {
       console.log(data)
     return this.firestore.collection(environment.collection.touristProviders).doc(document).set(data);
   }
-//   // Obtiene un dato
-//   public getbyId(documentId: string, collection: string): any {
-//     return this.firestore
-//       .collection(collection)
-//       .doc(documentId)
-//       .snapshotChanges();
-//   }
+  // Obtiene un dato
+  public getbyId(documentId: string): any {
+    return this.firestore
+      .collection(environment.collection.touristProviders)
+      .doc(documentId)
+      .snapshotChanges();
+  }
 //   // Obtiene todos los datos
   public get(): any {
     return this.firestore

@@ -13,6 +13,7 @@ export class TouristProvidersComponent implements OnInit{
   modalRef?: BsModalRef;
   touristProvidersData = [];
   returnedArray?: string[];
+  documentToEdit = {};
   constructor(private modalService: BsModalService,
     private touristProvidersService: TouristProvidersService) { }
 
@@ -28,7 +29,8 @@ export class TouristProvidersComponent implements OnInit{
       this.returnedArray = this.touristProvidersData.slice(0, 10);
     })
   }
-  openModal(template: TemplateRef<any>) {
+  openModal(template: TemplateRef<any>, documentToEdit) {
+    this.documentToEdit = documentToEdit;
     this.modalRef = this.modalService.show(template);
     this.modalRef.setClass('modal-lg');
   }
