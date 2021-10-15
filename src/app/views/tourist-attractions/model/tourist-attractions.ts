@@ -8,8 +8,6 @@ export class TouristAttractionsModel {
     weather: string;
     recomendations: string;
     typePlace: string;
-    latitude: string;
-    longitude: string;
     url_slug: string;
     image_profile: string;
     address: string;
@@ -26,18 +24,6 @@ export class TouristAttractionsModel {
     }
     getDescription():string{
         return this.description;
-    }
-    setLatitude(value: string){
-        this.latitude = value;
-    }
-    getLatitude():string{
-        return this.latitude;
-    }
-    setLongitude(value: string){
-        this.longitude = value;
-    }
-    getLongitude():string{
-        return this.longitude;
     }
     setIndications(value: string){
         this.indications = value;

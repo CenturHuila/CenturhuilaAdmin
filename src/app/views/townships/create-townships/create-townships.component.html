@@ -1,6 +1,6 @@
 
-<div class="card" *ngIf="modalType === 'create'">
-  <app-image-cropper (imageBase64)="imgSelect($event)" [imageIn]="imageIn"></app-image-cropper>
+<div class="card" *ngIf="modalType === 'createOrEdit'">
+  <app-image-cropper (imageBase64)="imgSelect($event)" (imageFile)="imageFile($event)" [imageIn]="imageIn"></app-image-cropper>
   <form [formGroup]="formData">
     <div class="row card-body">
       <div class="form-group col-sm-6">
@@ -63,6 +63,6 @@
 </div>
 <div class="row">
   <div class="offset-8 col-4 content-button-create">
-    <button type="button" class="btn btn-pill btn-block btn-success" (click)="modalType === 'create' ? createTownships : createTownshipsMassive()"><i class="fa fa-plus"></i> {{modalType === 'create' ? 'Crear' : 'Importar' }}</button>
+    <button type="button" class="btn btn-pill btn-block btn-success" (click)="save()"><i class="fa fa-plus"></i> {{textbutton}}</button>
   </div>
 </div>

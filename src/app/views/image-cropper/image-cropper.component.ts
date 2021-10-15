@@ -30,7 +30,6 @@ export class ImageCropperModalComponent implements OnInit{
   validator(template, event) {
     if (event.target.files.length && event.target.files[0].size <= 512000) {
       this.openModal(template, event);
-      console.log(document.getElementsByClassName('modal').length)
       if (document.getElementsByClassName('modal')[1]) {
         document.getElementsByClassName('modal')[1].classList.add('custom-modal-background');
       }
@@ -45,11 +44,11 @@ export class ImageCropperModalComponent implements OnInit{
 
   cropperReady() {
     this.image = this.imageModal;
-    console.log(this.imageModal);
     const imageName = 'name.png';
     const base64 = this.imageModal.split(',')[1];
     const imageBlob = this.dataURItoBlob(base64);
     const imageFile = new File([imageBlob], imageName, { type: 'image/png' });
+    console.log(imageFile)
     this.imageBase64.emit(this.imageModal);
     this.imageFile.emit(imageFile);
     this.closeModalPhoto();
@@ -87,5 +86,6 @@ export class ImageCropperModalComponent implements OnInit{
   deletImage(){
     this.imageIn = ''
     this.imageBase64.emit('');
+    this.imageFile.emit('');
   }
 }

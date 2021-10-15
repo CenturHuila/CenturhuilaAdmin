@@ -17,8 +17,12 @@ export class TouristProvidersService {
     private storage: AngularFireStorage
   ) {}
   // Crea un nuevo dato
-  public create(data: any, document: string): any {
+  public createOrEdite(data: any, document: string): any {
     return this.firestore.collection(environment.collection.touristProviders).doc(document).set(data);
+  }
+  // Eliminar un dato
+  public delete(document: string): any {
+    return this.firestore.collection(environment.collection.touristProviders).doc(document).delete();
   }
   // Obtiene un dato
   public getbyId(documentId: string): any {

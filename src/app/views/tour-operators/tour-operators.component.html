@@ -13,6 +13,7 @@
           <th>Ciudad</th>
           <th>Zona</th>
           <th>Celular</th>
+          <th>Acciones</th>
         </tr>
       </thead>
       <tbody>
@@ -21,9 +22,26 @@
           <td>{{touristProvider.township}}</td>
           <td>{{touristProvider.zone}}</td>
           <td>{{touristProvider.cellphone}}</td>
-          <!-- <td>
-            <span class="badge badge-success">Active</span>
-          </td> -->
+          <td>
+            <div class="btn-group" dropdown container="body">
+              <button id="button-container" dropdownToggle type="button" class="btn btn-primary dropdown-toggle"
+                aria-controls="dropdown-container">
+                <span>
+                  Acciones
+                </span>
+                <span class="caret"></span>
+              </button>
+              <ul id="dropdown-container" *dropdownMenu class="dropdown-menu" role="menu"
+                aria-labelledby="button-container">
+                <li role="menuitem" style="cursor:pointer">
+                  <a class="dropdown-item" (click)="openModal(CreateProviders, touristProvider)">Editar</a>
+                </li>
+                <li role="menuitem" style="cursor:pointer">
+                  <a class="dropdown-item" href="#">Desactivar</a>
+                </li>
+              </ul>
+            </div>
+          </td>
         </tr>
       </tbody>
     </table>
@@ -48,6 +66,6 @@
     </button>
   </div>
   <div class="modal-body">
-    <app-create-tour-operators (closeModal)="closeModal()"></app-create-tour-operators>
+    <app-create-tour-operators [documentToEdit]="documentToEdit"  (closeModal)="closeModal()"></app-create-tour-operators>
   </div>
 </ng-template>

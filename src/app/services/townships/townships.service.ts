@@ -17,9 +17,12 @@ export class TownshipsService {
     private storage: AngularFireStorage
   ) {}
   // Crea un nuevo dato
-  public create(data: any, document: string): any {
-      console.log(data)
+  public createOrEdite(data: any, document: string): any {
     return this.firestore.collection(environment.collection.townships).doc(document).set(data);
+  }
+  // Eliminar un dato
+  public delete(document: string): any {
+    return this.firestore.collection(environment.collection.townships).doc(document).delete();
   }
 //   // Obtiene un dato
 //   public getbyId(documentId: string, collection: string): any {

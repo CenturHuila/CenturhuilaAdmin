@@ -1,4 +1,4 @@
-import { Component, OnInit, EventEmitter, Output } from "@angular/core";
+import { Component, OnInit, EventEmitter, Output, Input } from "@angular/core";
 import { FormBuilder, FormGroup, Validators } from "@angular/forms";
 import { BsModalRef, BsModalService } from "ngx-bootstrap/modal";
 import { LoadFilesService } from "../../../services/load-files/load-files.service";
@@ -15,6 +15,7 @@ export class CreateTourOperatorsComponent implements OnInit {
   formData!: FormGroup;
   imageIn: string;
   fileImage: string;
+  @Input() documentToEdit: any;
 
   @Output()
   closeModal = new EventEmitter();
@@ -26,27 +27,28 @@ export class CreateTourOperatorsComponent implements OnInit {
   ) { }
 
   ngOnInit() {
-    this.loadForm();
+    this.loadForm(this.documentToEdit ? this.documentToEdit : '');
   }
 
-  loadForm() {
+  loadForm(data?){
     this.formData = this.formBuilder.group({
-      name: ["", [Validators.required]],
-      description: ["", [Validators.required]],
-      tours: ["", [Validators.required]],
-      minPrice: ["", [Validators.required]],
-      maxPrice: ["", [Validators.required]],
-      latitude: ["", [Validators.required]],
-      longitude: ["", [Validators.required]],
-      indications: ["", [Validators.required]],
-      township: ["", [Validators.required]],
-      zone: ["", [Validators.required]],
-      facebook: ["", [Validators.required]],
-      instagram: ["", [Validators.required]],
-      website: ["", [Validators.required]],
-      cellphone: ["", [Validators.required]],
-      address: ["", [Validators.required]],
+      name: [ data ? data.name : '', [Validators.required]],
+      description: [ data ? data.description : '', [Validators.required]],
+      tours: [ data ? data.tours : '', [Validators.required]],
+      minPrice: [ data ? data.minPrice : '', [Validators.required]],
+      maxPrice: [ data ? data.maxPrice : '', [Validators.required]],
+      latitude: [ data ? data.latitude : '', [Validators.required]],
+      longitude: [ data ? data.longitude : '', [Validators.required]],
+      indications: [ data ? data.indications : '', [Validators.required]],
+      township: [ data ? data.township : '', [Validators.required]],
+      zone: [ data ? data.zone : '', [Validators.required]],
+      facebook: [ data ? data.facebook : '', [Validators.required]],
+      instagram: [ data ? data.instagram : '', [Validators.required]],
+      website: [ data ? data.website : '', [Validators.required]],
+      cellphone: [ data ? data.cellphone : '', [Validators.required]],
+      address: [ data ? data.address : '', [Validators.required]],
     });
+    this.imageIn = data.image_profile;
   }
   createTourOperators() {
     let data;
@@ -103,6 +105,8 @@ export class CreateTourOperatorsComponent implements OnInit {
     this.imageIn = event;
   }
   imageFile(event) {
+    console.log('entro')
+    console.log(event)
     this.fileImage = event;
   }
 }

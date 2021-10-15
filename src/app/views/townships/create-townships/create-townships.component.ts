@@ -18,9 +18,11 @@ export class CreateTownshipsComponent implements OnInit {
   imageIn: string;
   fileImage: string;
   @Input() modalType: string;
+  @Input() documentToEdit: any;
   @Output()
   closeModal = new EventEmitter();
   fileToUpload: File | null = null;
+  textbutton = 'Crear';
 
   constructor(
     private readonly formBuilder: FormBuilder,
@@ -28,49 +30,67 @@ export class CreateTownshipsComponent implements OnInit {
     private loadFilesService: LoadFilesService) { }
 
   ngOnInit() {
-    this.loadForm();
+    this.loadForm(this.documentToEdit ? this.documentToEdit : '');
+    if(this.documentToEdit){
+      this.textbutton = "Guardar";
+    } else if(this.modalType !== 'createOrEdit'){
+      this.textbutton = "Importar";
+    }
   }
 
-  loadForm() {
+  loadForm(data?) {
     this.formData = this.formBuilder.group({
-      name: ['', [Validators.required]],
-      description: ['', [Validators.required]],
-      travelServices: ['', [Validators.required]],
-      latitude: ['', [Validators.required]],
-      longitude: ['', [Validators.required]],
-      zone: ['', [Validators.required]],
-      website: ['', [Validators.required]],
-      population: ['', [Validators.required]],
-      holidays: ['', [Validators.required]],
-      weather: ['', [Validators.required]],
-      demonym: ['', [Validators.required]]
+      name: [{ value: data ? data.name : '', disabled: data ? true : false }, [Validators.required]],
+      description: [data ? data.description : '', [Validators.required]],
+      travelServices: [data ? data.travelServices : '', [Validators.required]],
+      latitude: [data ? data.latitude : '', [Validators.required]],
+      longitude: [data ? data.longitude : '', [Validators.required]],
+      zone: [data ? data.zone : '', [Validators.required]],
+      website: [data ? data.website : '', [Validators.required]],
+      population: [data ? data.population : '', [Validators.required]],
+      holidays: [data ? data.holidays : '', [Validators.required]],
+      weather: [data ? data.weather : '', [Validators.required]],
+      demonym: [data ? data.demonym : '', [Validators.required]]
     });
+    this.imageIn = data.image_profile;
   }
-  createTownships() {
+  save() {
+    if (this.modalType === 'createOrEdit') {
+      this.createOrEditeTownships();
+    } else {
+      this.createTownshipsMassive();
+    }
+  }
+  createOrEditeTownships(url?, imageLoaded?, dataMassive?) {
     let data;
-    const name = this.formData.controls.name.value.toLowerCase().replace(/ /g, "-")
-    this.loadFilesService
-      .uploadFileStorage(
-        `townships/${name}/img/p-${name}.png`,
-        this.fileImage
-      )
-      .then((response) => {
-        this.loadFilesService
-          .referenciaCloudStorage(
-            `townships/${name}/img/p-${name}.png`
-          )
-          .getDownloadURL()
-          .subscribe((url) => {
-            data = this.updateModel(url, name, this.formData);
-            this.townshipsService.create(data, `T_${data.url_slug.toLowerCase().replace(/ /g, "_")}`)
-              .then((response) => {
-                this.formData.reset();
-                this.closeModal.emit("");
-              });
-          });
-      }).catch((err) => {
+    const slug = this.formData.controls.name.value.toLowerCase().replace(/ /g, "-")
+    if (this.fileImage && !imageLoaded) {
+      this.loadFilesService
+        .uploadFileStorage(
+          `townships/${slug}/img/p-${slug}.png`,
+          this.fileImage
+        )
+        .then((response) => {
+          this.loadFilesService
+            .referenciaCloudStorage(
+              `townships/${slug}/img/p-${slug}.png`
+            )
+            .getDownloadURL()
+            .subscribe((url) => {
+              this.createOrEditeTownships(url, true);
+            });
+        }).catch((err) => {
 
-      });
+        });
+    } else {
+      url = !this.fileImage && this.documentToEdit && this.documentToEdit.image_profile ? this.documentToEdit.image_profile : url
+      data = dataMassive ? dataMassive : this.updateModel(url, slug, this.formData);
+      this.townshipsService.createOrEdite(data, `T_${data.url_slug.toLowerCase().replace(/ /g, "_")}`)
+        .then((response) => {
+          this.formData.reset();
+          this.closeModal.emit("");
+        });
+    }
   }
 
   updateModel(url, name, form) {
@@ -102,7 +122,7 @@ export class CreateTownshipsComponent implements OnInit {
     this.fileToUpload = files.item(0);
   }
 
-  createTownshipsMassive(){
+  createTownshipsMassive() {
     let workbook: Workbook = new ExcelJS.Workbook();
     const arryBuffer = new Response(this.fileToUpload).arrayBuffer();
     arryBuffer.then((data) => {
@@ -111,7 +131,6 @@ export class CreateTownshipsComponent implements OnInit {
           const worksheet = workbook.getWorksheet(1);
           worksheet.eachRow((row, rowNumber) => {
             if (rowNumber !== 1 && rowNumber !== 2) {
-              console.log(row.values)
               this.formData.setValue({
                 name: row.values[2],
                 zone: row.values[3],
@@ -127,11 +146,7 @@ export class CreateTownshipsComponent implements OnInit {
               });
               const name = this.formData.controls.name.value.toLowerCase().replace(/ /g, "-")
               let data = this.updateModel('', name, this.formData);
-              this.townshipsService.create(data, `T_${name}`)
-              .then((response) => {
-                // this.formData.reset();
-                // this.closeModal.emit("");
-              });
+              this.createOrEditeTownships('', true, data);
             }
           });
           this.closeModal.emit("");

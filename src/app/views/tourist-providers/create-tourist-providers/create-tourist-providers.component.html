@@ -1,6 +1,6 @@
 
 <div class="card" *ngIf="modalType === 'createOrEdit'">
-  <app-image-cropper (imageBase64)="imgSelect($event)" [imageIn]="imageIn"></app-image-cropper>
+  <app-image-cropper (imageBase64)="imgSelect($event)" (imageFile)="imageFile($event)" [imageIn]="imageIn"></app-image-cropper>
   <form [formGroup]="formData">
     <div class="row card-body">
       <div class="form-group col-sm-6">
@@ -14,35 +14,31 @@
       <div class="form-group col-sm-6">
         <label for="services">Servicios</label>
         <input type="text" class="form-control" id="services" placeholder="Ingresa tus servicios" formControlName="services">
+      </div>   
+      <div class="form-group col-sm-6">
+        <label for="rnt">RNT</label>
+        <input type="number" class="form-control" id="rnt" placeholder="RNT" formControlName="rnt">
       </div>
       <div class="form-group col-sm-6">
-        <label for="minPrice">Precio minimo</label>
-        <input type="number" class="form-control" id="minPrice" placeholder="Ingresa precio minimo" formControlName="minPrice">
-      </div>
-      <div class="form-group col-sm-6">
-        <label for="maxPrice">Precio maximo</label>
-        <input type="number" class="form-control" id="maxPrice" placeholder="Precio maximo" formControlName="maxPrice">
-      </div>
-      <div class="form-group col-sm-6">
-        <label for="latitude">Latitud</label>
-        <input type="text" class="form-control" id="latitude" placeholder="Ingresa tu ubicación" formControlName="latitude">
-      </div>
-      <div class="form-group col-sm-6">
-        <label for="longitude">longitud</label>
-        <input type="text" class="form-control" id="longitude" placeholder="Ingresa tu ubicación" formControlName="longitude">
-      </div>
-      <div class="form-group col-sm-6">
-        <label for="indications">Indicaciones</label>
-        <input type="text" class="form-control" id="indications" placeholder="Ingresa tu indicaciones" formControlName="indications">
+        <label for="zone">Zona</label>
+        <input type="text" class="form-control" id="zone" placeholder="Ingresa tu zona" formControlName="zone">
       </div>
       <div class="form-group col-sm-6">
         <label for="township">Ciudad</label>
         <input type="text" class="form-control" id="township" placeholder="Ingresa tu ciudad" formControlName="township">
       </div>
       <div class="form-group col-sm-6">
-        <label for="zone">Zona</label>
-        <input type="text" class="form-control" id="zone" placeholder="Ingresa tu zona" formControlName="zone">
+        <label for="address">Dirección</label>
+        <input type="text" class="form-control" id="address" placeholder="Ingresa tu dirección" formControlName="address">
       </div>
+      <div class="form-group col-sm-6">
+        <label for="indications">Indicaciones</label>
+        <input type="text" class="form-control" id="indications" placeholder="Ingresa tu indicaciones" formControlName="indications">
+      </div>
+      <div class="form-group col-sm-6">
+        <label for="cellphone">Celular</label>
+        <input type="number" class="form-control" id="cellphone" placeholder="Ingresa tu celular" formControlName="cellphone">
+      </div> 
       <div class="form-group col-sm-6">
         <label for="facebook">Facebook</label>
         <input type="text" class="form-control" id="facebook" placeholder="Ingresa tu facebook" formControlName="facebook">
@@ -56,17 +52,13 @@
         <input type="text" class="form-control" id="website" placeholder="Ingresa tu sitio web" formControlName="website">
       </div>
       <div class="form-group col-sm-6">
-        <label for="cellphone">Celular</label>
-        <input type="number" class="form-control" id="cellphone" placeholder="Ingresa tu celular" formControlName="cellphone">
+        <label for="email">Correo</label>
+        <input type="text" class="form-control" id="email" placeholder="Correo" formControlName="email">
       </div>
       <div class="form-group col-sm-6">
-        <label for="address">Dirección</label>
-        <input type="text" class="form-control" id="address" placeholder="Ingresa tu dirección" formControlName="address">
-      </div>
-      <div class="form-group col-sm-6">
-        <label for="weather">Clima</label>
-        <input type="text" class="form-control" id="weather" placeholder="Clima" formControlName="weather">
-      </div>
+        <label for="aditionalInformation">Información Adicional</label>
+        <textarea id="aditionalInformation" name="aditionalInformation" rows="3" placeholder="Información Adicional" class="form-control" formControlName="aditionalInformation"></textarea>
+      </div>  
     </div>
   </form>
 </div>
@@ -79,6 +71,6 @@
 </div>
 <div class="row">
   <div class="offset-8 col-4 content-button-create">
-    <button type="button" class="btn btn-pill btn-block btn-success" (click)="modalType === 'create' ? createTouristProvider() : createMassive()"><i class="fa fa-plus"></i> {{modalType === 'create' ? 'Crear' : 'Importar' }}</button>
+    <button type="button" class="btn btn-pill btn-block btn-success" (click)="save()"><i class="fa fa-plus"></i> {{textbutton}}</button>
   </div>
 </div>

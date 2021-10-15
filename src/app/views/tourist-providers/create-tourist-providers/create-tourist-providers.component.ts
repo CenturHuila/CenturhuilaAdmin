@@ -22,6 +22,7 @@ export class CreateTouristProvidersComponent  implements OnInit{
   @Output() 
   closeModal = new EventEmitter();
   fileToUpload: File | null = null;
+  textbutton = 'Crear';
 
   constructor(
     private readonly formBuilder: FormBuilder,
@@ -29,61 +30,70 @@ export class CreateTouristProvidersComponent  implements OnInit{
     private loadFilesService: LoadFilesService) { }
 
   ngOnInit(){
-    console.log(this.documentToEdit)
     this.loadForm(this.documentToEdit ? this.documentToEdit : '');
+    
+    if(this.documentToEdit){
+      this.textbutton = "Guardar";
+    } else if(this.modalType !== 'createOrEdit'){
+      this.textbutton = "Importar";
+    }
   }
 
   loadForm(data?){
     this.formData = this.formBuilder.group({
-      name: [ data ? data.name :'', [Validators.required]],
+      name: [{value: data ? data.name : '', disabled: data ? true : false}, [Validators.required]],
       description: [ data ? data.description :'', [Validators.required]],
       services: [ data ? data.services :'', [Validators.required]],
       rnt: [ data ? data.rnt :'', [Validators.required]],
-      minPrice: [ data ? data.minPrice :'', [Validators.required]],
-      maxPrice: [ data ? data.maxPrice :'', [Validators.required]],
-      latitude: [ data ? data.latitude :'', [Validators.required]],
-      longitude: [ data ? data.longitude :'', [Validators.required]],
-      indications: [ data ? data.indications :'', [Validators.required]],
-      township: [ data ? data.township :'', [Validators.required]],
       zone: [ data ? data.zone :'', [Validators.required]],
+      township: [ data ? data.township :'', [Validators.required]],
+      address: [ data ? data.address :'', [Validators.required]],
+      indications: [ data ? data.indications :'', [Validators.required]],
+      cellphone: [ data ? data.cellphone :'', [Validators.required]],
       facebook: [ data ? data.facebook :'', [Validators.required]],
       instagram: [ data ? data.instagram :'', [Validators.required]],
       website: [ data ? data.website :'', [Validators.required]],
-      cellphone: [ data ? data.cellphone :'', [Validators.required]],
-      address: [ data ? data.address :'', [Validators.required]],
-      weather: [ data ? data.weather :'', [Validators.required]],
       email: [ data ? data.email :'', [Validators.required, Validators.email]],
       aditionalInformation: [ data ? data.aditionalInformation :'', [Validators.required]],
     });
+    this.imageIn = data.image_profile;
   }
-  createTouristProvider(){
+  save(){
+    if (this.modalType === 'createOrEdit'){
+      this.createOrEditeTouristProvider();
+    } else{
+      this.createMassive();
+    }
+  }
+  createOrEditeTouristProvider(url?, imageLoaded?, dataMassive?){
     let data;
-    const name = this.formData.controls.name.value.toLowerCase().replace(/ /g, "-")
-    this.loadFilesService
-      .uploadFileStorage(
-        `touristProviders/${name}/img/p-${name}.png`,
-        this.fileImage
-      )
-      .then((response) => {
-        this.loadFilesService
-          .referenciaCloudStorage(
-            `touristProviders/${name}/img/p-${name}.png`
-          )
-          .getDownloadURL()
-          .subscribe((url) => {
-            data = this.updateModel(url, name, this.formData);
-            this.touristProvidersService.create(data,`TSP_${data.url_slug.toLowerCase().replace(/ /g, "_")}` )
-              .then((response) => {
-                this.closeModal.emit("");
-              });
-          });
-      }).catch((err) => {
+    const slug = this.formData.controls.name.value.toLowerCase().replace(/ /g, "-")
+    if (this.fileImage && !imageLoaded) {
+      this.loadFilesService
+        .uploadFileStorage(
+          `touristProviders/${slug}/img/p-${slug}.png`,
+          this.fileImage
+        )
+        .then((response) => {
+          this.loadFilesService
+            .referenciaCloudStorage(
+              `touristProviders/${slug}/img/p-${slug}.png`
+            )
+            .getDownloadURL()
+            .subscribe((url) => {
+              this.createOrEditeTouristProvider(url, true);
+            });
+        }).catch((err) => {
 
-      });;
-    // const data = this.updateModel();
-    // this.touristProvidersService.create(data,`TSP_${data.url_slug.toLowerCase().replace(/ /g, "_")}` ).then(response => {
-    //   this.closeModal.emit('');
-    // });
+        });;
+      } else {
+        url = !this.fileImage && this.documentToEdit && this.documentToEdit.image_profile ? this.documentToEdit.image_profile : url
+        data = dataMassive ? dataMassive : this.updateModel(url, slug, this.formData);
+        this.touristProvidersService.createOrEdite(data,`T_${data.url_slug.toLowerCase().replace(/ /g, "_")}` )
+          .then((response) => {
+            this.closeModal.emit("");
+          });
+      }
   }
   updateModel(url, name, form) {
     const data:TouristProvidersModel =  new TouristProvidersModel();
@@ -91,10 +101,6 @@ export class CreateTouristProvidersComponent  implements OnInit{
     data.setDescription(form.controls.description.value);
     data.setServices(form.controls.services.value);
     data.setRnt(form.controls.rnt.value);
-    data.setMinPrice(form.controls.minPrice.value);
-    data.setMaxPrice(form.controls.maxPrice.value);
-    data.setLatitude(form.controls.latitude.value);
-    data.setLongitude(form.controls.longitude.value);
     data.setIndications(form.controls.indications.value);
     data.setTownship(form.controls.township.value);
     data.setZone(form.controls.zone.value);
@@ -103,7 +109,6 @@ export class CreateTouristProvidersComponent  implements OnInit{
     data.setWebsite(form.controls.website.value);
     data.setCellphone(form.controls.cellphone.value);
     data.setAddress(form.controls.address.value);
-    data.setWeather(form.controls.weather.value);
     data.setUrl_slug(name);
     data.setImage_profile(url);
     data.setEmail(form.controls.email.value);
@@ -131,7 +136,6 @@ export class CreateTouristProvidersComponent  implements OnInit{
           const worksheet = workbook.getWorksheet('PST');
           worksheet.eachRow((row, rowNumber) => {
             if (rowNumber !== 1) {
-              console.log(row.values)
               this.formData.setValue({
                 name: row.values[2],
                 description: row.values[3],
@@ -150,11 +154,7 @@ export class CreateTouristProvidersComponent  implements OnInit{
               });
               const name = this.formData.controls.name.value.toLowerCase().replace(/ /g, "-")
               let data = this.updateModel('', name, this.formData);
-              this.touristProvidersService.create(data, `T_${name}`)
-              .then((response) => {
-                // this.formData.reset();
-                // this.closeModal.emit("");
-              });
+              this.createOrEditeTouristProvider('', true, data)
             }
           });
           this.closeModal.emit("");

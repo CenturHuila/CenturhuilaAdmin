@@ -13,6 +13,7 @@ export class TownshipsComponent implements OnInit{
   modalRef?: BsModalRef;
   touristProvidersData = [];
   returnedArray?: string[];
+  documentToEdit = {};
   constructor(private modalService: BsModalService,
     private townshipsService: TownshipsService) { }
 
@@ -28,13 +29,22 @@ export class TownshipsComponent implements OnInit{
       this.returnedArray = this.touristProvidersData.slice(0, 10);
     })
   }
-  openModal(template: TemplateRef<any>) {
+  openModal(template: TemplateRef<any>, documentToEdit?) {
+    this.documentToEdit = documentToEdit;
     this.modalRef = this.modalService.show(template);
     this.modalRef.setClass('modal-lg');
   }
   closeModal(){
     this.modalRef.hide();
     this.loadData();
+  }
+  delete(slug) {
+    console.log(slug)
+    this.townshipsService.delete(`T_${slug}`).then(() => {
+      console.log("Document successfully deleted!");
+    }).catch((error) => {
+      console.error("Error removing document: ", error);
+    });;
   }
 
   pageChanged(event: PageChangedEvent): void {

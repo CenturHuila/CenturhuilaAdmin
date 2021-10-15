@@ -11,73 +11,87 @@ import { Workbook } from 'exceljs';
   styleUrls: ['./create-tourist-attractions.component.css'],
   providers: [FormBuilder]
 })
-export class CreateTouristAttractionsComponent  implements OnInit{
+export class CreateTouristAttractionsComponent implements OnInit {
 
   formData!: FormGroup;
   imageIn: string;
   fileImage: string;
   @Input() modalType: string;
-  @Output() 
+  @Input() documentToEdit: any;
+  @Output()
   closeModal = new EventEmitter();
   fileToUpload: File | null = null;
+  imageLoaded = false;
+  textbutton = 'Crear';
   constructor(
     private readonly formBuilder: FormBuilder,
     private touristAttractionsService: TouristAttractionsService,
     private loadFilesService: LoadFilesService) { }
 
-  ngOnInit(){
-    console.log('entro');
-    this.loadForm();
+  ngOnInit() {
+    this.loadForm(this.documentToEdit ? this.documentToEdit : '');
+    if(this.documentToEdit){
+      this.textbutton = "Guardar";
+    } else if(this.modalType !== 'createOrEdit'){
+      this.textbutton = "Importar";
+    }
   }
 
-  loadForm(){
+  loadForm(data?) {
     this.formData = this.formBuilder.group({
-      name: ['', [Validators.required]],
-      typePlace: ['', [Validators.required]],
-      description: ['', [Validators.required]],
-      zone: ['', [Validators.required]],
-      township: ['', [Validators.required]],
-      address: ['', [Validators.required]],
-      indications: ['', [Validators.required]],
-      weather: ['', [Validators.required]],
-      aditionalInformation: ['', [Validators.required]],
-      recomendations: ['', [Validators.required]]
-      
+      name: [{value: data ? data.name : '', disabled: data ? true : false}, [Validators.required]],
+      typePlace: [data ? data.typePlace : '', [Validators.required]],
+      description: [data ? data.description : '', [Validators.required]],
+      zone: [data ? data.zone : '', [Validators.required]],
+      township: [data ? data.township : '', [Validators.required]],
+      address: [data ? data.address : '', [Validators.required]],
+      indications: [data ? data.indications : '', [Validators.required]],
+      weather: [data ? data.weather : '', [Validators.required]],
+      aditionalInformation: [data ? data.aditionalInformation : '', [Validators.required]],
+      recomendations: [data ? data.recomendations : '', [Validators.required]]
     });
+    this.imageIn = data.image_profile;
   }
-  createTouristAttractions(){
+  save(){
+    if (this.modalType === 'createOrEdit'){
+      this.createOrEditeTouristAttractions();
+    } else{
+      this.createMassive();
+    }
+  }
+  createOrEditeTouristAttractions(url?, imageLoaded?, dataMassive?) {
     let data;
-    const name = this.formData.controls.name.value.toLowerCase().replace(/ /g, "-")
-    this.loadFilesService
-      .uploadFileStorage(
-        `touristAttractions/${name}/img/p-${name}.png`,
-        this.fileImage
-      )
-      .then((response) => {
-        this.loadFilesService
-          .referenciaCloudStorage(
-            `touristAttractions/${name}/img/p-${name}.png`
-          )
-          .getDownloadURL()
-          .subscribe((url) => {
-            data = this.updateModel(url, name, this.formData);
-            this.touristAttractionsService
-              .create(data,`TA_${data.url_slug.toLowerCase().replace(/ /g, "_")}` )
-              .then((response) => {
-                this.closeModal.emit("");
-              });
-          });
-      }).catch((err) => {
-
-      });;
-
-    // this.touristAttractionsService.create(data,`TA_${data.url_slug.toLowerCase().replace(/ /g, "_")}` ).then(response => {
-    //   this.closeModal.emit('');
-    // });
+    const slug = this.formData.controls.name.value.toLowerCase().replace(/ /g, "-")
+    if (this.fileImage && !imageLoaded) {
+      this.loadFilesService
+        .uploadFileStorage(
+          `touristAttractions/${slug}/img/p-${slug}.png`,
+          this.fileImage
+        )
+        .then((response) => {
+          this.loadFilesService
+            .referenciaCloudStorage(
+              `touristAttractions/${slug}/img/p-${slug}.png`
+            )
+            .getDownloadURL()
+            .subscribe((url) => {
+              this.createOrEditeTouristAttractions(url, true);
+            });
+        }).catch((err) => {
+        });;
+    } else {
+      url = !this.fileImage && this.documentToEdit && this.documentToEdit.image_profile ? this.documentToEdit.image_profile : url
+      data = dataMassive ? dataMassive : this.updateModel(url, slug, this.formData);
+      this.touristAttractionsService
+        .createOrEdite(data, `TA_${slug}`)
+        .then((response) => {
+          this.closeModal.emit("");
+        });
+    }
   }
-  updateModel(url, name, form){
-    const data:TouristAttractionsModel =  new TouristAttractionsModel();
-    data.setName(form.controls.name.value);
+  updateModel(url, slug, form) {
+    const data: TouristAttractionsModel = new TouristAttractionsModel();
+    data.setName(this.documentToEdit ? this.documentToEdit.name : form.controls.name.value);
     data.setTypePlace(form.controls.typePlace.value);
     data.setDescription(form.controls.description.value);
     data.setZone(form.controls.zone.value);
@@ -87,9 +101,9 @@ export class CreateTouristAttractionsComponent  implements OnInit{
     data.setWeather(form.controls.weather.value);
     data.setAditionalInformation(form.controls.aditionalInformation.value);
     data.setRecomendations(form.controls.recomendations.value);
-    data.setUrl_slug(name);
+    data.setUrl_slug(slug);
     data.setImage_profile(url);
-    
+
     return JSON.parse(JSON.stringify(data));
   }
 
@@ -103,7 +117,7 @@ export class CreateTouristAttractionsComponent  implements OnInit{
     this.fileToUpload = files.item(0);
   }
 
-  createMassive(){
+  createMassive() {
     let workbook: Workbook = new ExcelJS.Workbook();
     const arryBuffer = new Response(this.fileToUpload).arrayBuffer();
     arryBuffer.then((data) => {
@@ -112,7 +126,6 @@ export class CreateTouristAttractionsComponent  implements OnInit{
           const worksheet = workbook.getWorksheet('ATRACTIVO');
           worksheet.eachRow((row, rowNumber) => {
             if (rowNumber !== 1) {
-              console.log(row.values)
               this.formData.setValue({
                 name: row.values[2],
                 typePlace: row.values[3],
@@ -124,14 +137,10 @@ export class CreateTouristAttractionsComponent  implements OnInit{
                 weather: row.values[9],
                 aditionalInformation: row.values[10],
                 recomendations: row.values[10]
-              });
+              });              
               const name = this.formData.controls.name.value.toLowerCase().replace(/ /g, "-")
               let data = this.updateModel('', name, this.formData);
-              this.touristAttractionsService.create(data, `T_${name}`)
-              .then((response) => {
-                // this.formData.reset();
-                // this.closeModal.emit("");
-              });
+              this.createOrEditeTouristAttractions('', true, data);
             }
           });
           this.closeModal.emit("");

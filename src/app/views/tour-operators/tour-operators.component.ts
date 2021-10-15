@@ -12,6 +12,7 @@ export class TourOperatorsComponent implements OnInit{
 
   modalRef?: BsModalRef;
   touristProvidersData = [];
+  documentToEdit = {};
   constructor(private modalService: BsModalService,
     private tourOperatorsService: TourOperatorsService) { }
 
@@ -26,7 +27,8 @@ export class TourOperatorsComponent implements OnInit{
       }); 
     })
   }
-  openModal(template: TemplateRef<any>) {
+  openModal(template: TemplateRef<any>, documentToEdit?) {
+    this.documentToEdit = documentToEdit;
     this.modalRef = this.modalService.show(template);
     this.modalRef.setClass('modal-lg');
   }

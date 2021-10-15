@@ -8,33 +8,43 @@ import { TouristAttractionsService } from '../../services/tourist-attractions/to
   templateUrl: 'tourist-attractions.component.html',
   styleUrls: ['./tourist-attractions.component.css']
 })
-export class TouristAttractionsComponent implements OnInit{
+export class TouristAttractionsComponent implements OnInit {
 
   modalRef?: BsModalRef;
   touristProvidersData = [];
   returnedArray?: string[];
+  documentToEdit = {};
   constructor(private modalService: BsModalService,
     private touristAttractionsService: TouristAttractionsService) { }
 
-  ngOnInit(){
+  ngOnInit() {
     this.loadData();
   }
-  loadData(){
+  loadData() {
     this.touristAttractionsService.get().subscribe(response => {
       this.touristProvidersData = [];
       response.forEach(element => {
         this.touristProvidersData.push(element.payload.doc.data());
-      }); 
+      });
       this.returnedArray = this.touristProvidersData.slice(0, 10);
     })
   }
-  openModal(template: TemplateRef<any>) {
+  openModal(template: TemplateRef<any>, documentToEdit?) {
+    this.documentToEdit = documentToEdit;
     this.modalRef = this.modalService.show(template);
     this.modalRef.setClass('modal-lg');
   }
-  closeModal(){
+  closeModal() {
     this.modalRef.hide();
     this.loadData();
+  }
+  delete(slug) {
+    console.log(slug)
+    this.touristAttractionsService.delete(`TA_${slug}`).then(() => {
+      console.log("Document successfully deleted!");
+    }).catch((error) => {
+      console.error("Error removing document: ", error);
+    });;
   }
 
   pageChanged(event: PageChangedEvent): void {

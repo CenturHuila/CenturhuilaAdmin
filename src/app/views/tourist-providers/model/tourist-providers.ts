@@ -4,10 +4,6 @@ export class TouristProvidersModel {
     description: string;
     services: [string];
     rnt: string;
-    minPrice: number;
-    maxPrice: number;
-    latitude: string;
-    longitude: string;
     indications: string;
     township: string;
     zone: string;
@@ -17,7 +13,6 @@ export class TouristProvidersModel {
     cellphone: number;
     address: string;
     url_slug: string;
-    weather: string;
     image_profile: string;
     email: string;
     aditionalInformation: string;
@@ -46,30 +41,6 @@ export class TouristProvidersModel {
     }
     getRnt():string{
         return this.rnt;
-    }
-    setMinPrice(value: number){
-        this.minPrice = value;
-    }
-    getMinPrice():number{
-        return this.minPrice;
-    }
-    setMaxPrice(value: number){
-        this.maxPrice = value;
-    }
-    getMaxPrice():number{
-        return this.maxPrice;
-    }
-    setLatitude(value: string){
-        this.latitude = value;
-    }
-    getLatitude():string{
-        return this.latitude;
-    }
-    setLongitude(value: string){
-        this.longitude = value;
-    }
-    getLongitude():string{
-        return this.longitude;
     }
     setIndications(value: string){
         this.indications = value;
@@ -124,13 +95,7 @@ export class TouristProvidersModel {
     }
     getUrl_slug():string{
         return this.url_slug;
-    }
-    setWeather(value: string){
-        this.weather = value;
-    }
-    getWeather():string{
-        return this.weather;
-    }
+    }    
     setEmail(value: string){
         this.email = value;
     }

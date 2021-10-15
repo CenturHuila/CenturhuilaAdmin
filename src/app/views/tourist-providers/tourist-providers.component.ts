@@ -29,7 +29,7 @@ export class TouristProvidersComponent implements OnInit{
       this.returnedArray = this.touristProvidersData.slice(0, 10);
     })
   }
-  openModal(template: TemplateRef<any>, documentToEdit) {
+  openModal(template: TemplateRef<any>, documentToEdit?) {
     this.documentToEdit = documentToEdit;
     this.modalRef = this.modalService.show(template);
     this.modalRef.setClass('modal-lg');
@@ -37,6 +37,14 @@ export class TouristProvidersComponent implements OnInit{
   closeModal(){
     this.modalRef.hide();
     this.loadData();
+  }
+  delete(slug) {
+    console.log(slug)
+    this.touristProvidersService.delete(`T_${slug}`).then(() => {
+      console.log("Document successfully deleted!");
+    }).catch((error) => {
+      console.error("Error removing document: ", error);
+    });;
   }
 
   pageChanged(event: PageChangedEvent): void {

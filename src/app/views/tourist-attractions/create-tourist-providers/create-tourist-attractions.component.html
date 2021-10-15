@@ -1,6 +1,6 @@
 
-<div class="card" *ngIf="modalType === 'create'">
-  <app-image-cropper (imageBase64)="imgSelect($event)" [imageIn]="imageIn"></app-image-cropper>
+<div class="card" *ngIf="modalType === 'createOrEdit'">
+  <app-image-cropper (imageBase64)="imgSelect($event)" (imageFile)="imageFile($event)" [imageIn]="imageIn" ></app-image-cropper>
   <form [formGroup]="formData">
     <div class="row card-body">
       <div class="form-group col-sm-6">
@@ -8,40 +8,40 @@
         <input type="text" class="form-control" id="name" placeholder="Ingresa tu nombre" formControlName="name">
       </div>
       <div class="form-group col-sm-6">
+        <label for="typePlace">Tipo de lugar</label>
+        <input type="text" class="form-control" id="typePlace" placeholder="Clima" formControlName="typePlace">
+      </div>
+      <div class="form-group col-sm-6">
         <label for="description">Descripción</label>
         <textarea id="description" name="description" rows="3" placeholder="Descripción..." class="form-control" formControlName="description"></textarea>
-      </div>
-      <div class="form-group col-sm-6">
-        <label for="latitude">Latitud</label>
-        <input type="text" class="form-control" id="latitude" placeholder="Ingresa tu ubicación" formControlName="latitude">
-      </div>
-      <div class="form-group col-sm-6">
-        <label for="longitude">longitud</label>
-        <input type="text" class="form-control" id="longitude" placeholder="Ingresa tu ubicación" formControlName="longitude">
-      </div>
-      <div class="form-group col-sm-6">
-        <label for="indications">Indicaciones</label>
-        <input type="text" class="form-control" id="indications" placeholder="Ingresa tu indicaciones" formControlName="indications">
-      </div>
-      <div class="form-group col-sm-6">
-        <label for="township">Ciudad</label>
-        <input type="text" class="form-control" id="township" placeholder="Ingresa tu ciudad" formControlName="township">
       </div>
       <div class="form-group col-sm-6">
         <label for="zone">Zona</label>
         <input type="text" class="form-control" id="zone" placeholder="Ingresa tu zona" formControlName="zone">
       </div>
       <div class="form-group col-sm-6">
+        <label for="township">Ciudad</label>
+        <input type="text" class="form-control" id="township" placeholder="Ingresa tu ciudad" formControlName="township">
+      </div>
+      <div class="form-group col-sm-6">
+        <label for="address">Dirección</label>
+        <input type="text" class="form-control" id="address" placeholder="Dirección" formControlName="address">
+      </div>
+      <div class="form-group col-sm-6">
+        <label for="indications">Indicaciones</label>
+        <input type="text" class="form-control" id="indications" placeholder="Ingresa tu indicaciones" formControlName="indications">
+      </div>
+      <div class="form-group col-sm-6">
         <label for="weather">Clima</label>
         <input type="text" class="form-control" id="weather" placeholder="Clima" formControlName="weather">
       </div>
       <div class="form-group col-sm-6">
-        <label for="recomendations">Recomendación</label>
-        <textarea id="recomendations" name="recomendations" rows="3" placeholder="Recomendación..." class="form-control" formControlName="recomendations"></textarea>
+        <label for="aditionalInformation">Información adicional</label>
+        <textarea id="aditionalInformation" name="aditionalInformation" rows="3" placeholder="Información adicional..." class="form-control" formControlName="aditionalInformation"></textarea>
       </div>
       <div class="form-group col-sm-6">
-        <label for="typePlace">Tipo de lugar</label>
-        <input type="text" class="form-control" id="typePlace" placeholder="Clima" formControlName="typePlace">
+        <label for="recomendations">Recomendaciones</label>
+        <textarea id="recomendations" name="recomendations" rows="3" placeholder="Recomendaciones..." class="form-control" formControlName="recomendations"></textarea>
       </div>
     </div>
   </form>
@@ -55,6 +55,6 @@
 </div>
 <div class="row">
   <div class="offset-8 col-4 content-button-create">
-    <button type="button" class="btn btn-pill btn-block btn-success" (click)="modalType === 'create' ? createTouristAttractions() : createMassive()"><i class="fa fa-plus"></i> {{modalType === 'create' ? 'Crear' : 'Importar' }}</button>
+    <button type="button" class="btn btn-pill btn-block btn-success" (click)="save()"><i class="fa fa-plus"></i> {{textbutton}}</button>
   </div>
 </div>

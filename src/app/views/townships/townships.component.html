@@ -16,6 +16,7 @@
           <th>Zona</th>
           <th>Clima</th>
           <th>población</th>
+          <th>Acciones</th>
         </tr>
       </thead>
       <tbody>
@@ -24,9 +25,27 @@
           <td>{{touristProvider.zone}}</td>
           <td>{{touristProvider.weather}}</td>
           <td>{{touristProvider.population}}</td>
-          <!-- <td>
-            <span class="badge badge-success">Active</span>
-          </td> -->
+          <td>
+            <div class="btn-group" dropdown container="body">
+              <button id="button-container" dropdownToggle type="button" class="btn btn-primary dropdown-toggle"
+                aria-controls="dropdown-container">
+                <span>
+                  Acciones
+                </span>
+                <span class="caret"></span>
+              </button>
+              <ul id="dropdown-container" *dropdownMenu class="dropdown-menu" role="menu"
+                aria-labelledby="button-container">
+                <li role="menuitem" style="cursor:pointer">
+                  <a class="dropdown-item" (click)="openModal(CreateProviders, touristProvider)">Editar</a>
+                </li>
+                <li role="menuitem" style="cursor:pointer">
+                  <a class="dropdown-item" (click)="delete(touristProvider.url_slug)">Eliminar</a>
+
+                </li>
+              </ul>
+            </div>
+          </td>
         </tr>
       </tbody>
     </table>
@@ -59,7 +78,7 @@
     </button>
   </div>
   <div class="modal-body">
-    <app-create-townships [modalType]="'create'" (closeModal)="closeModal()"></app-create-townships>
+    <app-create-townships [modalType]="'createOrEdit'" [documentToEdit]="documentToEdit" (closeModal)="closeModal()"></app-create-townships>
   </div>
 </ng-template>
 

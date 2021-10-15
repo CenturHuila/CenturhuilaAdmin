@@ -17,9 +17,12 @@ export class TouristAttractionsService {
     private storage: AngularFireStorage
   ) {}
   // Crea un nuevo dato
-  public create(data: any, document: string): any {
-      console.log(data)
+  public createOrEdite(data: any, document: string): any {
     return this.firestore.collection(environment.collection.touristAttractions).doc(document).set(data);
+  }
+  // Eliminar un dato
+  public delete(document: string): any {
+    return this.firestore.collection(environment.collection.touristAttractions).doc(document).delete();
   }
 //   // Obtiene un dato
 //   public getbyId(documentId: string, collection: string): any {
@@ -34,10 +37,10 @@ export class TouristAttractionsService {
       .collection(environment.collection.touristAttractions)
       .snapshotChanges();
   }
-//   // Actualiza un dato
-//   public update(documentId: string, data: any, collection: string): any {
-//     return this.firestore.collection(collection).doc(documentId).set(data);
-//   }
+  // Actualiza un dato
+  // public update(document: string, data: any): any {
+  //   return this.firestore.collection(environment.collection.touristAttractions).doc(document).set(data);
+  // }
 
 //   // Tarea para subir archivo
 //   public tareaCloudStorage(nombreArchivo: string, datos: any): any {
