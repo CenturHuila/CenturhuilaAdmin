@@ -25,11 +25,6 @@ export const navItems: INavData[] = [
     icon: 'icon-speedometer'
   },
   {
-    name: 'Agencias de viajes',
-    url: '/agencias-de-viajes',
-    icon: 'icon-speedometer'
-  },
-  {
     name: 'Municipios',
     url: '/municipios',
     icon: 'icon-speedometer'

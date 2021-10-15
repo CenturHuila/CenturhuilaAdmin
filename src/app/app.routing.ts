@@ -5,9 +5,6 @@ import { Routes, RouterModule } from '@angular/router';
 import { DefaultLayoutComponent } from './containers';
 
 import { P404Component } from './views/error/404.component';
-import { P500Component } from './views/error/500.component';
-import { LoginComponent } from './views/login/login.component';
-import { RegisterComponent } from './views/register/register.component';
 
 export const routes: Routes = [
   {
@@ -57,10 +54,6 @@ export const routes: Routes = [
       {
         path: 'atractivos-turisticos',
         loadChildren: () => import('./views/tourist-attractions/tourist-attractions.module').then(m => m.TouristAttractionsModule)
-      },
-      {
-        path: 'agencias-de-viajes',
-        loadChildren: () => import('./views/tour-operators/tour-operators.module').then(m => m.TourOperatorsModule)
       },
       {
         path: 'municipios',
