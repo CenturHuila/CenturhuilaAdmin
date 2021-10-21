@@ -136,7 +136,7 @@ export class CreateTouristAttractionsComponent implements OnInit {
                 indications: row.values[8],
                 weather: row.values[9],
                 aditionalInformation: row.values[10],
-                recomendations: row.values[10]
+                recomendations: row.values[11]
               });              
               const name = this.formData.controls.name.value.toLowerCase().replace(/ /g, "-")
               let data = this.updateModel('', name, this.formData);
