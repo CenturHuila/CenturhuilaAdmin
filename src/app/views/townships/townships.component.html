@@ -2,10 +2,10 @@
   <div class="card-header">
     <i class="fa fa-align-justify"></i> Municipios
     <div class="content-button-create d-flex">
-      <button type="button" class="btn btn-pill btn-block btn-success" (click)="openModal(CreateProviders)"><i
+      <button type="button" class="btn btn-pill btn-block btn-success" (click)="openModal(CreateTownship)"><i
           class="fa fa-plus"></i> Crear</button>
       <button type="button" class="btn btn-pill btn-block btn-success m-0"
-        (click)="openModal(CreateProvidersMassive)"><i class="fa fa-plus"></i> Importar</button>
+        (click)="openModal(CreateTownshipMassive)"><i class="fa fa-plus"></i> Importar</button>
     </div>
   </div>
   <div class="card-body">
@@ -20,11 +20,11 @@
         </tr>
       </thead>
       <tbody>
-        <tr *ngFor="let touristProvider of returnedArray">
-          <td>{{touristProvider.name}}</td>
-          <td>{{touristProvider.zone}}</td>
-          <td>{{touristProvider.weather}}</td>
-          <td>{{touristProvider.population}}</td>
+        <tr *ngFor="let township of returnedArray">
+          <td>{{township.name}}</td>
+          <td>{{township.zone}}</td>
+          <td>{{township.weather}}</td>
+          <td>{{township.population}}</td>
           <td>
             <div class="btn-group" dropdown container="body">
               <button id="button-container" dropdownToggle type="button" class="btn btn-primary dropdown-toggle"
@@ -37,11 +37,10 @@
               <ul id="dropdown-container" *dropdownMenu class="dropdown-menu" role="menu"
                 aria-labelledby="button-container">
                 <li role="menuitem" style="cursor:pointer">
-                  <a class="dropdown-item" (click)="openModal(CreateProviders, touristProvider)">Editar</a>
+                  <a class="dropdown-item" (click)="openModal(CreateTownship, township)">Editar</a>
                 </li>
                 <li role="menuitem" style="cursor:pointer">
-                  <a class="dropdown-item" (click)="delete(touristProvider.url_slug)">Eliminar</a>
-
+                  <a class="dropdown-item" (click)="openAlertDelete(AlertDelete, township.url_slug)">Eliminar</a>
                 </li>
               </ul>
             </div>
@@ -70,7 +69,7 @@
   </div>
 </div>
 
-<ng-template #CreateProviders>
+<ng-template #CreateTownship>
   <div class="modal-header">
     <h4 class="modal-title pull-left">Crear municipio</h4>
     <button type="button" class="btn-close close pull-right" aria-label="Close" (click)="modalRef?.hide()">
@@ -82,7 +81,25 @@
   </div>
 </ng-template>
 
-<ng-template #CreateProvidersMassive>
+<ng-template #AlertDelete>
+    
+  <div class="modal-header mh">
+    <div class="text-center w-100">
+      <h4 class="modal-title ">¿Esta seguro que desea eliminar? </h4>
+    </div>
+    <button type="button" class="btn-close close pull-right bx" aria-label="Close" (click)="modalRef?.hide()">
+      <span aria-hidden="true" class="visually-hidden">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body d-flex justify-content-center">
+    <button type="button" class="btn btn-pill btn-block btn-danger m-0 size"
+      (click)="delete()"><i class="cil-trash"></i> Eliminar</button>
+    <button type="button" class="btn btn-pill btn-block btn-success m-0 size "
+    (click)="closeModal()" ><i class="cil-x-circle"></i> Cancelar</button>
+  </div>
+</ng-template>
+
+<ng-template #CreateTownshipMassive>
   <div class="modal-header">
     <h4 class="modal-title pull-left">Importar</h4>
     <button type="button" class="btn-close close pull-right" aria-label="Close" (click)="modalRef?.hide()">

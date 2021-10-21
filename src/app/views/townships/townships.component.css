@@ -4,3 +4,17 @@
   right: 5px;
   top: 5px;
 }
+.size{
+  width: 40%;
+  margin-right: 3em !important;
+}
+.bx{
+  position: absolute;
+  right: 10px;
+  top: 15px;
+}
+
+.mh{
+  justify-content: center !important;
+  
+}

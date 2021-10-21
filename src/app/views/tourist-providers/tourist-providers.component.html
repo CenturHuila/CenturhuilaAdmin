@@ -40,7 +40,7 @@
                   <a class="dropdown-item" (click)="openModal(CreateProviders, touristProvider)">Editar</a>
                 </li>
                 <li role="menuitem" style="cursor:pointer">
-                  <a class="dropdown-item" (click)="delete(touristProvider.url_slug)">Eliminar</a>
+                  <a class="dropdown-item" (click)="openAlertDelete(AlertDelete, touristProvider.url_slug)">Eliminar</a>
                 </li>
               </ul>
             </div>
@@ -78,6 +78,23 @@
   </div>
   <div class="modal-body">
     <app-create-tourist-providers [modalType]="'createOrEdit'" [documentToEdit]="documentToEdit" (closeModal)="closeModal()"></app-create-tourist-providers>
+  </div>
+</ng-template>
+<ng-template #AlertDelete>
+    
+  <div class="modal-header mh">
+    <div class="text-center w-100">
+      <h4 class="modal-title ">¿Esta seguro que desea eliminar? </h4>
+    </div>
+    <button type="button" class="btn-close close pull-right bx" aria-label="Close" (click)="modalRef?.hide()">
+      <span aria-hidden="true" class="visually-hidden">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body d-flex justify-content-center">
+    <button type="button" class="btn btn-pill btn-block btn-danger m-0 size"
+      (click)="delete()"><i class="cil-trash"></i> Eliminar</button>
+    <button type="button" class="btn btn-pill btn-block btn-success m-0 size "
+    (click)="closeModal()" ><i class="cil-x-circle"></i> Cancelar</button>
   </div>
 </ng-template>
 

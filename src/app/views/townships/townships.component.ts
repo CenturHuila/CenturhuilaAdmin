@@ -14,6 +14,7 @@ export class TownshipsComponent implements OnInit{
   touristProvidersData = [];
   returnedArray?: string[];
   documentToEdit = {};
+  documentToDelete: string;
   constructor(private modalService: BsModalService,
     private townshipsService: TownshipsService) { }
 
@@ -34,14 +35,20 @@ export class TownshipsComponent implements OnInit{
     this.modalRef = this.modalService.show(template);
     this.modalRef.setClass('modal-lg');
   }
+  openAlertDelete(template: TemplateRef<any>, documentToDelete) {
+    this.documentToDelete = documentToDelete;
+    this.modalRef = this.modalService.show(template);
+    this.modalRef.setClass('modal-lg');
+  }
   closeModal(){
     this.modalRef.hide();
     this.loadData();
   }
-  delete(slug) {
-    console.log(slug)
-    this.townshipsService.delete(`T_${slug}`).then(() => {
-      console.log("Document successfully deleted!");
+  delete() {
+    console.log()
+    this.townshipsService.delete(`T_${this.documentToDelete}`).then(() => {
+      this.documentToDelete = "";
+      this.modalService.hide();
     }).catch((error) => {
       console.error("Error removing document: ", error);
     });;

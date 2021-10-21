@@ -2,10 +2,10 @@
   <div class="card-header">
     <i class="fa fa-align-justify"></i> Atractivos turísticos
     <div class="content-button-create d-flex">
-      <button type="button" class="btn btn-pill btn-block btn-success" (click)="openModal(CreateProviders)"><i
+      <button type="button" class="btn btn-pill btn-block btn-success" (click)="openModal(CreateTouristAttractions)"><i
           class="fa fa-plus"></i> Crear</button>
       <button type="button" class="btn btn-pill btn-block btn-success m-0"
-        (click)="openModal(CreateProvidersMassive)"><i class="fa fa-plus"></i> Importar</button>
+        (click)="openModal(CreateTouristAttractionsMassive)"><i class="fa fa-plus"></i> Importar</button>
     </div>
   </div>
   <div class="card-body">
@@ -20,11 +20,11 @@
         </tr>
       </thead>
       <tbody>
-        <tr *ngFor="let touristProvider of returnedArray">
-          <td>{{touristProvider.name}}</td>
-          <td>{{touristProvider.township}}</td>
-          <td>{{touristProvider.zone}}</td>
-          <td>{{touristProvider.type_place}}</td>
+        <tr *ngFor="let touristAttractions of returnedArray">
+          <td>{{touristAttractions.name}}</td>
+          <td>{{touristAttractions.township}}</td>
+          <td>{{touristAttractions.zone}}</td>
+          <td>{{touristAttractions.type_place}}</td>
           <td>
             <div class="btn-group" dropdown container="body">
               <button id="button-container" dropdownToggle type="button" class="btn btn-primary dropdown-toggle"
@@ -37,12 +37,10 @@
               <ul id="dropdown-container" *dropdownMenu class="dropdown-menu" role="menu"
                 aria-labelledby="button-container">
                 <li role="menuitem" style="cursor:pointer">
-                  <a class="dropdown-item" (click)="openModal(CreateProviders, touristProvider)">Editar</a>
+                  <a class="dropdown-item" (click)="openModal(CreateTouristAttractions, touristAttractions)">Editar</a>
                 </li>
                 <li role="menuitem" style="cursor:pointer">
-                  <a class="dropdown-item" (click)="openAlertDelete(AlertDelete, touristProvider.url_slug)">Eliminar</a>
-
-                  <!-- <a class="dropdown-item" (click)="delete(touristProvider.url_slug)">Eliminar</a> -->
+                  <a class="dropdown-item" (click)="openAlertDelete(AlertDelete, touristAttractions.url_slug)">Eliminar</a>
                 </li>
               </ul>
             </div>
@@ -71,7 +69,7 @@
   </div>
 </div>
 
-<ng-template #CreateProviders>
+<ng-template #CreateTouristAttractions>
   <div class="modal-header">
     <h4 class="modal-title pull-left">Crear atractivos turisticos </h4>
     <button type="button" class="btn-close close pull-right" aria-label="Close" (click)="modalRef?.hide()">
@@ -97,12 +95,12 @@
   <div class="modal-body d-flex justify-content-center">
     <button type="button" class="btn btn-pill btn-block btn-danger m-0 size"
       (click)="delete()"><i class="cil-trash"></i> Eliminar</button>
-    <button type="button" class="btn btn-pill btn-block btn-success m-0 size"
-      (closeModal)="closeModal()"><i class="cil-x-circle"></i> Cancelar</button>
+    <button type="button" class="btn btn-pill btn-block btn-success m-0 size "
+    (click)="closeModal()" ><i class="cil-x-circle"></i> Cancelar</button>
   </div>
 </ng-template>
 
-<ng-template #CreateProvidersMassive>
+<ng-template #CreateTouristAttractionsMassive>
   <div class="modal-header">
     <h4 class="modal-title pull-left">Importar</h4>
     <button type="button" class="btn-close close pull-right" aria-label="Close" (click)="modalRef?.hide()">
