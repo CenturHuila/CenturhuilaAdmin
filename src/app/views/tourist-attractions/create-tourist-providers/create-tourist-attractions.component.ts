@@ -23,6 +23,45 @@ export class CreateTouristAttractionsComponent implements OnInit {
   fileToUpload: File | null = null;
   imageLoaded = false;
   textbutton = 'Crear';
+  galery: any[] = [];
+  afuConfig = {
+    multiple: true,
+    formatsAllowed: ".jpg,.png",
+    maxSize: "1",
+    uploadAPI: {
+      url: "",
+      //   method:"POST",
+      //   headers: {
+      //  "Content-Type" : "text/plain;charset=UTF-8",
+      //  "Authorization" : `Bearer ${token}`
+      //   },
+      //   params: {
+      //     'page': '1'
+      //   },
+      //   responseType: 'blob',
+      //   withCredentials: false,
+    },
+    theme: "dragNDrop",
+    hideProgressBar: true,
+    hideResetBtn: true,
+    hideSelectBtn: false,
+    fileNameIndex: true,
+    autoUpload: false,
+    replaceTexts: {
+      selectFileBtn: 'Selecciona las imagenes',
+      resetBtn: 'Reset',
+      uploadBtn: 'Upload',
+      dragNDropBox: 'Arrastra tus imagenes o da click en el botón',
+      attachPinBtn: 'Attach Files...',
+      afterUploadMsg_success: 'Successfully Uploaded !',
+      afterUploadMsg_error: 'Upload Failed !',
+      sizeLimit: 'Size Limit'
+    }
+  };
+
+
+
+
   constructor(
     private readonly formBuilder: FormBuilder,
     private touristAttractionsService: TouristAttractionsService,
@@ -30,16 +69,16 @@ export class CreateTouristAttractionsComponent implements OnInit {
 
   ngOnInit() {
     this.loadForm(this.documentToEdit ? this.documentToEdit : '');
-    if(this.documentToEdit){
+    if (this.documentToEdit) {
       this.textbutton = "Guardar";
-    } else if(this.modalType !== 'createOrEdit'){
+    } else if (this.modalType !== 'createOrEdit') {
       this.textbutton = "Importar";
     }
   }
 
   loadForm(data?) {
     this.formData = this.formBuilder.group({
-      name: [{value: data ? data.name : '', disabled: data ? true : false}, [Validators.required]],
+      name: [{ value: data ? data.name : '', disabled: data ? true : false }, [Validators.required]],
       typePlace: [data ? data.typePlace : '', [Validators.required]],
       description: [data ? data.description : '', [Validators.required]],
       zone: [data ? data.zone : '', [Validators.required]],
@@ -52,44 +91,61 @@ export class CreateTouristAttractionsComponent implements OnInit {
     });
     this.imageIn = data.image_profile;
   }
-  save(){
-    if (this.modalType === 'createOrEdit'){
+  save() {
+    if (this.modalType === 'createOrEdit') {
       this.createOrEditeTouristAttractions();
-    } else{
+    } else {
       this.createMassive();
     }
   }
   createOrEditeTouristAttractions(url?, imageLoaded?, dataMassive?) {
     let data;
     const slug = this.formData.controls.name.value.toLowerCase().replace(/ /g, "-")
-    if (this.fileImage && !imageLoaded) {
-      this.loadFilesService
+    // if (this.fileImage && !imageLoaded) {
+    // this.loadFilesService
+    //   .uploadFileStorage(
+    //     `touristAttractions/${slug}/img/p-${slug}.png`,
+    //     this.fileImage
+    //   )
+    //   .then((response) => {
+    //     this.loadFilesService
+    //       .referenciaCloudStorage(
+    //         `touristAttractions/${slug}/img/p-${slug}.png`
+    //       )
+    //       .getDownloadURL()
+    //       .subscribe((url) => {
+    //         this.createOrEditeTouristAttractions(url, true);
+    //       });
+    //   }).catch((err) => {
+    //   });;
+    // } else {
+
+
+    // url = !this.fileImage && this.documentToEdit && this.documentToEdit.image_profile ? this.documentToEdit.image_profile : url
+    data = dataMassive ? dataMassive : this.updateModel(slug, this.formData);
+    this.touristAttractionsService
+      .createOrEdite(data, `TA_${slug}`)
+      .then((response) => {
+        this.closeModal.emit("");
+      });
+    // }
+  }
+  loadImage(url: string, data: any[]): Promise<any> {
+     for(let image of data){       
+      return this.loadFilesService
         .uploadFileStorage(
-          `touristAttractions/${slug}/img/p-${slug}.png`,
-          this.fileImage
+          `${url}`, image
         )
         .then((response) => {
-          this.loadFilesService
+          return this.loadFilesService
             .referenciaCloudStorage(
-              `touristAttractions/${slug}/img/p-${slug}.png`
+              `${url}`
             )
             .getDownloadURL()
-            .subscribe((url) => {
-              this.createOrEditeTouristAttractions(url, true);
-            });
-        }).catch((err) => {
-        });;
-    } else {
-      url = !this.fileImage && this.documentToEdit && this.documentToEdit.image_profile ? this.documentToEdit.image_profile : url
-      data = dataMassive ? dataMassive : this.updateModel(url, slug, this.formData);
-      this.touristAttractionsService
-        .createOrEdite(data, `TA_${slug}`)
-        .then((response) => {
-          this.closeModal.emit("");
-        });
-    }
+            })
+    };
   }
-  updateModel(url, slug, form) {
+  async updateModel(slug, form) {
     const data: TouristAttractionsModel = new TouristAttractionsModel();
     data.setName(this.documentToEdit ? this.documentToEdit.name : form.controls.name.value);
     data.setTypePlace(form.controls.typePlace.value);
@@ -102,7 +158,12 @@ export class CreateTouristAttractionsComponent implements OnInit {
     data.setAditionalInformation(form.controls.aditionalInformation.value);
     data.setRecomendations(form.controls.recomendations.value);
     data.setUrl_slug(slug);
-    data.setImage_profile(url);
+    await this.loadImage(`touristAttractions/${slug}/img/p-${slug}.png`, [this.fileImage]).then(urlImage => {
+      urlImage.subscribe(url => {
+        console.log(url)
+        data.setImage_profile(url)})
+      
+    })
 
     return JSON.parse(JSON.stringify(data));
   }
@@ -115,6 +176,27 @@ export class CreateTouristAttractionsComponent implements OnInit {
   }
   handleFileInput(files: FileList) {
     this.fileToUpload = files.item(0);
+  }
+
+  fileSelected(event) {
+    event.preventDefault();
+    if (event.dataTransfer.items) {
+      // Use DataTransferItemList interface to access the file(s)
+      for (var i = 0; i < event.dataTransfer.items.length; i++) {
+        // If dropped items aren't files, reject them
+        if (event.dataTransfer.items[i].kind === 'file') {
+          var file = event.dataTransfer.items[i].getAsFile();
+          this.galery.push(event.dataTransfer.items[i].getAsFile());
+          console.log(this.galery);
+        }
+      }
+    } else {
+      // Use DataTransfer interface to access the file(s)
+      for (var i = 0; i < event.dataTransfer.files.length; i++) {
+        console.log('... file[' + i + '].name = ' + event.dataTransfer.files[i].name);
+      }
+    }
+
   }
 
   createMassive() {
@@ -137,9 +219,9 @@ export class CreateTouristAttractionsComponent implements OnInit {
                 weather: row.values[9],
                 aditionalInformation: row.values[10],
                 recomendations: row.values[11]
-              });              
-              const name = this.formData.controls.name.value.toLowerCase().replace(/ /g, "-")
-              let data = this.updateModel('', name, this.formData);
+              });
+              const slug = this.formData.controls.name.value.toLowerCase().replace(/ /g, "-")
+              let data = this.updateModel(slug, this.formData);
               this.createOrEditeTouristAttractions('', true, data);
             }
           });

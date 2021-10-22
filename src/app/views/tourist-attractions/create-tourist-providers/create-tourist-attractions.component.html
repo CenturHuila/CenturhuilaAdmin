@@ -45,6 +45,14 @@
       </div>
     </div>
   </form>
+  
+
+<angular-file-uploader 
+[config]="afuConfig"
+[resetUpload]=resetVar
+(fileSelected)="fileSelected($event)"
+(ApiResponse)="docUpload($event)">
+</angular-file-uploader>
 </div>
 <div class="card" *ngIf="modalType === 'createMassive'">
   <form>
