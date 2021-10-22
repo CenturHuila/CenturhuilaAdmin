@@ -74,7 +74,6 @@ import { TouristProvidersService } from './services/tourist-providers/tourist-pr
     ...APP_CONTAINERS,
     P404Component,
     P500Component,
-    LoginComponent,
     RegisterComponent
   ],
   providers: [
