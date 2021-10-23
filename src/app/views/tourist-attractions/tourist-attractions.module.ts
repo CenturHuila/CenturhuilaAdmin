@@ -51,10 +51,9 @@ import { DragAndDropDirective } from '../dragAndDropImage/Directive/dragAndDrop.
     ProgressbarModule.forRoot(),
     TooltipModule.forRoot(),
     ImageCropperModalModule,
-    
     AngularFileUploaderModule,
   ],
   declarations:[CreateTouristAttractionsComponent, TouristAttractionsComponent, DragAndDropComponent,DragAndDropDirective],
-  exports: [DragAndDropDirective]
+  exports: [DragAndDropDirective],
 })
 export class TouristAttractionsModule { }

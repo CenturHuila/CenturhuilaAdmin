@@ -48,7 +48,6 @@ export class ImageCropperModalComponent implements OnInit{
     const base64 = this.imageModal.split(',')[1];
     const imageBlob = this.dataURItoBlob(base64);
     const imageFile = new File([imageBlob], imageName, { type: 'image/png' });
-    console.log(imageFile)
     this.imageBase64.emit(this.imageModal);
     this.imageFile.emit(imageFile);
     this.closeModalPhoto();

@@ -22,44 +22,45 @@ export class CreateTouristAttractionsComponent implements OnInit {
   closeModal = new EventEmitter();
   fileToUpload: File | null = null;
   imageLoaded = false;
+  first = true;
   textbutton = 'Crear';
   url = 'Crear';
   galery: any[] = [];
   galeryUrl: string[] = [];
-  afuConfig = {
-    multiple: true,
-    formatsAllowed: ".jpg,.png",
-    maxSize: "1",
-    uploadAPI: {
-      url: "",
-      //   method:"POST",
-      //   headers: {
-      //  "Content-Type" : "text/plain;charset=UTF-8",
-      //  "Authorization" : `Bearer ${token}`
-      //   },
-      //   params: {
-      //     'page': '1'
-      //   },
-      //   responseType: 'blob',
-      //   withCredentials: false,
-    },
-    theme: "dragNDrop",
-    hideProgressBar: true,
-    hideResetBtn: true,
-    hideSelectBtn: false,
-    fileNameIndex: true,
-    autoUpload: false,
-    replaceTexts: {
-      selectFileBtn: 'Selecciona las imagenes',
-      resetBtn: 'Reset',
-      uploadBtn: 'Upload',
-      dragNDropBox: 'Arrastra tus imagenes o da click en el botón',
-      attachPinBtn: 'Attach Files...',
-      afterUploadMsg_success: 'Successfully Uploaded !',
-      afterUploadMsg_error: 'Upload Failed !',
-      sizeLimit: 'Size Limit'
-    }
-  };
+  // afuConfig = {
+  //   multiple: true,
+  //   formatsAllowed: ".jpg,.png",
+  //   maxSize: "1",
+  //   uploadAPI: {
+  //     url: "",
+  //     //   method:"POST",
+  //     //   headers: {
+  //     //  "Content-Type" : "text/plain;charset=UTF-8",
+  //     //  "Authorization" : `Bearer ${token}`
+  //     //   },
+  //     //   params: {
+  //     //     'page': '1'
+  //     //   },
+  //     //   responseType: 'blob',
+  //     //   withCredentials: false,
+  //   },
+  //   theme: "dragNDrop",
+  //   hideProgressBar: true,
+  //   hideResetBtn: true,
+  //   hideSelectBtn: false,
+  //   fileNameIndex: true,
+  //   autoUpload: false,
+  //   replaceTexts: {
+  //     selectFileBtn: 'Selecciona las imagenes',
+  //     resetBtn: 'Reset',
+  //     uploadBtn: 'Upload',
+  //     dragNDropBox: 'Arrastra tus imagenes o da click en el botón',
+  //     attachPinBtn: 'Attach Files...',
+  //     afterUploadMsg_success: 'Successfully Uploaded !',
+  //     afterUploadMsg_error: 'Upload Failed !',
+  //     sizeLimit: 'Size Limit'
+  //   }
+  // };
 
 
 
@@ -68,7 +69,7 @@ export class CreateTouristAttractionsComponent implements OnInit {
 
 
 
-  selectedFiles: any[] = [];
+  // selectedFiles: any[] = [];
   idImage: string;
 
 
@@ -108,6 +109,7 @@ export class CreateTouristAttractionsComponent implements OnInit {
       recomendations: [data ? data.recomendations : '', [Validators.required]]
     });
     this.imageIn = data.image_profile;
+    this.galeryUrl= data.image_galery;
   }
   save() {
     if (this.modalType === 'createOrEdit') {
@@ -125,10 +127,9 @@ export class CreateTouristAttractionsComponent implements OnInit {
       } else {
         this.loadImage(`touristAttractions/${slug}/img/p-${slug}.png`, this.fileImage).then(urlImage => urlImage.subscribe(url => {
           this.url = url
-          if (this.galery) {
+          if (this.galery.length > 0) {
+            
             this.galery.forEach(image =>{
-              console.log(image.name)
-              console.log(image.name)
               this.loadImage(`touristAttractions/${slug}/galery/${image.name}`, image).then(urlImage => urlImage.subscribe(url => {
                 this.galeryUrl.push(url);
                 this.createOrEditeTouristAttractions(true);
@@ -139,6 +140,16 @@ export class CreateTouristAttractionsComponent implements OnInit {
           }
         }))
       };
+      if (this.galery.length > 0 && !this.fileImage && this.documentToEdit && this.documentToEdit.image_profile){
+        this.galery.forEach(image =>{
+          this.loadImage(`touristAttractions/${slug}/galery/${image.name}`, image).then(urlImage => urlImage.subscribe(url => {
+            this.galeryUrl.push(url);
+            this.createOrEditeTouristAttractions(true);
+          }));
+        })
+      } else {
+        this.createOrEditeTouristAttractions(true);
+      }
     } else {
       data = dataMassive ? dataMassive : this.updateModel(slug, this.formData);
       this.touristAttractionsService
@@ -176,7 +187,6 @@ export class CreateTouristAttractionsComponent implements OnInit {
     data.setUrl_slug(slug);
     data.setImage_profile(this.url);
     data.setImage_galery(this.galeryUrl);
-    console.log(data);
     return JSON.parse(JSON.stringify(data));
   }
 
@@ -190,27 +200,25 @@ export class CreateTouristAttractionsComponent implements OnInit {
     this.fileToUpload = files.item(0);
   }
 
-  fileSelected(event) {
-    this.cdRef.detectChanges();
-    event.preventDefault();
-    if (event.dataTransfer.items) {
-      // Use DataTransferItemList interface to access the file(s)
-      for (var i = 0; i < event.dataTransfer.items.length; i++) {
-        // If dropped items aren't files, reject them
-        if (event.dataTransfer.items[i].kind === 'file') {
-          var file = event.dataTransfer.items[i].getAsFile();
-          this.galery.push(event.dataTransfer.items[i].getAsFile());
-          console.log(this.galery);
-        }
-      }
-    } else {
-      // Use DataTransfer interface to access the file(s)
-      for (var i = 0; i < event.dataTransfer.files.length; i++) {
-        console.log('... file[' + i + '].name = ' + event.dataTransfer.files[i].name);
-      }
-    }
+  // fileSelected(event) {
+  //   this.cdRef.detectChanges();
+  //   event.preventDefault();
+  //   if (event.dataTransfer.items) {
+  //     // Use DataTransferItemList interface to access the file(s)
+  //     for (var i = 0; i < event.dataTransfer.items.length; i++) {
+  //       // If dropped items aren't files, reject them
+  //       if (event.dataTransfer.items[i].kind === 'file') {
+  //         var file = event.dataTransfer.items[i].getAsFile();
+  //         this.galery.push(event.dataTransfer.items[i].getAsFile());
+  //       }
+  //     }
+  //   } else {
+  //     // Use DataTransfer interface to access the file(s)
+  //     for (var i = 0; i < event.dataTransfer.files.length; i++) {
+  //     }
+  //   }
 
-  }
+  // }
 
   createMassive() {
     let workbook: Workbook = new ExcelJS.Workbook();
@@ -250,11 +258,21 @@ export class CreateTouristAttractionsComponent implements OnInit {
 
   // funcion para recibir datos desde dropdrag
   receivedFile(event) {
-    this.selectedFiles = event;
+      this.galeryUrl = []
+      this.galery  = []
+    for(let img of event){
+      if(img.name){
+        this.galery.push(img);
+      } else {
+        this.galeryUrl.push(img);
+      }
+    }
+
   }
   // funcion para agregar un archivo a un examen ya creado
-  updateFile(event) {
-    if (this.idImage) {
+  // updateFile(event) {
+  //   this.galery = event;
+    // if (this.idImage) {
       // this.imageService.updateFile(event, this.idImage).subscribe(
       //   response => {
       //     this.selectedFiles = response.file;
@@ -266,8 +284,8 @@ export class CreateTouristAttractionsComponent implements OnInit {
       //     err.error.code ? this.globals.error(err.error.code) : this.globals.error(err.error.message);
       //   }
       // );
-    }
-  }
+    // }
+  // }
 
   // funcion para eliminar un archivo seleccionado
   deleteFile(event) {
