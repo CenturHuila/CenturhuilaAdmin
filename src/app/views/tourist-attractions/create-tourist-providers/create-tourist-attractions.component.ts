@@ -1,4 +1,4 @@
-import { Component, OnInit, EventEmitter, Output, Input } from '@angular/core';
+import { Component, OnInit, EventEmitter, Output, Input, ChangeDetectorRef } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { LoadFilesService } from '../../../services/load-files/load-files.service';
 import { TouristAttractionsService } from '../../../services/tourist-attractions/tourist-attractions.service';
@@ -23,7 +23,9 @@ export class CreateTouristAttractionsComponent implements OnInit {
   fileToUpload: File | null = null;
   imageLoaded = false;
   textbutton = 'Crear';
+  url = 'Crear';
   galery: any[] = [];
+  galeryUrl: string[] = [];
   afuConfig = {
     multiple: true,
     formatsAllowed: ".jpg,.png",
@@ -62,9 +64,25 @@ export class CreateTouristAttractionsComponent implements OnInit {
 
 
 
+
+
+
+
+  selectedFiles: any[] = [];
+  idImage: string;
+
+
+
+
+
+
+
+
+
   constructor(
     private readonly formBuilder: FormBuilder,
     private touristAttractionsService: TouristAttractionsService,
+    private cdRef: ChangeDetectorRef,
     private loadFilesService: LoadFilesService) { }
 
   ngOnInit() {
@@ -98,54 +116,52 @@ export class CreateTouristAttractionsComponent implements OnInit {
       this.createMassive();
     }
   }
-  createOrEditeTouristAttractions(url?, imageLoaded?, dataMassive?) {
+  createOrEditeTouristAttractions(imageLoaded?, dataMassive?) {
     let data;
     const slug = this.formData.controls.name.value.toLowerCase().replace(/ /g, "-")
-    // if (this.fileImage && !imageLoaded) {
-    // this.loadFilesService
-    //   .uploadFileStorage(
-    //     `touristAttractions/${slug}/img/p-${slug}.png`,
-    //     this.fileImage
-    //   )
-    //   .then((response) => {
-    //     this.loadFilesService
-    //       .referenciaCloudStorage(
-    //         `touristAttractions/${slug}/img/p-${slug}.png`
-    //       )
-    //       .getDownloadURL()
-    //       .subscribe((url) => {
-    //         this.createOrEditeTouristAttractions(url, true);
-    //       });
-    //   }).catch((err) => {
-    //   });;
-    // } else {
-
-
-    // url = !this.fileImage && this.documentToEdit && this.documentToEdit.image_profile ? this.documentToEdit.image_profile : url
-    data = dataMassive ? dataMassive : this.updateModel(slug, this.formData);
-    this.touristAttractionsService
-      .createOrEdite(data, `TA_${slug}`)
-      .then((response) => {
-        this.closeModal.emit("");
-      });
-    // }
-  }
-  loadImage(url: string, data: any[]): Promise<any> {
-     for(let image of data){       
-      return this.loadFilesService
-        .uploadFileStorage(
-          `${url}`, image
-        )
-        .then((response) => {
-          return this.loadFilesService
-            .referenciaCloudStorage(
-              `${url}`
-            )
-            .getDownloadURL()
+    if (!imageLoaded) {
+      if (!this.fileImage && this.documentToEdit && this.documentToEdit.image_profile) {
+        this.url = this.documentToEdit.image_profile
+      } else {
+        this.loadImage(`touristAttractions/${slug}/img/p-${slug}.png`, this.fileImage).then(urlImage => urlImage.subscribe(url => {
+          this.url = url
+          if (this.galery) {
+            this.galery.forEach(image =>{
+              console.log(image.name)
+              console.log(image.name)
+              this.loadImage(`touristAttractions/${slug}/galery/${image.name}`, image).then(urlImage => urlImage.subscribe(url => {
+                this.galeryUrl.push(url);
+                this.createOrEditeTouristAttractions(true);
+              }));
             })
-    };
+          } else {
+            this.createOrEditeTouristAttractions(true);
+          }
+        }))
+      };
+    } else {
+      data = dataMassive ? dataMassive : this.updateModel(slug, this.formData);
+      this.touristAttractionsService
+        .createOrEdite(data, `TA_${slug}`)
+        .then((response) => {
+          this.closeModal.emit("");
+        });
+    }
   }
-  async updateModel(slug, form) {
+  loadImage(url: string, image): Promise<any> {
+    return this.loadFilesService
+      .uploadFileStorage(
+        `${url}`, image
+      )
+      .then((response) => {
+        return this.loadFilesService
+          .referenciaCloudStorage(
+            `${url}`
+          )
+          .getDownloadURL()
+      })
+  }
+  updateModel(slug, form) {
     const data: TouristAttractionsModel = new TouristAttractionsModel();
     data.setName(this.documentToEdit ? this.documentToEdit.name : form.controls.name.value);
     data.setTypePlace(form.controls.typePlace.value);
@@ -158,13 +174,9 @@ export class CreateTouristAttractionsComponent implements OnInit {
     data.setAditionalInformation(form.controls.aditionalInformation.value);
     data.setRecomendations(form.controls.recomendations.value);
     data.setUrl_slug(slug);
-    await this.loadImage(`touristAttractions/${slug}/img/p-${slug}.png`, [this.fileImage]).then(urlImage => {
-      urlImage.subscribe(url => {
-        console.log(url)
-        data.setImage_profile(url)})
-      
-    })
-
+    data.setImage_profile(this.url);
+    data.setImage_galery(this.galeryUrl);
+    console.log(data);
     return JSON.parse(JSON.stringify(data));
   }
 
@@ -179,6 +191,7 @@ export class CreateTouristAttractionsComponent implements OnInit {
   }
 
   fileSelected(event) {
+    this.cdRef.detectChanges();
     event.preventDefault();
     if (event.dataTransfer.items) {
       // Use DataTransferItemList interface to access the file(s)
@@ -222,12 +235,50 @@ export class CreateTouristAttractionsComponent implements OnInit {
               });
               const slug = this.formData.controls.name.value.toLowerCase().replace(/ /g, "-")
               let data = this.updateModel(slug, this.formData);
-              this.createOrEditeTouristAttractions('', true, data);
+              this.createOrEditeTouristAttractions(true, data);
             }
           });
           this.closeModal.emit("");
         });
     });
+  }
+
+
+
+
+
+
+  // funcion para recibir datos desde dropdrag
+  receivedFile(event) {
+    this.selectedFiles = event;
+  }
+  // funcion para agregar un archivo a un examen ya creado
+  updateFile(event) {
+    if (this.idImage) {
+      // this.imageService.updateFile(event, this.idImage).subscribe(
+      //   response => {
+      //     this.selectedFiles = response.file;
+      //     this.globals.translate.get('reception.imageLoader').subscribe(text => {
+      //       this.globals.success(text);
+      //     });
+      //   },
+      //   err => {
+      //     err.error.code ? this.globals.error(err.error.code) : this.globals.error(err.error.message);
+      //   }
+      // );
+    }
+  }
+
+  // funcion para eliminar un archivo seleccionado
+  deleteFile(event) {
+    // this.imageService.deleteFile(event.title, this.idImage).subscribe(
+    //   response => {
+    //     this.globals.successMessage();
+    //   },
+    //   error => {
+    //     this.globals.error(error);
+    //   }
+    // );
   }
 
 }

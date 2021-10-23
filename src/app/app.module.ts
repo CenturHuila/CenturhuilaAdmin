@@ -49,6 +49,7 @@ import { ChartsModule } from 'ng2-charts';
 import { environment } from '../environments/environment';
 import { TouristProvidersService } from './services/tourist-providers/tourist-providers.service';
 import { AngularFileUploaderModule } from 'angular-file-uploader';
+import { DragAndDropComponent } from './views/dragAndDropImage/dragAndDrop/drag-and-drop.component';
 @NgModule({
   imports: [
     BrowserModule,
@@ -77,6 +78,7 @@ import { AngularFileUploaderModule } from 'angular-file-uploader';
     P500Component,
     LoginComponent,
     RegisterComponent,
+    // DragAndDropComponent,
   ],
   providers: [
     {

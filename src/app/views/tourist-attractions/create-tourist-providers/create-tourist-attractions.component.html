@@ -47,12 +47,23 @@
   </form>
   
 
-<angular-file-uploader 
-[config]="afuConfig"
-[resetUpload]=resetVar
-(fileSelected)="fileSelected($event)"
-(ApiResponse)="docUpload($event)">
-</angular-file-uploader>
+  <angular-file-uploader 
+    [config]="afuConfig"
+    [resetUpload]=resetVar
+    (fileSelected)="fileSelected($event)"
+    (ApiResponse)="docUpload($event)">
+  </angular-file-uploader>
+
+
+  <app-drag-and-drop
+    (sendFile)="receivedFile($event)"
+    (updateFile)="updateFile($event)"
+    (delete)="deleteFile($event)"
+    [id]="idImage"
+    [filesInput]="selectedFiles"
+    [isDetail]="isDetail"
+    [practiAndPatient]="practiAndPatient"
+  ></app-drag-and-drop>
 </div>
 <div class="card" *ngIf="modalType === 'createMassive'">
   <form>
