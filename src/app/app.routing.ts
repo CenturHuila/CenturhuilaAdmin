@@ -12,32 +12,20 @@ export const routes: Routes = [
   {
     path:'',
     component: LoginComponent,
-    data: {
-      title: 'Login'
-    },
     children: [
       {
         path:"login",
         loadChildren:()=>
         import('./views/login/login.module').then((m)=> m.LoginModule),
       },
-    ]
-  },
-  {
-    path:'',
-    component: RegisterComponent,
-    data: {
-      title: 'Register'
-    },
-    children: [
       {
         path:"register",
         loadChildren:()=>
         import('./views/Register/register.module').then((m)=> m.RegisterModule),
       },
     ]
+      
   },
-  
 
   // {
   //   path: '404',

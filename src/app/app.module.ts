@@ -80,7 +80,6 @@ import { DragAndDropComponent } from './views/dragAndDropImage/dragAndDrop/drag-
     ...APP_CONTAINERS,
     P404Component,
     P500Component,
-    LoginComponent,
     RegisterComponent,
     // DragAndDropComponent,
   ],

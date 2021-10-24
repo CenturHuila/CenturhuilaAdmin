@@ -1,7 +1,9 @@
 import { Component, OnInit, TemplateRef } from '@angular/core';
+import { Router } from '@angular/router';
 import { BsModalRef, BsModalService } from 'ngx-bootstrap/modal';
 import { PageChangedEvent } from 'ngx-bootstrap/pagination';
 import { TouristProvidersService } from '../../services/tourist-providers/tourist-providers.service';
+import { UsersService } from '../../services/users/users.service';
 
 @Component({
   selector: 'app-tourist-providers',
@@ -16,10 +18,19 @@ export class TouristProvidersComponent implements OnInit{
   documentToEdit = {};
   documentToDelete: string;
   constructor(private modalService: BsModalService,
-    private touristProvidersService: TouristProvidersService) { }
+    private touristProvidersService: TouristProvidersService,
+    private userService: UsersService,
+    private router: Router,) { }
 
   ngOnInit(){
     this.loadData();
+    this.userService.getCurrentUser().then((res =>{
+      if (res) {
+        console.log(res)
+      }else{
+        this.router.navigate(['/login'])
+      }
+    }));
   }
   loadData(){
     this.touristProvidersService.get().subscribe(response => {
