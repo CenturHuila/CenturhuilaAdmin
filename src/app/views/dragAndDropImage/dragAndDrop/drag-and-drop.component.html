@@ -1,0 +1,60 @@
+<div
+  class="uploadfilecontainer"
+  (click)="fileInput.click()"
+  appDragAndDrop
+  (fileDropped)="uploadFile($event)"
+>
+  <img src="../../../assets/img/brand/dropAndDrag.png" class="imgConten" />
+  <div class="form-group text-center contentText m-0">
+    <h3 class="control-label">
+      Arrastra los archivos o da click aquí para subirlos
+    </h3>
+  </div>
+  <input hidden type="file" #fileInput (change)="uploadFile($event.target.files)" />
+</div>
+<div class="text-danger form-group text-center m-0">
+  <div *ngIf="errorSize === true" class="text">
+    Tamaño máximo 50 MB
+  </div>
+  <div *ngIf="errorType === true" class="text">
+    Sólo se pueden agregar archivos de tipo imagen
+  </div>
+</div>
+<div class="files-list" *ngFor="let file of files; let i = index" style="font-size: 14px;">
+  <!-- <a class="vintage-link" *ngIf="file.includes('https://firebase')" (click)="showPreview(templateSuspend, i)" target="blank">
+    {{ file }}
+  </a> -->
+  <!-- *ngIf="!file.includes('https://firebase')"  -->
+  <p (click)="showPreview(templateSuspend, i)" style="font-size: 14px; text-decoration-line: underline; color: blue">{{ file }}</p>
+  <button *ngIf="!isDetail" class="delete-file" (click)="deleteAttachment(i)">
+    Eliminar
+  </button>
+</div>
+
+
+
+<ng-template #templateSuspend>
+  <div class="modal-header">
+    <h4 class="modal-title pull-left">Previsualizador de imagen</h4>
+    <button type="button" class="close pull-right" id="closeModalSuspend" aria-label="Close" (click)="closeModal()">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+    <div class="row">
+      <div class="card-group col-12">
+        <div class="card">
+          <div class="card-body">
+            
+            <div>
+              <img [src]="imageShow" alt="">
+            </div>
+            <div class="btn-group btn-group-sm pull-right">
+              <button type="button" class="btn btn-pill btn-block btn-success" (click)="closeModal()">cerrar</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</ng-template>

@@ -56,7 +56,6 @@ export class TownshipsComponent implements OnInit{
     this.loadData();
   }
   delete() {
-    console.log()
     this.townshipsService.delete(`T_${this.documentToDelete}`).then(() => {
       this.documentToDelete = "";
       this.modalService.hide();
