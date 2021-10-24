@@ -39,10 +39,18 @@ export class CreateTownshipsComponent implements OnInit {
   }
 
   loadForm(data?) {
+    let service = ''
+    if (typeof data.services != 'string'){
+      data.services.forEach(element => {
+        return service = !service ? `${element}` : `${service}, ${element}` 
+      });
+    }  else {
+      service = data.services
+    }
     this.formData = this.formBuilder.group({
       name: [{ value: data ? data.name : '', disabled: data ? true : false }, [Validators.required]],
       description: [data ? data.description : '', [Validators.required]],
-      travelServices: [data ? data.travelServices : '', [Validators.required]],
+      travelServices: [data ? service : '', [Validators.required]],
       latitude: [data ? data.latitude : '', [Validators.required]],
       longitude: [data ? data.longitude : '', [Validators.required]],
       zone: [data ? data.zone : '', [Validators.required]],
@@ -97,7 +105,7 @@ export class CreateTownshipsComponent implements OnInit {
     const data: TownshipsModel = new TownshipsModel();
     data.setName(form.controls.name.value);
     data.setDescription(form.controls.description.value);
-    data.setTravelServices(form.controls.travelServices.value);
+    data.setTravelServices(form.controls.travelServices.value.split(','));
     data.setLatitude(form.controls.latitude.value);
     data.setLongitude(form.controls.longitude.value);
     data.setDemonym(form.controls.demonym.value);

@@ -40,10 +40,18 @@ export class CreateTouristProvidersComponent  implements OnInit{
   }
 
   loadForm(data?){
+    let service = ''
+    if (typeof data.services != 'string'){
+      data.services.forEach(element => {
+        return service = !service ? `${element}` : `${service}, ${element}` 
+      });
+    }  else {
+      service = data.services
+    }
     this.formData = this.formBuilder.group({
       name: [{value: data ? data.name : '', disabled: data ? true : false}, [Validators.required]],
       description: [ data ? data.description :'', [Validators.required]],
-      services: [ data ? data.services :'', [Validators.required]],
+      services: [ data ? service :'', [Validators.required]],
       rnt: [ data ? data.rnt :'', [Validators.required]],
       zone: [ data ? data.zone :'', [Validators.required]],
       township: [ data ? data.township :'', [Validators.required]],
@@ -99,7 +107,7 @@ export class CreateTouristProvidersComponent  implements OnInit{
     const data:TouristProvidersModel =  new TouristProvidersModel();
     data.setName(form.controls.name.value);
     data.setDescription(form.controls.description.value);
-    data.setServices(form.controls.services.value);
+    data.setServices(form.controls.services.value.split(','));
     data.setRnt(form.controls.rnt.value);
     data.setIndications(form.controls.indications.value);
     data.setTownship(form.controls.township.value);
