@@ -1,7 +1,9 @@
 import { Component, OnInit, TemplateRef } from '@angular/core';
+import { Router } from '@angular/router';
 import { BsModalRef, BsModalService } from 'ngx-bootstrap/modal';
 import { PageChangedEvent } from 'ngx-bootstrap/pagination';
 import { TownshipsService } from '../../services/townships/townships.service';
+import { UsersService } from '../../services/users/users.service';
 
 @Component({
   selector: 'app-townships',
@@ -16,10 +18,19 @@ export class TownshipsComponent implements OnInit{
   documentToEdit = {};
   documentToDelete: string;
   constructor(private modalService: BsModalService,
-    private townshipsService: TownshipsService) { }
+    private townshipsService: TownshipsService,
+    private userService: UsersService,
+    private router: Router,) { }
 
   ngOnInit(){
     this.loadData();
+    this.userService.getCurrentUser().then((res =>{
+      if (res) {
+        console.log(res)
+      }else{
+        this.router.navigate(['/login'])
+      }
+    }));
   }
   loadData(){
     this.townshipsService.get().subscribe(response => {

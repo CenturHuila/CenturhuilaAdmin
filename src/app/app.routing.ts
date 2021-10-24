@@ -6,24 +6,34 @@ import { DefaultLayoutComponent } from './containers';
 
 import { P404Component } from './views/error/404.component';
 import { LoginComponent } from './views/login/login.component';
+import { RegisterComponent } from './views/register/register.component';
 
 export const routes: Routes = [
-  {
-    path: '',
-    redirectTo: 'prestadores-turisticos',
-    pathMatch: 'full',
-  },
   {
     path:'',
     component: LoginComponent,
     data: {
-      title: 'login'
+      title: 'Login'
     },
     children: [
       {
         path:"login",
         loadChildren:()=>
         import('./views/login/login.module').then((m)=> m.LoginModule),
+      },
+    ]
+  },
+  {
+    path:'',
+    component: RegisterComponent,
+    data: {
+      title: 'Register'
+    },
+    children: [
+      {
+        path:"register",
+        loadChildren:()=>
+        import('./views/Register/register.module').then((m)=> m.RegisterModule),
       },
     ]
   },
