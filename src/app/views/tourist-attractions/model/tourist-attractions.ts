@@ -12,6 +12,7 @@ export class TouristAttractionsModel {
     image_profile: string;
     address: string;
     aditionalInformation: string;
+    image_galery: string[];
 
     setName(value: string){
         this.name = value;
@@ -85,6 +86,12 @@ export class TouristAttractionsModel {
     }
     getAditionalInformation():string{
         return this.aditionalInformation;
+    }
+    setImage_galery(value: string[]){
+        this.image_galery = value;
+    }
+    getImage_galery():string[]{
+        return this.image_galery;
     }
 
 }

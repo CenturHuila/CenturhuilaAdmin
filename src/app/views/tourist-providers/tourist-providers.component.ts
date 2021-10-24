@@ -45,7 +45,6 @@ export class TouristProvidersComponent implements OnInit{
     this.loadData();
   }
   delete() {
-    console.log()
     this.touristProvidersService.delete(`T_${this.documentToDelete}`).then(() => {
       this.documentToDelete = "";
       this.modalService.hide();

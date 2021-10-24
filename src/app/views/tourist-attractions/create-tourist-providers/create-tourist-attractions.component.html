@@ -45,6 +45,24 @@
       </div>
     </div>
   </form>
+  
+
+  <!-- <angular-file-uploader 
+    [config]="afuConfig"
+    [resetUpload]=resetVar
+    (fileSelected)="fileSelected($event)"
+    (ApiResponse)="docUpload($event)">
+  </angular-file-uploader> -->
+
+
+  <!-- (updateFile)="updateFile($event)" -->
+  <app-drag-and-drop
+    (sendFile)="receivedFile($event)"
+    (delete)="deleteFile($event)"
+    [id]="idImage"
+    [filesInput]="galeryUrl"
+    [isDetail]="isDetail"
+  ></app-drag-and-drop>
 </div>
 <div class="card" *ngIf="modalType === 'createMassive'">
   <form>
@@ -58,3 +76,4 @@
     <button type="button" class="btn btn-pill btn-block btn-success" (click)="save()"><i class="fa fa-plus"></i> {{textbutton}}</button>
   </div>
 </div>
+

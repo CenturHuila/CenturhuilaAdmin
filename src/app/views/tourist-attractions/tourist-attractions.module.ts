@@ -30,6 +30,9 @@ import { CreateTouristAttractionsComponent } from './create-tourist-providers/cr
 import { TouristAttractionsComponent } from './tourist-attractions.component';
 import { TouristAttractionsRoutingModule } from './tourist-attractions-routing.module';
 import { ImageCropperModalModule } from '../image-cropper/image-cropper.module';
+import { AngularFileUploaderModule } from 'angular-file-uploader';
+import { DragAndDropComponent } from '../dragAndDropImage/dragAndDrop/drag-and-drop.component';
+import { DragAndDropDirective } from '../dragAndDropImage/Directive/dragAndDrop.directive';
 
 // Components Routing
 
@@ -47,8 +50,10 @@ import { ImageCropperModalModule } from '../image-cropper/image-cropper.module';
     PopoverModule.forRoot(),
     ProgressbarModule.forRoot(),
     TooltipModule.forRoot(),
-    ImageCropperModalModule
+    ImageCropperModalModule,
+    AngularFileUploaderModule,
   ],
-  declarations:[CreateTouristAttractionsComponent, TouristAttractionsComponent]
+  declarations:[CreateTouristAttractionsComponent, TouristAttractionsComponent, DragAndDropComponent,DragAndDropDirective],
+  exports: [DragAndDropDirective],
 })
 export class TouristAttractionsModule { }
