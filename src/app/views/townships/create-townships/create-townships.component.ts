@@ -23,6 +23,9 @@ export class CreateTownshipsComponent implements OnInit {
   closeModal = new EventEmitter();
   fileToUpload: File | null = null;
   textbutton = 'Crear';
+  url = 'Crear';
+  galery: any[] = [];
+  galeryUrl: string[] = [];
 
   constructor(
     private readonly formBuilder: FormBuilder,
@@ -31,21 +34,21 @@ export class CreateTownshipsComponent implements OnInit {
 
   ngOnInit() {
     this.loadForm(this.documentToEdit ? this.documentToEdit : '');
-    if(this.documentToEdit){
+    if (this.documentToEdit) {
       this.textbutton = "Guardar";
-    } else if(this.modalType !== 'createOrEdit'){
+    } else if (this.modalType !== 'createOrEdit') {
       this.textbutton = "Importar";
     }
   }
 
   loadForm(data?) {
     let service = ''
-    if (typeof data.services != 'string'){
-      data.services.forEach(element => {
-        return service = !service ? `${element}` : `${service}, ${element}` 
+    if (data && typeof data.travelServices != 'string') {
+      data.travelServices.forEach(element => {
+        return service = !service ? `${element}` : `${service}, ${element}`
       });
-    }  else {
-      service = data.services
+    } else {
+      service = data.travelServices
     }
     this.formData = this.formBuilder.group({
       name: [{ value: data ? data.name : '', disabled: data ? true : false }, [Validators.required]],
@@ -61,6 +64,7 @@ export class CreateTownshipsComponent implements OnInit {
       demonym: [data ? data.demonym : '', [Validators.required]]
     });
     this.imageIn = data.image_profile;
+    this.galeryUrl = data.image_galery;
   }
   save() {
     if (this.modalType === 'createOrEdit') {
@@ -69,39 +73,69 @@ export class CreateTownshipsComponent implements OnInit {
       this.createTownshipsMassive();
     }
   }
-  createOrEditeTownships(url?, imageLoaded?, dataMassive?) {
+  createOrEditeTownships(imageLoaded?, dataMassive?) {
     let data;
+    let countImage = [];
     const slug = this.formData.controls.name.value.toLowerCase().replace(/ /g, "-")
-    if (this.fileImage && !imageLoaded) {
-      this.loadFilesService
-        .uploadFileStorage(
-          `townships/${slug}/img/p-${slug}.png`,
-          this.fileImage
-        )
-        .then((response) => {
-          this.loadFilesService
-            .referenciaCloudStorage(
-              `townships/${slug}/img/p-${slug}.png`
-            )
-            .getDownloadURL()
-            .subscribe((url) => {
-              this.createOrEditeTownships(url, true);
-            });
-        }).catch((err) => {
 
-        });
+    if (!imageLoaded) {
+      if (!this.fileImage && this.documentToEdit && this.documentToEdit.image_profile) {
+        this.url = this.documentToEdit.image_profile
+        if (this.galery.length > 0) {
+          this.galery.forEach(image => {
+            this.loadImage(`townships/${slug}/galery/${image.name}`, image).then(urlImage => urlImage.subscribe(url => {
+              countImage.push(url);
+              this.galeryUrl.push(url);
+              if ( this.galery.length === countImage.length){
+                this.createOrEditeTownships(true);
+              }
+            }));
+          })
+        } else {
+          this.createOrEditeTownships(true);
+        }
+      } else  if (this.fileImage){
+        this.loadImage(`townships/${slug}/img/p-${slug}.png`, this.fileImage).then(urlImage => urlImage.subscribe(url => {
+          this.url = url
+          if (this.galery.length > 0) {
+            this.galery.forEach(image => {
+              this.loadImage(`townships/${slug}/galery/${image.name}`, image).then(urlImage => urlImage.subscribe(url => {
+                countImage.push(url);
+                this.galeryUrl.push(url);
+                if ( this.galery.length === countImage.length){
+                  this.createOrEditeTownships(true);
+                }
+              }));
+            })
+          } else {
+            this.createOrEditeTownships(true);
+          }
+        }))
+      };
     } else {
-      url = !this.fileImage && this.documentToEdit && this.documentToEdit.image_profile ? this.documentToEdit.image_profile : url
-      data = dataMassive ? dataMassive : this.updateModel(url, slug, this.formData);
-      this.townshipsService.createOrEdite(data, `T_${data.url_slug.toLowerCase().replace(/ /g, "_")}`)
+      data = dataMassive ? dataMassive : this.updateModel(slug, this.formData);
+      this.townshipsService.createOrEdite(data, `T_${slug}`)
         .then((response) => {
           this.formData.reset();
           this.closeModal.emit("");
         });
     }
   }
+  loadImage(url: string, image): Promise<any> {
+    return this.loadFilesService
+      .uploadFileStorage(
+        `${url}`, image
+      )
+      .then((response) => {
+        return this.loadFilesService
+          .referenciaCloudStorage(
+            `${url}`
+          )
+          .getDownloadURL()
+      })
+  }
 
-  updateModel(url, name, form) {
+  updateModel(slug, form) {
     const data: TownshipsModel = new TownshipsModel();
     data.setName(form.controls.name.value);
     data.setDescription(form.controls.description.value);
@@ -114,8 +148,9 @@ export class CreateTownshipsComponent implements OnInit {
     data.setPopulation(form.controls.population.value);
     data.setHolidays(form.controls.holidays.value);
     data.setWeather(form.controls.weather.value);
-    data.setUrl_slug(name);
-    data.setImage_profile(url);
+    data.setUrl_slug(slug);
+    data.setImage_profile(this.url);
+    data.setImage_galery(this.galeryUrl);
 
     return JSON.parse(JSON.stringify(data));
   }
@@ -152,13 +187,37 @@ export class CreateTownshipsComponent implements OnInit {
                 latitude: row.values[11],
                 longitude: row.values[12]
               });
-              const name = this.formData.controls.name.value.toLowerCase().replace(/ /g, "-")
-              let data = this.updateModel('', name, this.formData);
-              this.createOrEditeTownships('', true, data);
+              const slug = this.formData.controls.name.value.toLowerCase().replace(/ /g, "-")
+              let data = this.updateModel(slug, this.formData);
+              this.createOrEditeTownships(true, data);
             }
           });
           this.closeModal.emit("");
         });
     });
+  }
+
+  // funcion para recibir datos desde dropdrag
+  receivedFile(event) {
+    this.galeryUrl = []
+    this.galery = []
+    for (let img of event) {
+      if (img.name) {
+        this.galery.push(img);
+      } else {
+        this.galeryUrl.push(img);
+      }
+    }
+  }
+  // funcion para eliminar un archivo seleccionado
+  deleteFile(event) {
+    // this.imageService.deleteFile(event.title, this.idImage).subscribe(
+    //   response => {
+    //     this.globals.successMessage();
+    //   },
+    //   error => {
+    //     this.globals.error(error);
+    //   }
+    // );
   }
 }

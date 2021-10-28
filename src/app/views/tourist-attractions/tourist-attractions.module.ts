@@ -33,6 +33,7 @@ import { ImageCropperModalModule } from '../image-cropper/image-cropper.module';
 import { AngularFileUploaderModule } from 'angular-file-uploader';
 import { DragAndDropComponent } from '../dragAndDropImage/dragAndDrop/drag-and-drop.component';
 import { DragAndDropDirective } from '../dragAndDropImage/Directive/dragAndDrop.directive';
+import { DragAndDropModule } from '../dragAndDropImage/dragAndDrop/drag-and-drop.module';
 
 // Components Routing
 
@@ -52,8 +53,8 @@ import { DragAndDropDirective } from '../dragAndDropImage/Directive/dragAndDrop.
     TooltipModule.forRoot(),
     ImageCropperModalModule,
     AngularFileUploaderModule,
+    DragAndDropModule
   ],
-  declarations:[CreateTouristAttractionsComponent, TouristAttractionsComponent, DragAndDropComponent,DragAndDropDirective],
-  exports: [DragAndDropDirective],
+  declarations:[CreateTouristAttractionsComponent, TouristAttractionsComponent],
 })
 export class TouristAttractionsModule { }

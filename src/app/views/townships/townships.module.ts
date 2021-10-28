@@ -30,6 +30,7 @@ import { CreateTownshipsComponent } from './create-townships/create-townships.co
 import { TownshipsComponent } from './townships.component';
 import { TownshipsRoutingModule } from './townships-routing.module';
 import { ImageCropperModalModule } from '../image-cropper/image-cropper.module';
+import { DragAndDropModule } from '../dragAndDropImage/dragAndDrop/drag-and-drop.module';
 
 // Components Routing
 
@@ -47,7 +48,8 @@ import { ImageCropperModalModule } from '../image-cropper/image-cropper.module';
     PopoverModule.forRoot(),
     ProgressbarModule.forRoot(),
     TooltipModule.forRoot(),
-    ImageCropperModalModule
+    ImageCropperModalModule,
+    DragAndDropModule
   ],
   declarations:[CreateTownshipsComponent, TownshipsComponent]
 })

@@ -14,6 +14,7 @@ export class TownshipsModel {
     
     population: string;
     holidays: string;
+    image_galery: string[];
 
     setName(value: string){
         this.name = value;
@@ -93,5 +94,12 @@ export class TownshipsModel {
     getImage_profile():string{
         return this.image_profile;
     }
+    setImage_galery(value: string[]){
+        this.image_galery = value;
+    }
+    getImage_galery():string[]{
+        return this.image_galery;
+    }
+
 
 }

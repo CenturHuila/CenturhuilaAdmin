@@ -23,6 +23,9 @@ export class CreateTouristProvidersComponent  implements OnInit{
   closeModal = new EventEmitter();
   fileToUpload: File | null = null;
   textbutton = 'Crear';
+  url = 'Crear';
+  galery: any[] = [];
+  galeryUrl: string[] = [];
 
   constructor(
     private readonly formBuilder: FormBuilder,
@@ -41,7 +44,7 @@ export class CreateTouristProvidersComponent  implements OnInit{
 
   loadForm(data?){
     let service = ''
-    if (typeof data.services != 'string'){
+    if (data && typeof data.services != 'string'){
       data.services.forEach(element => {
         return service = !service ? `${element}` : `${service}, ${element}` 
       });
@@ -65,6 +68,7 @@ export class CreateTouristProvidersComponent  implements OnInit{
       aditionalInformation: [ data ? data.aditionalInformation :'', [Validators.required]],
     });
     this.imageIn = data.image_profile;
+    this.galeryUrl= data.image_galery;
   }
   save(){
     if (this.modalType === 'createOrEdit'){
@@ -73,37 +77,68 @@ export class CreateTouristProvidersComponent  implements OnInit{
       this.createMassive();
     }
   }
-  createOrEditeTouristProvider(url?, imageLoaded?, dataMassive?){
+  createOrEditeTouristProvider(imageLoaded?, dataMassive?){
     let data;
+    let countImage = [];
     const slug = this.formData.controls.name.value.toLowerCase().replace(/ /g, "-")
-    if (this.fileImage && !imageLoaded) {
-      this.loadFilesService
-        .uploadFileStorage(
-          `touristProviders/${slug}/img/p-${slug}.png`,
-          this.fileImage
-        )
-        .then((response) => {
-          this.loadFilesService
-            .referenciaCloudStorage(
-              `touristProviders/${slug}/img/p-${slug}.png`
-            )
-            .getDownloadURL()
-            .subscribe((url) => {
-              this.createOrEditeTouristProvider(url, true);
-            });
-        }).catch((err) => {
-
-        });;
+    if (!imageLoaded) {
+      if (!this.fileImage && this.documentToEdit && this.documentToEdit.image_profile) {
+        this.url = this.documentToEdit.image_profile
+        if (this.galery.length > 0){
+          this.galery.forEach(image =>{
+            this.loadImage(`touristProviders/${slug}/galery/${image.name}`, image).then(urlImage => urlImage.subscribe(url => {
+              countImage.push(url);
+              this.galeryUrl.push(url);
+              if ( this.galery.length === countImage.length){
+                this.createOrEditeTouristProvider(true);
+              }
+            }));
+          })
+        } else {
+          this.createOrEditeTouristProvider(true);
+        }
       } else {
-        url = !this.fileImage && this.documentToEdit && this.documentToEdit.image_profile ? this.documentToEdit.image_profile : url
-        data = dataMassive ? dataMassive : this.updateModel(url, slug, this.formData);
-        this.touristProvidersService.createOrEdite(data,`T_${data.url_slug.toLowerCase().replace(/ /g, "_")}` )
+        this.loadImage(`touristProviders/${slug}/img/p-${slug}.png`, this.fileImage).then(urlImage => urlImage.subscribe(url => {
+          this.url = url
+          if (this.galery.length > 0) {
+            
+            this.galery.forEach(image =>{
+              this.loadImage(`touristProviders/${slug}/galery/${image.name}`, image).then(urlImage => urlImage.subscribe(url => {
+                countImage.push(url);
+                this.galeryUrl.push(url);
+                if ( this.galery.length === countImage.length){
+                    this.createOrEditeTouristProvider(true);
+                }
+              }));
+            })
+          } else {
+            this.createOrEditeTouristProvider(true);
+          }
+        }))
+      };
+      } else {
+        data = dataMassive ? dataMassive : this.updateModel(slug, this.formData);
+        this.touristProvidersService.createOrEdite(data,`T_${slug}` )
           .then((response) => {
             this.closeModal.emit("");
           });
       }
   }
-  updateModel(url, name, form) {
+  
+  loadImage(url: string, image): Promise<any> {
+    return this.loadFilesService
+      .uploadFileStorage(
+        `${url}`, image
+      )
+      .then((response) => {
+        return this.loadFilesService
+          .referenciaCloudStorage(
+            `${url}`
+          )
+          .getDownloadURL()
+      })
+  }
+  updateModel(slug, form) {
     const data:TouristProvidersModel =  new TouristProvidersModel();
     data.setName(form.controls.name.value);
     data.setDescription(form.controls.description.value);
@@ -117,10 +152,11 @@ export class CreateTouristProvidersComponent  implements OnInit{
     data.setWebsite(form.controls.website.value);
     data.setCellphone(form.controls.cellphone.value);
     data.setAddress(form.controls.address.value);
-    data.setUrl_slug(name);
-    data.setImage_profile(url);
+    data.setUrl_slug(slug);
+    data.setImage_profile(this.url);
     data.setEmail(form.controls.email.value);
     data.setAditionalInformation(form.controls.aditionalInformation.value);
+    data.setImage_galery(this.galeryUrl);
     
     return JSON.parse(JSON.stringify(data));
   }
@@ -160,22 +196,38 @@ export class CreateTouristProvidersComponent  implements OnInit{
                 email: row.values[14]?.text ? row.values[14].text : row.values[14],
                 aditionalInformation: row.values[15]
               });
-              const name = this.formData.controls.name.value.toLowerCase().replace(/ /g, "-")
-              let data = this.updateModel('', name, this.formData);
-              this.createOrEditeTouristProvider('', true, data)
+              const slug = this.formData.controls.name.value.toLowerCase().replace(/ /g, "-")
+              let data = this.updateModel(slug, this.formData);
+              this.createOrEditeTouristProvider(true, data)
             }
           });
           this.closeModal.emit("");
         });
     });
   }
-
   
-  // getDocument(documentToEdit){
-    
-  //   this.touristProvidersService.getbyId(`T_${documentToEdit}` ).subscribe(response => {
-  //     this.loadForm(response.payload.data());
-  //   })
-  //  }
+  // funcion para recibir datos desde dropdrag
+  receivedFile(event) {
+    this.galeryUrl = []
+    this.galery  = []
+    for(let img of event){
+      if(img.name){
+        this.galery.push(img);
+      } else {
+        this.galeryUrl.push(img);
+      }
+    }
+  }
+  // funcion para eliminar un archivo seleccionado
+  deleteFile(event) {
+    // this.imageService.deleteFile(event.title, this.idImage).subscribe(
+    //   response => {
+    //     this.globals.successMessage();
+    //   },
+    //   error => {
+    //     this.globals.error(error);
+    //   }
+    // );
+  }
 
 }

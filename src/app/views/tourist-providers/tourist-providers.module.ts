@@ -32,6 +32,7 @@ import { TouristProvidersRoutingModule } from './tourist-providers-routing.modul
 import { CreateTouristProvidersComponent } from './create-tourist-providers/create-tourist-providers.component';
 import { TouristProvidersComponent } from './tourist-providers.component';
 import { ImageCropperModalModule } from '../image-cropper/image-cropper.module';
+import { DragAndDropModule } from '../dragAndDropImage/dragAndDrop/drag-and-drop.module';
 
 @NgModule({
   imports: [
@@ -47,7 +48,8 @@ import { ImageCropperModalModule } from '../image-cropper/image-cropper.module';
     PopoverModule.forRoot(),
     ProgressbarModule.forRoot(),
     TooltipModule.forRoot(),
-    ImageCropperModalModule
+    ImageCropperModalModule,
+    DragAndDropModule
   ],
   declarations:[CreateTouristProvidersComponent, TouristProvidersComponent]
 })

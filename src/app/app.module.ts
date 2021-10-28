@@ -50,6 +50,7 @@ import { environment } from '../environments/environment';
 import { TouristProvidersService } from './services/tourist-providers/tourist-providers.service';
 import { AngularFileUploaderModule } from 'angular-file-uploader';
 import { DragAndDropComponent } from './views/dragAndDropImage/dragAndDrop/drag-and-drop.component';
+import { DragAndDropDirective } from './views/dragAndDropImage/Directive/dragAndDrop.directive';
 @NgModule({
   imports: [
     BrowserModule,
@@ -88,6 +89,10 @@ import { DragAndDropComponent } from './views/dragAndDropImage/dragAndDrop/drag-
     IconSetService,
     TouristProvidersService
   ],
-  bootstrap: [ AppComponent ]
+  bootstrap: [ AppComponent ],
+  // exports: [
+  //   DragAndDropComponent,
+  //   DragAndDropDirective
+  // ]
 })
 export class AppModule { }

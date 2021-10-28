@@ -61,6 +61,11 @@
       </div>  
     </div>
   </form>
+  <app-drag-and-drop
+    (sendFile)="receivedFile($event)"
+    (delete)="deleteFile($event)"
+    [filesInput]="galeryUrl"
+  ></app-drag-and-drop>
 </div>
 <div class="card" *ngIf="modalType === 'createMassive'">
   <form>
