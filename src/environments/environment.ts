@@ -19,6 +19,9 @@ export const environment = {
     touristAttractions: 'Tourist_attractions',
     tourOperators: 'Tour_operators',
     townships: 'Townships',
+    services: 'Services',
+    typesPlace: 'Types_place',
+    zones:'Zones'
   },
   document: {
     tsp: 'TSP_',

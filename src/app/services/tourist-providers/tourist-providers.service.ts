@@ -6,15 +6,19 @@ import {
   AngularFirestoreDocument,
 } from '@angular/fire/firestore';
 import { AngularFireStorage } from '@angular/fire/storage';
+import { FirebaseApp } from '@angular/fire';
+
 
 @Injectable({
   providedIn: 'root',
 })
 export class TouristProvidersService {
+  providers: any;
 
   constructor(
     private firestore: AngularFirestore,
-    private storage: AngularFireStorage
+    private storage: AngularFireStorage,
+  
   ) {}
   // Crea un nuevo dato
   public createOrEdite(data: any, document: string): any {
@@ -37,6 +41,8 @@ export class TouristProvidersService {
       .collection(environment.collection.touristProviders)
       .snapshotChanges();
   }
+
+  
 //   // Actualiza un dato
 //   public update(documentId: string, data: any, collection: string): any {
 //     return this.firestore.collection(collection).doc(documentId).set(data);
