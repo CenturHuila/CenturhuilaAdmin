@@ -131,7 +131,7 @@ export class TouristAttractionsComponent implements OnInit {
       if(item.name.toUpperCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "").includes(name.toUpperCase().normalize("NFD").replace(/[\u0300-\u036f]/g, ""))){
         this.results=true
         return item;
-      }else if (name== null || name.length <=2) {
+      }else if (name== null || name.length <=3) {
         this.results=true
         this.returnedArray = [];
       this.returnedArray = this.touristAllProvidersData;

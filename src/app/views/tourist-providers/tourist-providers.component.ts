@@ -83,6 +83,8 @@ export class TouristProvidersComponent implements OnInit {
       if(item.township === city){
         this.results=true
         return item;
+      }else{
+        this.results=false
       }
     });
     this.touristProvidersData = this.returnedArray;
@@ -92,7 +94,7 @@ export class TouristProvidersComponent implements OnInit {
     //filtrado Services
     this.returnedArray = [];
     this.returnedArray = this.touristAllProvidersData.filter((item: any) => {
-      if(item.services.includes(service)){
+      if(item.services.toString().toUpperCase().includes(service.toUpperCase())){
         this.results=true
         return item;
       }
