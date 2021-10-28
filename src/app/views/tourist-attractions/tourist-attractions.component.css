@@ -19,3 +19,43 @@
   justify-content: center !important;
   
 }
+
+.drop-down-filter{
+  max-height: 400px !important;
+  overflow-y: scroll;
+}
+
+::ng-deep.input-group > .input-group-prepend > .btn, .input-group > .input-group-prepend > .input-group-text, .input-group > .input-group-append:not(:last-child) > .btn, .input-group > .input-group-append:not(:last-child) > .input-group-text, .input-group > .input-group-append:last-child > .btn:not(:last-child):not(.dropdown-toggle), .input-group > .input-group-append:last-child > .input-group-text:not(:last-child){
+  background-color: #b3bbc2;
+  color: #000;
+}
+
+::ng-deep.input-group > .form-control:not(:first-child){
+  border-color: #b3bbc2;
+  background-image: url('../../../assets/icons/search.svg');
+  background-repeat: no-repeat;
+  background-position: 95%;
+}
+
+.btn-secondary{
+  background-color: #b3bbc2;
+}
+
+.noResultsMessage{
+  width: 80%;
+  margin: auto;
+  background-color: #FECDD5;
+  border: solid #F9415F 3px ;
+  border-radius: 5px;
+  color: #F9415F;
+  font-size: 20px;
+  padding: 10px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.text-err{
+  margin-left: 10px;
+  margin-top: 10px
+}

@@ -12,10 +12,51 @@
     <table class="table table-striped">
       <thead>
         <tr>
-          <th>Nombre</th>
-          <th>Ciudad</th>
+          <th>
+            <div class="input-group">
+              <div class="input-group-prepend">
+                <span class="input-group-text" id="inputGroup-sizing-default">Nombre</span>
+              </div>
+              <input #nameSearch type="text" class="form-control" placeholder="Busqueda por nombre" aria-label="Default" aria-describedby="inputGroup-sizing-default" [(ngModel)]="valueToSearch" (ngModelChange)="loadDaraFilterByName($event)">
+            </div>
+          </th>
+          <th>
+            <div class="btn-group" dropdown container="body">
+              <button id="button-container" dropdownToggle type="button" class="btn btn-secondary dropdown-toggle"
+                aria-controls="dropdown-container">
+                <span>
+                  Ciudad
+                </span>
+                <span class="caret"></span>
+              </button>
+              <ul id="dropdown-container" *dropdownMenu class="dropdown-menu drop-down-filter" role="menu"
+                aria-labelledby="button-container">
+                <li role="menuitem" style="cursor:pointer" >
+                  <a class="dropdown-item" (click)="loadData()">Todos</a>
+                  <a class="dropdown-item" *ngFor="let township of returnedArrayTownship" (click)="loadDataFilterByCity(township.name)">{{township.name}}</a>
+                </li>
+              </ul>
+            </div>
+          </th>
           <th>Zona</th>
-          <th>Tipo de lugar</th>
+          <th>
+            <div class="btn-group" dropdown container="body">
+              <button id="button-container" dropdownToggle type="button" class="btn btn-secondary dropdown-toggle"
+                aria-controls="dropdown-container">
+                <span>
+                  Tipo de lugar
+                </span>
+                <span class="caret"></span>
+              </button>
+              <ul id="dropdown-container" *dropdownMenu class="dropdown-menu drop-down-filter" role="menu"
+                aria-labelledby="button-container">
+                <li role="menuitem" style="cursor:pointer" >
+                  <a class="dropdown-item" (click)="loadData()">Todos</a>
+                  <a class="dropdown-item" *ngFor="let zona of returnedArrayTypePlace">{{zona.name}}</a>
+                </li>
+              </ul>
+            </div>
+          </th>
           <th>Acciones</th>
         </tr>
       </thead>
@@ -45,9 +86,14 @@
               </ul>
             </div>
           </td>
+          
         </tr>
       </tbody>
     </table>
+    <div *ngIf="!results" class="noResultsMessage">
+      <img src="../../../assets/icons/exclamation-diamond-fill.svg" height="30px">
+      <p  class="text-center text-err">No hay resultados que coincidan con la busqueda</p>
+    </div>
     <pagination [totalItems]="touristProvidersData.length" (pageChanged)="pageChanged($event)"
       [customPreviousTemplate]="prevTemplate" [customNextTemplate]="nextTemplate"></pagination>
     <ng-template #nextTemplate let-disabled="disabled" let-currentPage="currentPage">
