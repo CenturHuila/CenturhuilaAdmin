@@ -16,6 +16,7 @@ export class TouristProvidersModel {
     image_profile: string;
     email: string;
     aditionalInformation: string;
+    image_galery: string[];
 
     setName(value: string){
         this.name = value;
@@ -113,6 +114,12 @@ export class TouristProvidersModel {
     }
     getAditionalInformation():string{
         return this.aditionalInformation;
+    }
+    setImage_galery(value: string[]){
+        this.image_galery = value;
+    }
+    getImage_galery():string[]{
+        return this.image_galery;
     }
 
 }
