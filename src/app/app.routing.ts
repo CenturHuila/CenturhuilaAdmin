@@ -5,13 +5,28 @@ import { Routes, RouterModule } from '@angular/router';
 import { DefaultLayoutComponent } from './containers';
 
 import { P404Component } from './views/error/404.component';
+import { LoginComponent } from './views/login/login.component';
+import { RegisterComponent } from './views/register/register.component';
 
 export const routes: Routes = [
   {
-    path: '',
-    redirectTo: 'prestadores-turisticos',
-    pathMatch: 'full',
+    path:'',
+    component: LoginComponent,
+    children: [
+      {
+        path:"login",
+        loadChildren:()=>
+        import('./views/login/login.module').then((m)=> m.LoginModule),
+      },
+      {
+        path:"register",
+        loadChildren:()=>
+        import('./views/Register/register.module').then((m)=> m.RegisterModule),
+      },
+    ]
+      
   },
+
   // {
   //   path: '404',
   //   component: P404Component,
@@ -59,6 +74,11 @@ export const routes: Routes = [
         path: 'municipios',
         loadChildren: () => import('./views/townships/townships.module').then(m => m.TownshipsModule)
       },
+      // {
+      //   path:"login",
+      //   loadChildren:()=>
+      //   import('./views/login/login.module').then((m)=> m.LoginModule),
+      // },
       // {
       //   path: 'base',
       //   loadChildren: () => import('./views/base/base.module').then(m => m.BaseModule)

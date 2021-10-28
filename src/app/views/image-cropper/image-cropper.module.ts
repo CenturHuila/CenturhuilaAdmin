@@ -1,4 +1,5 @@
 import { NgModule } from '@angular/core';
+
 import { LocationStrategy, HashLocationStrategy, CommonModule } from '@angular/common';
 import { PerfectScrollbarConfigInterface } from 'ngx-perfect-scrollbar';
 

@@ -3,17 +3,19 @@ import { Router, NavigationEnd } from '@angular/router';
 
 import { IconSetService } from '@coreui/icons-angular';
 import { freeSet } from '@coreui/icons';
+import { UsersService } from './services/users/users.service';
 
 @Component({
   // tslint:disable-next-line
   selector: 'body',
   template: '<router-outlet></router-outlet>',
-  providers: [IconSetService],
+  providers: [IconSetService, UsersService],
 })
 export class AppComponent implements OnInit {
   constructor(
     private router: Router,
-    public iconSet: IconSetService
+    public iconSet: IconSetService,
+    private userService: UsersService
   ) {
     // iconSet singleton
     iconSet.icons = { ...freeSet };
@@ -26,5 +28,12 @@ export class AppComponent implements OnInit {
       }
       window.scrollTo(0, 0);
     });
+
+    // const user = this.userService.getCurrentUser();
+    // if (user) {
+    //   console.log(user)
+    // }else{
+    //   this.router.navigate(['/login'])
+    // }
   }
 }

@@ -1,0 +1,103 @@
+.app-body{
+  height: 90vh;
+}
+
+.main {
+    background-image: url('../../../assets/backgroundLogo.png');
+    background-attachment: fixed;
+    background-position-x: 80%;
+    background-position-y: 50%;
+    background-repeat: no-repeat;
+    background-size:30%;
+}
+
+.card{
+    /* background-color: #4c449a; */
+    border-radius: 20px;
+}
+
+/* .btn-one{
+    background-color: #4c449a;
+    border-color: #4c449a;
+    color: #ffff;
+}
+:hover.btn-one{
+    background-color: #4c449a;
+    border-color: #322a81;
+    color: #ffff;
+} */
+
+.btn-one {
+    color: #fff !important;
+    font-size: 15px;
+    font-weight: 500;
+    padding:3px;
+    background: #4c449a;
+    border: 2px solid;
+    border-color: #4c449a;
+    position: relative;
+    height: 35px
+  }
+  .btn-one:before {
+    content:"";
+    position: absolute;
+    top: 0px;
+    left: 0px;
+    width: 0px;
+    height: 100%;
+    background: rgba(66, 12, 48, 0.338);
+    transition: all .5s ease;
+  }
+  .btn-one:hover:before {
+  width: 100%;
+  }
+
+  .btn-two {
+    color: #fff !important;
+    font-size: 15px;
+    font-weight: 500;
+    padding:3px;
+    background: #4c449a;
+    border: 2px solid;
+    border-color: #ffff;
+    position: relative;
+    height: 35px
+  }
+  .btn-two:before {
+    content:"";
+    position: absolute;
+    top: 0px;
+    left: 0px;
+    width: 0px;
+    height: 100%;
+    background: rgba(231, 231, 231, 0.338);
+    transition: all .5s ease;
+  }
+  .btn-two:hover:before {
+  width: 100%;
+  }
+
+ /* .btn-two{
+    background-color:#4c449a ;
+    border-color: #ffff;
+    color: #ffff;
+} */
+
+.btn-link{
+    color: #4c449a;
+}
+
+.footer{
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: #4c449a;
+  padding: 20px;
+}
+
+.footer-text{
+  color: #fff;
+  font-size: 20px;
+  margin-top: revert;
+  margin-right: 20px;
+}

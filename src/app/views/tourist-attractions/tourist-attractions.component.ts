@@ -1,7 +1,9 @@
 import { Component, OnInit, TemplateRef } from '@angular/core';
+import { Router } from '@angular/router';
 import { BsModalRef, BsModalService } from 'ngx-bootstrap/modal';
 import { PageChangedEvent } from 'ngx-bootstrap/pagination';
 import { TouristAttractionsService } from '../../services/tourist-attractions/tourist-attractions.service';
+import { UsersService } from '../../services/users/users.service';
 
 @Component({
   selector: 'app-tourist-attractions',
@@ -51,10 +53,19 @@ export class TouristAttractionsComponent implements OnInit {
 };
 
   constructor(private modalService: BsModalService,
-    private touristAttractionsService: TouristAttractionsService) { }
+    private touristAttractionsService: TouristAttractionsService,
+    private userService: UsersService,
+    private router: Router,) { }
 
   ngOnInit() {
     this.loadData();
+    // this.userService.getCurrentUser().then((res =>{
+    //   if (res) {
+    //     console.log(res)
+    //   }else{
+    //     this.router.navigate(['/login'])
+    //   }s
+    // }));
   }
   loadData() {
     this.touristAttractionsService.get().subscribe(response => {
