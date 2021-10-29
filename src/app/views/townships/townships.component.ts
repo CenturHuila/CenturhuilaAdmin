@@ -23,6 +23,8 @@ export class TownshipsComponent implements OnInit{
   documentToDelete: string;
   zoneData: any[];
   returnedArrayZones: any[];
+  valueToSearch: string = "";
+  
   constructor(private modalService: BsModalService,
     private townshipsService: TownshipsService,
     private userService: UsersService,

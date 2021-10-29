@@ -25,6 +25,7 @@ export class TouristAttractionsComponent implements OnInit {
   documentToEdit = {};
   documentToDelete: string;
   results: boolean = true;
+  valueToSearch: string = "";
   afuConfig = {
     multiple: false,
     formatsAllowed: ".jpg,.png",

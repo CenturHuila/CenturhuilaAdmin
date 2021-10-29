@@ -11,20 +11,31 @@ import { RegisterComponent } from './views/register/register.component';
 export const routes: Routes = [
   {
     path:'',
-    component: LoginComponent,
-    children: [
-      {
-        path:"login",
-        loadChildren:()=>
-        import('./views/login/login.module').then((m)=> m.LoginModule),
-      },
-      {
-        path:"register",
-        loadChildren:()=>
-        import('./views/Register/register.module').then((m)=> m.RegisterModule),
-      },
-    ]
+    redirectTo: 'login',
+    pathMatch: 'full'
+    // children: [
+      // {
+      //   path:"login",
+      //   loadChildren:()=>
+      //   import('./views/login/login.module').then((m)=> m.LoginModule),
+      // },
+      // {
+      //   path:"register",
+      //   loadChildren:()=>
+      //   import('./views/Register/register.module').then((m)=> m.RegisterModule),
+      // },
+    // ]
       
+  },
+  {
+    path:"login",
+    loadChildren:()=>
+    import('./views/login/login.module').then((m)=> m.LoginModule),
+  },
+  {
+    path:"register",
+    loadChildren:()=>
+    import('./views/Register/register.module').then((m)=> m.RegisterModule),
   },
 
   // {
@@ -113,7 +124,7 @@ export const routes: Routes = [
       // }
     ]
   },
-  { path: '**', component: P404Component }
+  { path: '**', component: P404Component, pathMatch: 'full'  }
 ];
 
 @NgModule({

@@ -11,5 +11,6 @@ import { UsersService } from '../../services/users/users.service';
     FormsModule,
     ],
     declarations:[RegisterComponent],
+    exports:[RegisterComponent],
 })
 export class RegisterModule {}

@@ -14,8 +14,10 @@ export class UsersService {
     private router: Router)
      { }
   async login(email: string, password: string) {
+    console.log(email + ' entro al get')
     await this.afAuth.signInWithEmailAndPassword(email, password)
     .then(value => {
+      console.log('enytto')
       this.router.navigateByUrl('prestadores-turisticos');
     })
     .catch(err => {

@@ -51,9 +51,7 @@ import { TabsModule } from 'ngx-bootstrap/tabs';
 import { ChartsModule } from 'ng2-charts';
 import { environment } from '../environments/environment';
 import { TouristProvidersService } from './services/tourist-providers/tourist-providers.service';
-import { AngularFileUploaderModule } from 'angular-file-uploader';
-import { DragAndDropComponent } from './views/dragAndDropImage/dragAndDrop/drag-and-drop.component';
-import { DragAndDropDirective } from './views/dragAndDropImage/Directive/dragAndDrop.directive';
+import { RegisterModule } from './views/Register/register.module';
 @NgModule({
   imports: [
     BrowserModule,
@@ -75,13 +73,14 @@ import { DragAndDropDirective } from './views/dragAndDropImage/Directive/dragAnd
     AngularFireModule.initializeApp(environment.firebaseConfig),
     AngularFireAuthModule,
     AngularFireDatabaseModule,  // Firebase database module
+    RegisterModule
   ],
   declarations: [
     AppComponent,
     ...APP_CONTAINERS,
     P404Component,
     P500Component,
-    RegisterComponent,
+    // RegisterComponent,
     // DragAndDropComponent,
   ],
   providers: [
