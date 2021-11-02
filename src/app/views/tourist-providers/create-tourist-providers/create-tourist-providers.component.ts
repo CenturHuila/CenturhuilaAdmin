@@ -73,7 +73,9 @@ export class CreateTouristProvidersComponent  implements OnInit{
   save(){
     if (this.modalType === 'createOrEdit'){
       this.createOrEditeTouristProvider();
+      console.log("entro")
     } else{
+      console.log("entro masi")
       this.createMassive();
     }
   }
@@ -183,7 +185,7 @@ export class CreateTouristProvidersComponent  implements OnInit{
               this.formData.setValue({
                 name: row.values[2],
                 description: row.values[3],
-                services: row.values[4].split(','),
+                services: row.values[4],
                 rnt: row.values[5],
                 zone: row.values[6],
                 township: row.values[7],

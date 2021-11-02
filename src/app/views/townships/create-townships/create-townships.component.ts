@@ -181,7 +181,7 @@ export class CreateTownshipsComponent implements OnInit {
                 population: row.values[5],
                 demonym: row.values[6],
                 weather: row.values[7],
-                travelServices: row.values[8].split(','),
+                travelServices: row.values[8],
                 holidays: row.values[9].split('*'),
                 website: row.values[10].text ? row.values[10].text : row.values[10],
                 latitude: row.values[11],
