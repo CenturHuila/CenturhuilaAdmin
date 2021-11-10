@@ -45,7 +45,7 @@ export class CreateTownshipsComponent implements OnInit {
     let service = ''
     if (data && typeof data.travelServices != 'string') {
       data.travelServices.forEach(element => {
-        return service = !service ? `${element}` : `${service}, ${element}`
+        return service = !service ? `${element.trim()}` : `${service},${element.trim()}`
       });
     } else {
       service = data.travelServices

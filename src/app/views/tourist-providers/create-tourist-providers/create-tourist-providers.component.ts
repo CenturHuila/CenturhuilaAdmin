@@ -46,7 +46,7 @@ export class CreateTouristProvidersComponent  implements OnInit{
     let service = ''
     if (data && typeof data.services != 'string'){
       data.services.forEach(element => {
-        return service = !service ? `${element}` : `${service}, ${element}` 
+        return service = !service ? `${element.trim()}` : `${service},${element.trim()}` 
       });
     }  else {
       service = data.services
@@ -69,13 +69,14 @@ export class CreateTouristProvidersComponent  implements OnInit{
     });
     this.imageIn = data.image_profile;
     this.galeryUrl= data.image_galery;
+    setTimeout(()=>{
+    this.save();
+    },200)
   }
   save(){
     if (this.modalType === 'createOrEdit'){
       this.createOrEditeTouristProvider();
-      console.log("entro")
     } else{
-      console.log("entro masi")
       this.createMassive();
     }
   }
