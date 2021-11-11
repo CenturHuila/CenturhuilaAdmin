@@ -139,11 +139,19 @@ export class CreateTouristProvidersComponent  implements OnInit{
           .getDownloadURL()
       })
   }
+  serviceLoad(value){
+    let valueRes: any = [];
+    value.forEach((element:string) => {
+      valueRes.push(element.trim())
+    });
+    return valueRes
+  }
   updateModel(slug, form) {
+    console.log(this.serviceLoad(form.controls.services.value.split(',')))
     const data:TouristProvidersModel =  new TouristProvidersModel();
     data.setName(form.controls.name.value);
     data.setDescription(form.controls.description.value);
-    data.setServices(form.controls.services.value.split(','));
+    data.setServices(this.serviceLoad(form.controls.services.value.split(',')));
     data.setRnt(form.controls.rnt.value);
     data.setIndications(form.controls.indications.value);
     data.setTownship(form.controls.township.value);

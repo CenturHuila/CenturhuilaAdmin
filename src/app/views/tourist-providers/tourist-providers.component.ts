@@ -95,6 +95,7 @@ export class TouristProvidersComponent implements OnInit {
     this.returnedArray = [];
     this.returnedArray = this.touristAllProvidersData.filter((item: any) => {
       if(item.services.toString().toUpperCase().includes(service.toUpperCase())){
+        console.log(service);
         this.results=true
         return item;
       }
