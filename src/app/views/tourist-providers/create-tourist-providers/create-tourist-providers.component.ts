@@ -69,9 +69,7 @@ export class CreateTouristProvidersComponent  implements OnInit{
     });
     this.imageIn = data.image_profile;
     this.galeryUrl= data.image_galery;
-    setTimeout(()=>{
-    this.save();
-    },200)
+    
   }
   save(){
     if (this.modalType === 'createOrEdit'){
